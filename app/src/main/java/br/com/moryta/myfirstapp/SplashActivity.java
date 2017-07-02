@@ -10,11 +10,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import br.com.moryta.myfirstapp.api.APIUtils;
+import br.com.moryta.myfirstapp.api.MockyAPI;
+import br.com.moryta.myfirstapp.model.Login;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SplashActivity extends AppCompatActivity {
     private final static int SPLASH_DISPLAY_LENGTH = 3500;
+
+    private MockyAPI mockyAPI;
 
     @BindView(R.id.splash_logo)
     ImageView ivSplashLogo;
@@ -24,10 +32,12 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        mockyAPI = APIUtils.getMockyAPI();
+
         ButterKnife.bind(this);
 
         startAnimation();
-        // initApp();
+        initApp();
         redirect();
     }
 
@@ -40,6 +50,29 @@ public class SplashActivity extends AppCompatActivity {
             ivSplashLogo.clearAnimation();
             ivSplashLogo.startAnimation(animation);
         }
+    }
+
+    private void initApp() {
+        mockyAPI.getDefaultLogin()
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Login>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(Login login) {
+                        Toast.makeText(SplashActivity.this, login.getUsername(), Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
     }
 
     private void redirect() {
