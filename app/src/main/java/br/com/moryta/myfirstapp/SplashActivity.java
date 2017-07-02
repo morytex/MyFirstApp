@@ -1,5 +1,6 @@
 package br.com.moryta.myfirstapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,8 +74,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void redirectToLoginActivity() {
-        Toast.makeText(SplashActivity.this, "Redirecting to Login Activity", Toast.LENGTH_SHORT)
-                .show();
+        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
 }
