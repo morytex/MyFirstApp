@@ -7,7 +7,7 @@
     android:background="@color/background_splash"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="br.com.moryta.myfirstapp.SplashActivity">
+    tools:context="br.com.moryta.myfirstapp.splash.SplashActivity">
 
     <ImageView
         android:id="@+id/splash_logo"

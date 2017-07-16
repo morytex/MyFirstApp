@@ -1,17 +1,43 @@
 package br.com.moryta.myfirstapp.model;
 
-import com.google.gson.annotations.SerializedName;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
- * Created by moryta on 02/07/2017.
+ * Created by moryta on 08/07/2017.
  */
-
+@Entity
 public class Login {
-    @SerializedName("usuario")
+    @Id
+    private Long id;
+
+    @Index(unique = true)
     private String username;
 
-    @SerializedName("senha")
+    @NotNull
     private String password;
+
+    @Generated(hash = 940089093)
+    public Login(Long id, String username, @NotNull String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    @Generated(hash = 1827378950)
+    public Login() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

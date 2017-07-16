@@ -1,6 +1,6 @@
 package br.com.moryta.myfirstapp.api;
 
-import br.com.moryta.myfirstapp.model.Login;
+import br.com.moryta.myfirstapp.model.LoginDTO;
 import retrofit2.http.GET;
 import rx.Observable;
 
@@ -10,5 +10,5 @@ import rx.Observable;
 
 public interface MockyAPI {
     @GET("58b9b1740f0000b614f09d2f")
-    Observable<Login> getDefaultLogin();
+    Observable<LoginDTO> getDefaultLogin();
 }
