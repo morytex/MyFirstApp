@@ -35,6 +35,12 @@ public class SplashPresenter implements SplashContract.Presenter{
         this.daoSession = checkNotNull(daoSession, "daoSession cannot be null!");
     }
 
+
+    @Override
+    public void start() {
+        // Not necessary, we don't start anything on start/resume lifecycle
+    }
+
     @Override
     public void resolveRedirect(final boolean stayConnected, final String username, String password) {
         new Handler().postDelayed(new Runnable() {
@@ -75,7 +81,8 @@ public class SplashPresenter implements SplashContract.Presenter{
                         LoginDao loginDao = daoSession.getLoginDao();
                         Login savedLogin = loginDao.queryBuilder()
                                 .where(LoginDao.Properties.Username.eq(login.getUsername()))
-                                .build().unique();
+                                .build()
+                                .unique();
 
                         if (savedLogin == null) {
                             loginDao.save(login);
@@ -86,6 +93,4 @@ public class SplashPresenter implements SplashContract.Presenter{
                     }
                 });
     }
-
-
 }

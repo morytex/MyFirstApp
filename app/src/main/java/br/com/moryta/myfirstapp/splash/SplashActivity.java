@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import br.com.moryta.myfirstapp.LoginActivity;
+import br.com.moryta.myfirstapp.login.LoginActivity;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.api.APIUtils;
@@ -17,6 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
+    private SplashContract.Presenter mSplashPresenter;
+
     @BindView(R.id.splash_logo)
     ImageView ivSplashLogo;
 
@@ -27,13 +29,13 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
         ButterKnife.bind(this);
 
-        SplashPresenter presenter = new SplashPresenter(SplashActivity.this
+        mSplashPresenter = new SplashPresenter(SplashActivity.this
                 , APIUtils.getMockyAPI()
                 , ((MyApplication) getApplication()).getDaoSession());
 
         startAnimation();
 
-        presenter.fetchDefaultLogin();
+        mSplashPresenter.fetchDefaultLogin();
 
         // Get user information if saved on sharedPreferences
         SharedPreferences sp = getSharedPreferences(
@@ -51,7 +53,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
                 getString(R.string.login_preference_password_key)
                 , "");
 
-        presenter.resolveRedirect(stayConnected, username, password);
+        mSplashPresenter.resolveRedirect(stayConnected, username, password);
     }
 
     private void startAnimation() {
@@ -66,6 +68,11 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     }
 
     @Override
+    public void setPresenter(SplashContract.Presenter presenter) {
+        // Not necessary, because we instantiate presenter in this activity
+    }
+
+    @Override
     public void startMainActivity(String username) {
         Toast.makeText(SplashActivity.this, "Redirecting to Main Activity", Toast.LENGTH_SHORT)
                 .show();
@@ -76,5 +83,4 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
         startActivity(intent);
     }
-
 }
