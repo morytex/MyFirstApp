@@ -4,4 +4,9 @@
     <string name="login_preference_stay_connected_key">stay_connected_flag</string>
     <string name="login_preference_username_key">username_key</string>
     <string name="login_preference_password_key">passowrd_key</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="stay_connected">Stay connected</string>
+    <string name="log_in">Log in</string>
+    <string name="create_an_account">Create an account</string>
 </resources>
