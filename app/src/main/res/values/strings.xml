@@ -10,4 +10,10 @@
     <string name="log_in">Log in</string>
     <string name="create_an_account">Create an account</string>
     <string name="invalid_login_message">Invalid username or password</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

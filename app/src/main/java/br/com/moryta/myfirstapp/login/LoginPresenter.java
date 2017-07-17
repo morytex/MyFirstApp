@@ -17,7 +17,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     private LoginContract.View mLoginView;
     private DaoSession daoSession;
 
-    public LoginPresenter(@NonNull LoginContract.View loginView, @NonNull DaoSession daoSession) {
+    public LoginPresenter(@NonNull LoginContract.View loginView
+            , @NonNull DaoSession daoSession) {
+
         this.mLoginView = checkNotNull(loginView, "loginView cannot be null!");
         this.daoSession = checkNotNull(daoSession, "daoSession cannot be null!");
     }

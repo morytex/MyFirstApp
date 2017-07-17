@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     CheckBox cbStayConnected;
 
     private SharedPreferences getLoginPreference() {
-        return getSharedPreferences(
-                getString(R.string.login_preference_file_key), MODE_PRIVATE);
+        return getSharedPreferences(getString(R.string.login_preference_file_key)
+                                    , MODE_PRIVATE);
     }
 
     @Override
@@ -66,28 +66,24 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void storeStayConnectedPreference(boolean stayConnected) {
         SharedPreferences sp = getLoginPreference();
-
         Editor editor = sp.edit();
-        editor.putBoolean(
-                getString(R.string.login_preference_stay_connected_key)
-                , stayConnected);
+
+        editor.putBoolean(getString(R.string.login_preference_stay_connected_key)
+                        , stayConnected);
+
         editor.commit();
     }
 
     @Override
     public void storeLoginPreference(String username, String password) {
         SharedPreferences sp = getLoginPreference();
-
         Editor editor = sp.edit();
 
-        editor.putString(
-                getString(R.string.login_preference_username_key)
-                , username);
+        editor.putString(getString(R.string.login_preference_username_key)
+                        , username);
 
-        editor.putString(
-                getString(R.string.login_preference_password_key)
-                , password
-        );
+        editor.putString(getString(R.string.login_preference_password_key)
+                        , password);
 
         editor.commit();
     }
@@ -95,7 +91,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void clearLoginPreference() {
         SharedPreferences sp = getLoginPreference();
-
         Editor editor = sp.edit();
         editor.clear();
         editor.commit();

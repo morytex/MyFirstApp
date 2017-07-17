@@ -2,9 +2,6 @@ package br.com.moryta.myfirstapp.splash;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
-import org.greenrobot.greendao.annotation.NotNull;
-
 import br.com.moryta.myfirstapp.api.MockyAPI;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Login;
@@ -28,31 +25,16 @@ public class SplashPresenter implements SplashContract.Presenter{
 
     public SplashPresenter(@NonNull SplashContract.View splashView
             , @NonNull MockyAPI mockyAPI
-            , @NotNull DaoSession daoSession) {
+            , @NonNull DaoSession daoSession) {
 
         this.mSplashView = checkNotNull(splashView, "splashView cannot be null!");
         this.mockyAPI = checkNotNull(mockyAPI, "mockyAPI cannot be null!");
         this.daoSession = checkNotNull(daoSession, "daoSession cannot be null!");
     }
 
-
     @Override
     public void start() {
         // Not necessary, we don't start anything on start/resume lifecycle
-    }
-
-    @Override
-    public void resolveRedirect(final boolean stayConnected, final String username, String password) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (stayConnected) {
-                    mSplashView.startMainActivity(username);
-                } else {
-                    mSplashView.startLoginActivity();
-                }
-            }
-        }, mSplashView.SPLASH_DISPLAY_LENGTH);
     }
 
     @Override
@@ -64,6 +46,7 @@ public class SplashPresenter implements SplashContract.Presenter{
                 .subscribe(new Subscriber<LoginDTO>() {
                     @Override
                     public void onCompleted() {
+                        mSplashView.onFetchDefaultProposalCompleted();
                     }
 
                     @Override
@@ -92,5 +75,19 @@ public class SplashPresenter implements SplashContract.Presenter{
                         }
                     }
                 });
+    }
+
+    @Override
+    public void resolveRedirect(final boolean stayConnected, final String username) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (stayConnected && username != null) {
+                    mSplashView.startMainActivity(username);
+                } else {
+                    mSplashView.startLoginActivity();
+                }
+            }
+        }, mSplashView.SPLASH_DISPLAY_LENGTH);
     }
 }

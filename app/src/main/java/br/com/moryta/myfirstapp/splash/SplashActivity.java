@@ -22,6 +22,19 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     @BindView(R.id.splash_logo)
     ImageView ivSplashLogo;
 
+    private void startAnimation() {
+        Animation animation = AnimationUtils.loadAnimation(
+                SplashActivity.this, R.anim.splash_animation);
+        animation.reset();
+
+        if (ivSplashLogo != null) {
+            ivSplashLogo.clearAnimation();
+            ivSplashLogo.startAnimation(animation);
+        }
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +49,15 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         startAnimation();
 
         mSplashPresenter.fetchDefaultLogin();
+    }
 
+    @Override
+    public void setPresenter(SplashContract.Presenter presenter) {
+        // Not necessary, because we instantiate presenter in this activity
+    }
+
+    @Override
+    public void onFetchDefaultProposalCompleted() {
         // Get user information if saved on sharedPreferences
         SharedPreferences sp = getSharedPreferences(
                 getString(R.string.login_preference_file_key), MODE_PRIVATE);
@@ -47,33 +68,14 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
         String username = sp.getString(
                 getString(R.string.login_preference_username_key)
-                , "");
+                , null);
 
-        String password = sp.getString(
-                getString(R.string.login_preference_password_key)
-                , "");
-
-        mSplashPresenter.resolveRedirect(stayConnected, username, password);
-    }
-
-    private void startAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(
-                SplashActivity.this, R.anim.splash_animation);
-        animation.reset();
-
-        if (ivSplashLogo != null) {
-            ivSplashLogo.clearAnimation();
-            ivSplashLogo.startAnimation(animation);
-        }
-    }
-
-    @Override
-    public void setPresenter(SplashContract.Presenter presenter) {
-        // Not necessary, because we instantiate presenter in this activity
+        mSplashPresenter.resolveRedirect(stayConnected, username);
     }
 
     @Override
     public void startMainActivity(String username) {
+        // TODO: apply redirect to main activity
         Toast.makeText(SplashActivity.this, "Redirecting to Main Activity", Toast.LENGTH_SHORT)
                 .show();
     }
