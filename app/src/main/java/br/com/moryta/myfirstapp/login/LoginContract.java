@@ -9,11 +9,9 @@ import br.com.moryta.myfirstapp.BaseView;
 
 public interface LoginContract {
     interface View extends BaseView<Presenter> {
-        void startMainActivity(String username);
+        void startHomeActivity();
         void showErrorMessage();
-        void storeStayConnectedPreference(boolean stayConnected);
-        void storeLoginPreference(String username, String password);
-        void clearLoginPreference();
+        void storeLoginPreference(boolean stayConnected, String username, String password);
     }
 
     interface Presenter extends BasePresenter {

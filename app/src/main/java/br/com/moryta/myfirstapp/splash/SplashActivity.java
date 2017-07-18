@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import br.com.moryta.myfirstapp.login.LoginActivity;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.api.APIUtils;
+import br.com.moryta.myfirstapp.home.HomeActivity;
+import br.com.moryta.myfirstapp.login.LoginActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -66,18 +66,13 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
                 getString(R.string.login_preference_stay_connected_key)
                 , false);
 
-        String username = sp.getString(
-                getString(R.string.login_preference_username_key)
-                , null);
-
-        mSplashPresenter.resolveRedirect(stayConnected, username);
+        mSplashPresenter.resolveRedirect(stayConnected);
     }
 
     @Override
-    public void startMainActivity(String username) {
-        // TODO: apply redirect to main activity
-        Toast.makeText(SplashActivity.this, "Redirecting to Main Activity", Toast.LENGTH_SHORT)
-                .show();
+    public void startHomeActivity() {
+        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
     @Override

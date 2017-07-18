@@ -1,5 +1,6 @@
 package br.com.moryta.myfirstapp.login;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +11,12 @@ import android.widget.Toast;
 
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
+import br.com.moryta.myfirstapp.home.HomeActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.content.SharedPreferences.*;
+import static android.content.SharedPreferences.Editor;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
     private LoginContract.Presenter mLoginPresenter;
@@ -50,9 +52,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void startMainActivity(String username) {
-        Toast.makeText(LoginActivity.this, "Redirecting to Main Activity", Toast.LENGTH_SHORT)
-                .show();
+    public void startHomeActivity() {
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -64,20 +66,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void storeStayConnectedPreference(boolean stayConnected) {
+    public void storeLoginPreference(boolean stayConnected, String username, String password) {
         SharedPreferences sp = getLoginPreference();
         Editor editor = sp.edit();
 
         editor.putBoolean(getString(R.string.login_preference_stay_connected_key)
                         , stayConnected);
-
-        editor.commit();
-    }
-
-    @Override
-    public void storeLoginPreference(String username, String password) {
-        SharedPreferences sp = getLoginPreference();
-        Editor editor = sp.edit();
 
         editor.putString(getString(R.string.login_preference_username_key)
                         , username);
@@ -86,19 +80,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                         , password);
 
         editor.commit();
-    }
-
-    @Override
-    public void clearLoginPreference() {
-        SharedPreferences sp = getLoginPreference();
-        Editor editor = sp.edit();
-        editor.clear();
-        editor.commit();
-    }
-
-    @OnClick(R.id.cbStayConnected)
-    public void toggleStayConnected(View view) {
-        // TODO: what to do here?
     }
 
     @OnClick(R.id.btSignIn)

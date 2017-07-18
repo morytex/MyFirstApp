@@ -41,14 +41,8 @@ public class LoginPresenter implements LoginContract.Presenter {
         if (savedLogin == null) {
             mLoginView.showErrorMessage();
         } else {
-            mLoginView.storeStayConnectedPreference(stayConnected);
-            if (stayConnected) {
-                mLoginView.storeLoginPreference(username, password);
-            } else {
-                mLoginView.clearLoginPreference();
-            }
-
-            mLoginView.startMainActivity(username);
+            mLoginView.storeLoginPreference(stayConnected, username, password);
+            mLoginView.startHomeActivity();
         }
     }
 }

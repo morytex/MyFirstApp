@@ -78,12 +78,12 @@ public class SplashPresenter implements SplashContract.Presenter{
     }
 
     @Override
-    public void resolveRedirect(final boolean stayConnected, final String username) {
+    public void resolveRedirect(final boolean stayConnected) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (stayConnected && username != null) {
-                    mSplashView.startMainActivity(username);
+                if (stayConnected) {
+                    mSplashView.startHomeActivity();
                 } else {
                     mSplashView.startLoginActivity();
                 }
