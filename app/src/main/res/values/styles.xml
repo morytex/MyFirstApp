@@ -18,6 +18,7 @@
     <style name="LogoSplash">
         <item name="android:layout_height">@dimen/default_logo_height</item>
         <item name="android:layout_width">@dimen/default_logo_width</item>
+        <item name="android:src">@drawable/logo</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

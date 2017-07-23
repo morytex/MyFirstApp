@@ -2,6 +2,8 @@ package br.com.moryta.myfirstapp.home;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,17 +15,29 @@ import android.view.View;
 import android.widget.TextView;
 
 import br.com.moryta.myfirstapp.R;
+import br.com.moryta.myfirstapp.aboutus.AboutUsContract;
+import br.com.moryta.myfirstapp.aboutus.AboutUsFragment;
+import br.com.moryta.myfirstapp.aboutus.AboutUsPresenter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private AboutUsContract.Presenter mAboutUsPresenter;
+    private AboutUsFragment mAboutUsFragment;
+
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
     TextView tvUsername;
     TextView tvPetName;
+
+    private void configureAboutUs() {
+        this.mAboutUsFragment = new AboutUsFragment();
+        mAboutUsPresenter = new AboutUsPresenter(getApplicationContext(), this.mAboutUsFragment);
+        this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
+    }
 
     private void configureNavigationDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,6 +61,14 @@ public class HomeActivity extends AppCompatActivity
         this.tvPetName.setText("My pet");
     }
 
+    private void replaceContentWith(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.content_home, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +80,7 @@ public class HomeActivity extends AppCompatActivity
         this.tvUsername = ButterKnife.findById(headerView, R.id.tvUsername);
         this.tvPetName = ButterKnife.findById(headerView, R.id.tvPetName);
 
+        configureAboutUs();
         configureNavigationDrawer();
         setNavigationDisplay();
     }
@@ -105,7 +128,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_pets) {
             // Handle the add pet action
         } else if (id == R.id.nav_about_us) {
-            // Show info about us
+            this.replaceContentWith(this.mAboutUsFragment);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
