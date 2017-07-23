@@ -39,6 +39,7 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
     compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.google.firebase:firebase-auth:10.0.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 }
@@ -46,3 +47,5 @@ dependencies {
 greendao {
     schemaVersion 1
 }
+
+apply plugin: 'com.google.gms.google-services'
