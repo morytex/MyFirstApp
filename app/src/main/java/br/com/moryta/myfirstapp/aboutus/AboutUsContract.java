@@ -9,10 +9,9 @@ import br.com.moryta.myfirstapp.BaseView;
 
 public interface AboutUsContract {
     interface View extends BaseView<Presenter> {
-
     }
 
     interface Presenter extends BasePresenter {
-        String buildVersionText(String template);
+        String buildVersionText(String template, String version);
     }
 }

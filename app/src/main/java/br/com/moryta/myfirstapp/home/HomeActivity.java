@@ -30,12 +30,12 @@ public class HomeActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
-    TextView tvUsername;
+    TextView tvEmail;
     TextView tvPetName;
 
     private void configureAboutUs() {
         this.mAboutUsFragment = new AboutUsFragment();
-        mAboutUsPresenter = new AboutUsPresenter(getApplicationContext(), this.mAboutUsFragment);
+        mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
         this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
     }
 
@@ -54,10 +54,10 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void setNavigationDisplay() {
-        String username = getSharedPreferences(getString(R.string.login_preference_file_key), MODE_PRIVATE)
-                                .getString(getString(R.string.login_preference_username_key), null);
+        String email = getSharedPreferences(getString(R.string.login_preference_file_key), MODE_PRIVATE)
+                                .getString(getString(R.string.login_preference_email_key), null);
 
-        this.tvUsername.setText(username);
+        this.tvEmail.setText(email);
         this.tvPetName.setText("My pet");
     }
 
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         View headerView = navigationView.getHeaderView(0);
-        this.tvUsername = ButterKnife.findById(headerView, R.id.tvUsername);
+        this.tvEmail = ButterKnife.findById(headerView, R.id.tvEmail);
         this.tvPetName = ButterKnife.findById(headerView, R.id.tvPetName);
 
         configureAboutUs();

@@ -1,4 +1,4 @@
-package br.com.moryta.myfirstapp.login;
+package br.com.moryta.myfirstapp.signin;
 
 import android.support.annotation.NonNull;
 
@@ -12,16 +12,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by moryta on 16/07/2017.
  */
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class SignInPresenter implements SignInContract.Presenter {
 
-    private LoginContract.View mLoginView;
-    private DaoSession daoSession;
+    private SignInContract.View mLoginView;
+    private DaoSession mDaoSession;
 
-    public LoginPresenter(@NonNull LoginContract.View loginView
+    public SignInPresenter(@NonNull SignInContract.View loginView
             , @NonNull DaoSession daoSession) {
 
         this.mLoginView = checkNotNull(loginView, "loginView cannot be null!");
-        this.daoSession = checkNotNull(daoSession, "daoSession cannot be null!");
+        this.mDaoSession = checkNotNull(daoSession, "mDaoSession cannot be null!");
     }
 
     @Override
@@ -30,18 +30,19 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void validateUser(String username, String password, boolean stayConnected) {
-        LoginDao loginDao = this.daoSession.getLoginDao();
+    public void signIn(String email, String password, boolean stayConnected) {
+        LoginDao loginDao = this.mDaoSession.getLoginDao();
         Login savedLogin = loginDao.queryBuilder()
-                .where(LoginDao.Properties.Username.eq(username)
+                .where(LoginDao.Properties.Email.eq(email)
                        , LoginDao.Properties.Password.eq(password))
                 .build()
                 .unique();
 
         if (savedLogin == null) {
+            // TODO: try firebase sign in with email and password
             mLoginView.showErrorMessage();
         } else {
-            mLoginView.storeLoginPreference(stayConnected, username, password);
+            mLoginView.storeLoginPreference(email, password, stayConnected);
             mLoginView.startHomeActivity();
         }
     }

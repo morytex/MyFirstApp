@@ -13,7 +13,7 @@ public abstract class LoginMapper {
         };
 
         LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setUsername(login.getUsername());
+        loginDTO.setEmail(login.getEmail());
         loginDTO.setPassword(login.getPassword());
 
         return loginDTO;
@@ -26,7 +26,7 @@ public abstract class LoginMapper {
         }
 
         Login login = new Login();
-        login.setUsername(loginDTO.getUsername());
+        login.setEmail(loginDTO.getEmail());
         login.setPassword(loginDTO.getPassword());
 
         return login;

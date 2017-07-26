@@ -2,14 +2,14 @@
     <string name="app_name">My First App</string>
     <string name="login_preference_file_key">moryta.com.br.myfirstapp.LOGIN_PREFERENCE_FILE_KEY</string>
     <string name="login_preference_stay_connected_key">stay_connected_flag</string>
-    <string name="login_preference_username_key">username_key</string>
+    <string name="login_preference_email_key">email_key</string>
     <string name="login_preference_password_key">passowrd_key</string>
-    <string name="hint_username">Username</string>
+    <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="stay_connected">Stay connected</string>
     <string name="log_in">Log in</string>
     <string name="create_an_account">Create an account</string>
-    <string name="invalid_login_message">Invalid username or password</string>
+    <string name="invalid_login_message">Invalid email or password</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

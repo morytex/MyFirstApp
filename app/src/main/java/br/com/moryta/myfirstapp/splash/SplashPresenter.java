@@ -63,7 +63,7 @@ public class SplashPresenter implements SplashContract.Presenter{
 
                         LoginDao loginDao = daoSession.getLoginDao();
                         Login savedLogin = loginDao.queryBuilder()
-                                .where(LoginDao.Properties.Username.eq(login.getUsername()))
+                                .where(LoginDao.Properties.Email.eq(login.getEmail()))
                                 .build()
                                 .unique();
 
@@ -85,7 +85,7 @@ public class SplashPresenter implements SplashContract.Presenter{
                 if (stayConnected) {
                     mSplashView.startHomeActivity();
                 } else {
-                    mSplashView.startLoginActivity();
+                    mSplashView.startSignInActivity();
                 }
             }
         }, mSplashView.SPLASH_DISPLAY_LENGTH);

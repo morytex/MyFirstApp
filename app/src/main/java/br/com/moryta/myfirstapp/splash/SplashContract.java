@@ -13,7 +13,7 @@ public interface SplashContract {
 
         void onFetchDefaultProposalCompleted();
         void startHomeActivity();
-        void startLoginActivity();
+        void startSignInActivity();
     }
 
     interface Presenter extends BasePresenter {

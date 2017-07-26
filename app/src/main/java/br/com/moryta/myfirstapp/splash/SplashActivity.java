@@ -12,7 +12,7 @@ import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.api.APIUtils;
 import br.com.moryta.myfirstapp.home.HomeActivity;
-import br.com.moryta.myfirstapp.login.LoginActivity;
+import br.com.moryta.myfirstapp.signin.SignInActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -76,8 +76,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     }
 
     @Override
-    public void startLoginActivity() {
-        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+    public void startSignInActivity() {
+        Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
         startActivity(intent);
     }
 }

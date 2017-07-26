@@ -15,15 +15,15 @@ public class Login {
     private Long id;
 
     @Index(unique = true)
-    private String username;
+    private String email;
 
     @NotNull
     private String password;
 
-    @Generated(hash = 940089093)
-    public Login(Long id, String username, @NotNull String password) {
+    @Generated(hash = 841564459)
+    public Login(Long id, String email, @NotNull String password) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -39,12 +39,12 @@ public class Login {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -1,8 +1,10 @@
 package br.com.moryta.myfirstapp.aboutus;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AboutUsFragment extends Fragment implements AboutUsContract.View {
+    private static final String TAG = "AboutUsFragment";
+
     private AboutUsContract.Presenter mAboutUsPresenter;
     private Context mContext;
 
@@ -35,7 +39,19 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
         View view = inflater.inflate(R.layout.fragment_about_us, container, false);
         ButterKnife.bind(AboutUsFragment.this, view);
 
-        String version = mAboutUsPresenter.buildVersionText(getString(R.string.about_us_version_template));
+        String version = null;
+        try {
+            version = this.mContext
+                    .getPackageManager()
+                    .getPackageInfo(this.mContext.getPackageName(), 0)
+                    .versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "AboutUsFragment.onCreateView: Null pointer, see stack trace", e);
+        }
+
+        version = mAboutUsPresenter
+                .buildVersionText(getString(R.string.about_us_version_template), version);
+
         this.tvVersion.setText(version);
 
         return view;
