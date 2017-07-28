@@ -36,6 +36,7 @@ import static android.content.SharedPreferences.Editor;
 
 public class SignInActivity extends AppCompatActivity implements SignInContract.View
         , View.OnClickListener
+        , FirebaseAuth.AuthStateListener
         , GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "SignInActivity";
@@ -43,7 +44,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     private SignInContract.Presenter mLoginPresenter;
     private GoogleApiClient mGoogleApiClient;
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mAuth;
 
     @BindView(R.id.etEmail)
     EditText etEmail;
@@ -84,7 +85,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        this.mFirebaseAuth = FirebaseAuth.getInstance();
+        this.mAuth = FirebaseAuth.getInstance();
 
         // Set presenter
         mLoginPresenter = new SignInPresenter(SignInActivity.this
@@ -94,45 +95,65 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     @Override
     protected void onStart() {
         super.onStart();
+        this.mAuth.addAuthStateListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        this.mAuth.removeAuthStateListener(this);
     }
 
-    private SharedPreferences getLoginPreference() {
-        return getSharedPreferences(getString(R.string.login_preference_file_key)
+    private void storeLoginPreference(String email, String password, boolean stayConnected) {
+        SharedPreferences sp = getSharedPreferences(getString(R.string.login_preference_file_key)
                 , MODE_PRIVATE);
+        Editor editor = sp.edit();
+
+        editor.putString(getString(R.string.login_preference_email_key)
+                , email);
+
+        editor.putString(getString(R.string.login_preference_password_key)
+                , password);
+
+        editor.putBoolean(getString(R.string.login_preference_stay_connected_key)
+                , stayConnected);
+
+        editor.commit();
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        // [START_EXCLUDE silent]
-        // showProgressDialog();
-        // [END_EXCLUDE]
+    private void startHomeActivity() {
+        Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mFirebaseAuth.signInWithCredential(credential)
+    private void signInWithEmailAndPassword(String email, String password, boolean stayConnected) {
+        // Verify if user is the one returned by mocky
+        // If it is, save preferences and start home activity
+        if (mLoginPresenter.isDefaultUser(email, password)) {
+            this.storeLoginPreference(email, password, stayConnected);
+            this.startHomeActivity();
+        }
+
+        this.firebaseAuthWithEmailAndPassword(email, password);
+    }
+
+    private void firebaseAuthWithEmailAndPassword(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            // updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            // updateUI(null);
                         }
 
-                        // [START_EXCLUDE]
-                        // hideProgressDialog();
-                        // [END_EXCLUDE]
+                        // ...
                     }
                 });
     }
@@ -140,6 +161,29 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     private void signInWithGoogle() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithGoogleCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithCredential", task.getException());
+                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
     }
 
     @Override
@@ -152,7 +196,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
+                this.firebaseAuthWithGoogle(account);
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...
@@ -166,34 +210,11 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     }
 
     @Override
-    public void startHomeActivity() {
-        Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
     public void showErrorMessage() {
         Toast.makeText(SignInActivity.this
                 , getString(R.string.invalid_login_message)
                 , Toast.LENGTH_SHORT)
                 .show();
-    }
-
-    @Override
-    public void storeLoginPreference(String email, String password, boolean stayConnected) {
-        SharedPreferences sp = getLoginPreference();
-        Editor editor = sp.edit();
-
-        editor.putString(getString(R.string.login_preference_email_key)
-                , email);
-
-        editor.putString(getString(R.string.login_preference_password_key)
-                , password);
-
-        editor.putBoolean(getString(R.string.login_preference_stay_connected_key)
-                , stayConnected);
-
-        editor.commit();
     }
 
     @Override
@@ -209,11 +230,25 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
         switch (v.getId()) {
             case R.id.btnSignIn:
-                mLoginPresenter.signIn(email, password, stayConnected);
+                this.signInWithEmailAndPassword(email, password, stayConnected);
                 break;
             case R.id.btnSignInGoogle:
-                signInWithGoogle();
+                this.signInWithGoogle();
                 break;
         }
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+            this.startHomeActivity();
+        } else {
+            // User is signed out
+            Log.d(TAG, "onAuthStateChanged:signed_out");
+        }
+        // ...
     }
 }

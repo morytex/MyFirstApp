@@ -30,20 +30,14 @@ public class SignInPresenter implements SignInContract.Presenter {
     }
 
     @Override
-    public void signIn(String email, String password, boolean stayConnected) {
+    public boolean isDefaultUser(String username, String password) {
         LoginDao loginDao = this.mDaoSession.getLoginDao();
         Login savedLogin = loginDao.queryBuilder()
-                .where(LoginDao.Properties.Email.eq(email)
-                       , LoginDao.Properties.Password.eq(password))
+                .where(LoginDao.Properties.Email.eq(username)
+                        , LoginDao.Properties.Password.eq(password))
                 .build()
                 .unique();
 
-        if (savedLogin == null) {
-            // TODO: try firebase sign in with email and password
-            mLoginView.showErrorMessage();
-        } else {
-            mLoginView.storeLoginPreference(email, password, stayConnected);
-            mLoginView.startHomeActivity();
-        }
+        return savedLogin != null;
     }
 }
