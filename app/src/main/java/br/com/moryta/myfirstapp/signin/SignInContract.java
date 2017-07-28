@@ -9,12 +9,10 @@ import br.com.moryta.myfirstapp.BaseView;
 
 public interface SignInContract {
     interface View extends BaseView<Presenter> {
-        void startHomeActivity();
         void showErrorMessage();
-        void storeLoginPreference(String email, String password, boolean stayConnected);
     }
 
     interface Presenter extends BasePresenter {
-        void signIn(String email, String password, boolean stayConnected);
+        boolean isDefaultUser(String username, String password);
     }
 }
