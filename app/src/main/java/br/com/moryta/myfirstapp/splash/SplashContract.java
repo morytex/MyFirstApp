@@ -11,13 +11,14 @@ public interface SplashContract {
     interface View extends BaseView<Presenter> {
         int SPLASH_DISPLAY_LENGTH = 3500;
 
-        void onFetchDefaultProposalCompleted();
+        void onFetchDefaultUserCompleted();
+        void onFetchDefaultUserError();
         void startHomeActivity();
         void startSignInActivity();
     }
 
     interface Presenter extends BasePresenter {
-        void fetchDefaultLogin();
+        void fetchDefaultUser();
         void resolveRedirect(final boolean stayConnected);
     }
 }

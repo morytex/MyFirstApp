@@ -38,7 +38,7 @@ public class SplashPresenter implements SplashContract.Presenter{
     }
 
     @Override
-    public void fetchDefaultLogin() {
+    public void fetchDefaultUser() {
         this.mockyAPI.getDefaultLogin()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -46,11 +46,12 @@ public class SplashPresenter implements SplashContract.Presenter{
                 .subscribe(new Subscriber<LoginDTO>() {
                     @Override
                     public void onCompleted() {
-                        mSplashView.onFetchDefaultProposalCompleted();
+                        mSplashView.onFetchDefaultUserCompleted();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        mSplashView.onFetchDefaultUserError();
                     }
 
                     @Override

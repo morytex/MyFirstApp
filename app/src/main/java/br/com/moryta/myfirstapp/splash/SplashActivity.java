@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
@@ -33,8 +34,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         }
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +47,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
         startAnimation();
 
-        mSplashPresenter.fetchDefaultLogin();
+        mSplashPresenter.fetchDefaultUser();
     }
 
     @Override
@@ -57,7 +56,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     }
 
     @Override
-    public void onFetchDefaultProposalCompleted() {
+    public void onFetchDefaultUserCompleted() {
         // Get user information if saved on sharedPreferences
         SharedPreferences sp = getSharedPreferences(
                 getString(R.string.login_preference_file_key), MODE_PRIVATE);
@@ -67,6 +66,11 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
                 , false);
 
         mSplashPresenter.resolveRedirect(stayConnected);
+    }
+
+    @Override
+    public void onFetchDefaultUserError() {
+        Toast.makeText(this, "Error loadind data", Toast.LENGTH_LONG).show();
     }
 
     @Override

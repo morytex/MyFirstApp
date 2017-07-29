@@ -34,7 +34,8 @@ import butterknife.ButterKnife;
 
 import static android.content.SharedPreferences.Editor;
 
-public class SignInActivity extends AppCompatActivity implements SignInContract.View
+public class SignInActivity extends AppCompatActivity
+        implements SignInContract.View
         , View.OnClickListener
         , FirebaseAuth.AuthStateListener
         , GoogleApiClient.OnConnectionFailedListener {
@@ -75,6 +76,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -118,6 +120,15 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         editor.putBoolean(getString(R.string.login_preference_stay_connected_key)
                 , stayConnected);
 
+        editor.commit();
+    }
+
+    private void clearLoginPreference() {
+        SharedPreferences sp = getSharedPreferences(getString(R.string.login_preference_file_key)
+                , MODE_PRIVATE);
+
+        Editor editor = sp.edit();
+        editor.clear();
         editor.commit();
     }
 
@@ -244,10 +255,16 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         if (user != null) {
             // User is signed in
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+            this.storeLoginPreference(
+                user.getEmail(),
+                null,
+                false
+            );
             this.startHomeActivity();
         } else {
             // User is signed out
             Log.d(TAG, "onAuthStateChanged:signed_out");
+            this.clearLoginPreference();
         }
         // ...
     }
