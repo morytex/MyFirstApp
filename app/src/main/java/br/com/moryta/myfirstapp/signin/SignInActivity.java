@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.base.Strings;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +42,8 @@ public class SignInActivity extends AppCompatActivity
         implements SignInContract.View
         , View.OnClickListener
         , FirebaseAuth.AuthStateListener
-        , GoogleApiClient.OnConnectionFailedListener {
+        , GoogleApiClient.OnConnectionFailedListener
+        , GoogleApiClient.ConnectionCallbacks {
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -144,6 +149,7 @@ public class SignInActivity extends AppCompatActivity
         if (mLoginPresenter.isDefaultUser(email, password)) {
             this.storeLoginPreference(email, password, stayConnected);
             this.startHomeActivity();
+            return;
         }
 
         this.firebaseAuthWithEmailAndPassword(email, password);
@@ -242,12 +248,28 @@ public class SignInActivity extends AppCompatActivity
 
         switch (v.getId()) {
             case R.id.btnSignIn:
+                if (Strings.isNullOrEmpty(email) || Strings.isNullOrEmpty(password)) {
+                    Toast.makeText(this, R.string.error_message_email_password_required, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 this.signInWithEmailAndPassword(email, password, stayConnected);
                 break;
             case R.id.btnSignInGoogle:
                 this.signInWithGoogle();
                 break;
         }
+    }
+
+    // Google sign out
+    private void googleSignOut() {
+        Auth.GoogleSignInApi.signOut(this.mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        // Do nothing
+                    }
+                }
+        );
     }
 
     @Override
@@ -266,7 +288,23 @@ public class SignInActivity extends AppCompatActivity
             // User is signed out
             Log.d(TAG, "onAuthStateChanged:signed_out");
             this.clearLoginPreference();
+            if (this.mGoogleApiClient.isConnected()) {
+                this.googleSignOut();
+            } else {
+                this.mGoogleApiClient.registerConnectionCallbacks(this);
+            }
         }
         // ...
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        this.googleSignOut();
+        this.mGoogleApiClient.unregisterConnectionCallbacks(this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        this.mGoogleApiClient.unregisterConnectionCallbacks(this);
     }
 }

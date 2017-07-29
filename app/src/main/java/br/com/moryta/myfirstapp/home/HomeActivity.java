@@ -1,5 +1,6 @@
 package br.com.moryta.myfirstapp.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,60 +15,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.aboutus.AboutUsContract;
 import br.com.moryta.myfirstapp.aboutus.AboutUsFragment;
 import br.com.moryta.myfirstapp.aboutus.AboutUsPresenter;
+import br.com.moryta.myfirstapp.signin.SignInActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "HomeActivity";
+
     private AboutUsContract.Presenter mAboutUsPresenter;
     private AboutUsFragment mAboutUsFragment;
+
+    private Boolean isDefaultUser;
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
     TextView tvEmail;
     TextView tvPetName;
-
-    private void configureAboutUs() {
-        this.mAboutUsFragment = new AboutUsFragment();
-        mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
-        this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
-    }
-
-    private void configureNavigationDrawer() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private void setNavigationDisplay() {
-        String email = getSharedPreferences(getString(R.string.login_preference_file_key), MODE_PRIVATE)
-                                .getString(getString(R.string.login_preference_email_key), null);
-
-        this.tvEmail.setText(email);
-        this.tvPetName.setText("My pet");
-    }
-
-    private void replaceContentWith(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(R.id.content_home, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +81,15 @@ public class HomeActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                break;
+            case R.id.action_sign_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
+                startActivity(intent);
+                break;
+            default:
         }
 
         return super.onOptionsItemSelected(item);
@@ -123,16 +101,58 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the home action
-        } else if (id == R.id.nav_pets) {
-            // Handle the add pet action
-        } else if (id == R.id.nav_about_us) {
-            this.replaceContentWith(this.mAboutUsFragment);
+        switch (id) {
+            case R.id.nav_home:
+                // Handle the home action
+                break;
+            case R.id.nav_pets:
+                // Handle the pet action
+                break;
+            case R.id.nav_about_us:
+                this.replaceContentWith(this.mAboutUsFragment);
+                break;
+            default:
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    private void configureAboutUs() {
+        this.mAboutUsFragment = new AboutUsFragment();
+        mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
+        this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
+    }
+
+    private void configureNavigationDrawer() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setNavigationDisplay() {
+        String email = getSharedPreferences(getString(R.string.login_preference_file_key), MODE_PRIVATE)
+                .getString(getString(R.string.login_preference_email_key), null);
+
+        this.tvEmail.setText(email);
+        this.tvPetName.setText("My pet");
+    }
+
+    private void replaceContentWith(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.content_home, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
