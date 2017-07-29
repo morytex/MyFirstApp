@@ -43,9 +43,10 @@ public class SignInActivity extends AppCompatActivity
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    private SignInContract.Presenter mLoginPresenter;
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
+
+    private SignInContract.Presenter mLoginPresenter;
 
     @BindView(R.id.etEmail)
     EditText etEmail;
@@ -170,7 +171,7 @@ public class SignInActivity extends AppCompatActivity
     }
 
     private void signInWithGoogle() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(this.mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -235,9 +236,9 @@ public class SignInActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
-        boolean stayConnected = cbStayConnected.isChecked();
+        String email = this.etEmail.getText().toString();
+        String password = this.etPassword.getText().toString();
+        boolean stayConnected = this.cbStayConnected.isChecked();
 
         switch (v.getId()) {
             case R.id.btnSignIn:
@@ -256,9 +257,9 @@ public class SignInActivity extends AppCompatActivity
             // User is signed in
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
             this.storeLoginPreference(
-                user.getEmail(),
-                null,
-                false
+                    user.getEmail(),
+                    null,
+                    false
             );
             this.startHomeActivity();
         } else {
