@@ -77,11 +77,13 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     public void startHomeActivity() {
         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
     public void startSignInActivity() {
         Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
         startActivity(intent);
+        finish();
     }
 }
