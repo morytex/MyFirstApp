@@ -141,6 +141,7 @@ public class SignInActivity extends AppCompatActivity
     private void startHomeActivity() {
         Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void signInWithEmailAndPassword(String email, String password, boolean stayConnected) {
