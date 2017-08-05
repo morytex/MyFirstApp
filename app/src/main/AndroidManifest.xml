@@ -21,14 +21,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".signin.SignInActivity"
-            android:label="@string/title_activity_sign_in"/>
+        <activity
+            android:name=".signin.SignInActivity"
+            android:label="@string/title_activity_sign_in" />
         <activity
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".signup.SignUpActivity"
+        <activity
+            android:name=".signup.SignUpActivity"
             android:label="@string/title_activity_sign_up"></activity>
+
+        <service android:name=".firebase.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".firebase.InstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5819a8e9240667b95603a96f0a4b7143d2cda4d1" />
     </application>
 
 </manifest>

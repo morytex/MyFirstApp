@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.moryta.myfirstapp.R;
@@ -41,6 +42,8 @@ public class HomeActivity extends AppCompatActivity
     TextView tvEmail;
     TextView tvPetName;
 
+    FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,11 @@ public class HomeActivity extends AppCompatActivity
         configureAboutUs();
         configureNavigationDrawer();
         setNavigationDisplay();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("Nome", "Alessandro");
+        mFirebaseAnalytics.logEvent("clickMe", bundle);
     }
 
     @Override
