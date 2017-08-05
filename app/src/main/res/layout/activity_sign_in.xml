@@ -43,13 +43,14 @@
         android:id="@+id/btnSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/log_in"
+        android:text="@string/button_sign_in"
         android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/tvSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:text="@string/create_an_account" />
 
     <RelativeLayout

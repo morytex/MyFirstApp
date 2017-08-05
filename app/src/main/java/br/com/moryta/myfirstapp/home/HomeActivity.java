@@ -146,12 +146,11 @@ public class HomeActivity extends AppCompatActivity
                 .getString(getString(R.string.login_preference_email_key), null);
 
         this.tvEmail.setText(email);
-        this.tvPetName.setText("My pet");
+        this.tvPetName.setText(R.string.my_pet);
     }
 
     private void replaceContentWith(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
         transaction.replace(R.id.content_home, fragment);
         transaction.addToBackStack(null);
         transaction.commit();

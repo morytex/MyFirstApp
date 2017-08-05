@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -33,6 +34,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.home.HomeActivity;
+import br.com.moryta.myfirstapp.signup.SignUpActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -46,7 +48,8 @@ public class SignInActivity extends AppCompatActivity
         , GoogleApiClient.ConnectionCallbacks {
 
     private static final String TAG = "SignInActivity";
-    private static final int RC_SIGN_IN = 9001;
+    private static final int RC_GOOGLE_SIGN_IN = 9001;
+    private static final int RC_EMAIL_PASSWORD_SIGN_UP = 10001;
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
@@ -68,6 +71,9 @@ public class SignInActivity extends AppCompatActivity
     @BindView(R.id.btnSignInGoogle)
     Button btnSignInGoogle;
 
+    @BindView(R.id.tvSignUp)
+    TextView tvSignUp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +83,7 @@ public class SignInActivity extends AppCompatActivity
         ButterKnife.bind(SignInActivity.this);
         btnSignIn.setOnClickListener(this);
         btnSignInGoogle.setOnClickListener(this);
+        tvSignUp.setOnClickListener(this);
 
         // Authentication
         // Configure sign-in to request the user's ID, email address, and basic
@@ -110,6 +117,7 @@ public class SignInActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         this.mAuth.removeAuthStateListener(this);
+        this.mGoogleApiClient.unregisterConnectionCallbacks(this);
     }
 
     private void storeLoginPreference(String email, String password, boolean stayConnected) {
@@ -168,7 +176,7 @@ public class SignInActivity extends AppCompatActivity
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                            Toast.makeText(SignInActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -179,7 +187,7 @@ public class SignInActivity extends AppCompatActivity
 
     private void signInWithGoogle() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(this.mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -197,7 +205,7 @@ public class SignInActivity extends AppCompatActivity
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                            Toast.makeText(SignInActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
                         // ...
@@ -205,12 +213,30 @@ public class SignInActivity extends AppCompatActivity
                 });
     }
 
+    // Google sign out
+    private void googleSignOut() {
+        Auth.GoogleSignInApi.signOut(this.mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        // Do nothing
+                    }
+                }
+        );
+    }
+
+    private void signUpWithEmailAndPassword() {
+        Intent signUpIntent = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivityForResult(signUpIntent, RC_EMAIL_PASSWORD_SIGN_UP);
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
@@ -220,6 +246,8 @@ public class SignInActivity extends AppCompatActivity
                 // Google Sign In failed, update UI appropriately
                 // ...
             }
+        } else if (requestCode == RC_EMAIL_PASSWORD_SIGN_UP) {
+            // TODO: Verificar se precisa fazer alguma coisa
         }
     }
 
@@ -231,7 +259,7 @@ public class SignInActivity extends AppCompatActivity
     @Override
     public void showErrorMessage() {
         Toast.makeText(SignInActivity.this
-                , getString(R.string.invalid_login_message)
+                , getString(R.string.error_message_invalid_sign_in)
                 , Toast.LENGTH_SHORT)
                 .show();
     }
@@ -258,19 +286,10 @@ public class SignInActivity extends AppCompatActivity
             case R.id.btnSignInGoogle:
                 this.signInWithGoogle();
                 break;
+            case R.id.tvSignUp:
+                this.signUpWithEmailAndPassword();
+                break;
         }
-    }
-
-    // Google sign out
-    private void googleSignOut() {
-        Auth.GoogleSignInApi.signOut(this.mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        // Do nothing
-                    }
-                }
-        );
     }
 
     @Override
