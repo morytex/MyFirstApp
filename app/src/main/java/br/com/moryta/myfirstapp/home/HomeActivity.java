@@ -84,12 +84,6 @@ public class HomeActivity extends AppCompatActivity
         switch (id) {
             case R.id.action_settings:
                 break;
-            case R.id.action_sign_out:
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
-                startActivity(intent);
-                finish();
-                break;
             default:
         }
 
@@ -111,6 +105,12 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.nav_about_us:
                 this.replaceContentWith(this.mAboutUsFragment);
+                break;
+            case R.id.nav_sign_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             default:
         }
