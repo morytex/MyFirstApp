@@ -1,7 +1,6 @@
 package br.com.moryta.myfirstapp.home;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -22,17 +21,21 @@ import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.aboutus.AboutUsContract;
 import br.com.moryta.myfirstapp.aboutus.AboutUsFragment;
 import br.com.moryta.myfirstapp.aboutus.AboutUsPresenter;
+import br.com.moryta.myfirstapp.pets.PetsFragment;
 import br.com.moryta.myfirstapp.signin.SignInActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
-        , HomeFragment.OnFragmentInteractionListener {
+        , HomeFragment.OnFragmentInteractionListener
+        , PetsFragment.OnFragmentInteractionListener
+        , AboutUsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "HomeActivity";
 
     private HomeFragment mHomeFragment;
+    private PetsFragment mPetsFragment;
     private AboutUsContract.Presenter mAboutUsPresenter;
     private AboutUsFragment mAboutUsFragment;
 
@@ -55,15 +58,24 @@ public class HomeActivity extends AppCompatActivity
         this.tvEmail = ButterKnife.findById(headerView, R.id.tvEmail);
         this.tvPetName = ButterKnife.findById(headerView, R.id.tvPetName);
 
-        // always start with home fragment
+        // HomeFragment
         this.mHomeFragment = HomeFragment.newInstance();
+
+        // PetsFragment
+        this.mPetsFragment = PetsFragment.newInstance();
+
+        // AboutUsFragment
+        this.mAboutUsFragment = AboutUsFragment.newInstance();
+        mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
+        this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
+
+        configureNavigationDrawer();
+        setNavigationDisplay();
+
+        // Always start with home fragment on create activity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_home, this.mHomeFragment)
                 .commit();
-
-        configureAboutUs();
-        configureNavigationDrawer();
-        setNavigationDisplay();
     }
 
     @Override
@@ -110,7 +122,7 @@ public class HomeActivity extends AppCompatActivity
                 this.replaceContentWith(this.mHomeFragment);
                 break;
             case R.id.nav_pets:
-                // Handle the pet action
+                this.replaceContentWith(this.mPetsFragment);
                 break;
             case R.id.nav_about_us:
                 this.replaceContentWith(this.mAboutUsFragment);
@@ -130,14 +142,18 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        // Method used by HomeFragment to communicate with HomeActivity
+    public void onHomeFragmentAttach() {
+        setTitle(R.string.nav_home);
     }
 
-    private void configureAboutUs() {
-        this.mAboutUsFragment = AboutUsFragment.newInstance();
-        mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
-        this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
+    @Override
+    public void onPetsFragmentAttach() {
+        setTitle(R.string.nav_pets);
+    }
+
+    @Override
+    public void onAboutUsFragmentAttach() {
+        setTitle(R.string.nav_about_us);
     }
 
     private void configureNavigationDrawer() {

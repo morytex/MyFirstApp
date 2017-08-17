@@ -17,8 +17,10 @@ import butterknife.ButterKnife;
 public class AboutUsFragment extends Fragment implements AboutUsContract.View {
     private static final String TAG = "AboutUsFragment";
 
-    private AboutUsContract.Presenter mAboutUsPresenter;
+    private OnFragmentInteractionListener mListener;
     private Context mContext;
+
+    private AboutUsContract.Presenter mAboutUsPresenter;
 
     @BindView(R.id.tvVersion)
     TextView tvVersion;
@@ -71,8 +73,14 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        this.mContext = context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+            mContext = context;
+            mListener.onAboutUsFragmentAttach();
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -83,5 +91,19 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
     @Override
     public void setPresenter(AboutUsContract.Presenter presenter) {
         this.mAboutUsPresenter = presenter;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        void onAboutUsFragmentAttach();
     }
 }
