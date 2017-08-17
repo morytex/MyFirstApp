@@ -27,6 +27,17 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment.
+     *
+     * @return A new instance of fragment AboutUsFragment.
+     */
+    public static AboutUsFragment newInstance() {
+        AboutUsFragment fragment = new AboutUsFragment();
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
