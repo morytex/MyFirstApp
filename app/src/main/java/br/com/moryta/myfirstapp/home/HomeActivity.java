@@ -1,10 +1,11 @@
 package br.com.moryta.myfirstapp.home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,10 +27,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+        , HomeFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "HomeActivity";
 
+    private HomeFragment mHomeFragment;
     private AboutUsContract.Presenter mAboutUsPresenter;
     private AboutUsFragment mAboutUsFragment;
 
@@ -51,6 +54,12 @@ public class HomeActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         this.tvEmail = ButterKnife.findById(headerView, R.id.tvEmail);
         this.tvPetName = ButterKnife.findById(headerView, R.id.tvPetName);
+
+        // always start with home fragment
+        this.mHomeFragment = HomeFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_home, this.mHomeFragment)
+                .commit();
 
         configureAboutUs();
         configureNavigationDrawer();
@@ -98,7 +107,7 @@ public class HomeActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_home:
-                // Handle the home action
+                this.replaceContentWith(this.mHomeFragment);
                 break;
             case R.id.nav_pets:
                 // Handle the pet action
@@ -120,9 +129,13 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        // Method used by HomeFragment to communicate with HomeActivity
+    }
 
     private void configureAboutUs() {
-        this.mAboutUsFragment = new AboutUsFragment();
+        this.mAboutUsFragment = AboutUsFragment.newInstance();
         mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
         this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
     }
@@ -150,9 +163,12 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void replaceContentWith(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_home, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_home, fragment)
+                .addToBackStack(TAG)
+                .commit();
     }
+
 }
