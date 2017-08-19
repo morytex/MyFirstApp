@@ -17,7 +17,6 @@
     <string name="error_message_invalid_sign_in">Invalid email or password</string>
 
     <!-- Home -->
-    <string name="title_activity_home">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
@@ -26,13 +25,13 @@
     <string name="nav_about_us">About us</string>
     <string name="nav_sign_out">Sign out</string>
     <string name="nav_pets">My pets</string>
+    <string name="my_pet">My pet</string>
 
     <!-- About us -->
     <string name="about_us_version_template">Version: %s</string>
     <string name="about_us_author">Drafted by Alessandro Moryta</string>
     <string name="error_message_email_password_required">Email and password cannot be empty</string>
     <string name="auth_failed">Authentication failed</string>
-    <string name="my_pet">My pet</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
