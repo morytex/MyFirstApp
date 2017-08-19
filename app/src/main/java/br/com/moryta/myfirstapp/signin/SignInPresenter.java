@@ -17,16 +17,16 @@ public class SignInPresenter implements SignInContract.Presenter {
     private SignInContract.View mLoginView;
     private DaoSession mDaoSession;
 
-    public SignInPresenter(@NonNull SignInContract.View loginView
+    public SignInPresenter(@NonNull SignInContract.View view
             , @NonNull DaoSession daoSession) {
 
-        this.mLoginView = checkNotNull(loginView, "loginView cannot be null!");
+        this.mLoginView = checkNotNull(view, "view cannot be null!");
         this.mDaoSession = checkNotNull(daoSession, "mDaoSession cannot be null!");
     }
 
     @Override
     public void start() {
-        // Not necessary, we don't start anything on start/resume lifecycle
+        // Do something
     }
 
     @Override

@@ -1,5 +1,6 @@
 package br.com.moryta.myfirstapp.aboutus;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.common.base.Strings;
@@ -7,22 +8,26 @@ import com.google.common.base.Strings;
 import java.util.Formatter;
 import java.util.IllegalFormatException;
 
-import static android.content.ContentValues.TAG;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by moryta on 22/07/2017.
  */
 
 public class AboutUsPresenter implements AboutUsContract.Presenter {
+
+    private static final String TAG = "AboutUsPresenter";
+
     private AboutUsContract.View mAboutUsView;
 
-    public AboutUsPresenter(AboutUsContract.View view) {
-        this.mAboutUsView = view;
+    public AboutUsPresenter(@NonNull AboutUsContract.View view) {
+        this.mAboutUsView = checkNotNull(view, "view cannot be null!");
+        this.mAboutUsView.setPresenter(this);
     }
 
     @Override
     public void start() {
-        // Not necessary, we don't start anything on start/resume lifecycle
+        // Do something
     }
 
     @Override

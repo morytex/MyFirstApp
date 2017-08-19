@@ -17,11 +17,12 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
-import br.com.moryta.myfirstapp.aboutus.AboutUsContract;
 import br.com.moryta.myfirstapp.aboutus.AboutUsFragment;
 import br.com.moryta.myfirstapp.aboutus.AboutUsPresenter;
 import br.com.moryta.myfirstapp.pets.PetsFragment;
+import br.com.moryta.myfirstapp.pets.PetsPresenter;
 import br.com.moryta.myfirstapp.signin.SignInActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +37,9 @@ public class HomeActivity extends AppCompatActivity
 
     private HomeFragment mHomeFragment;
     private PetsFragment mPetsFragment;
-    private AboutUsContract.Presenter mAboutUsPresenter;
+    private PetsPresenter mPetsPresenter;
     private AboutUsFragment mAboutUsFragment;
+    private AboutUsPresenter mAboutUsPresenter;
 
     private Boolean isDefaultUser;
 
@@ -63,11 +65,14 @@ public class HomeActivity extends AppCompatActivity
 
         // PetsFragment
         this.mPetsFragment = PetsFragment.newInstance();
+        this.mPetsPresenter = new PetsPresenter(this.mPetsFragment
+                , ((MyApplication) getApplication()).getDaoSession());
+        this.mPetsPresenter.start();
 
         // AboutUsFragment
         this.mAboutUsFragment = AboutUsFragment.newInstance();
-        mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
-        this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
+        this.mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
+        this.mAboutUsPresenter.start();
 
         configureNavigationDrawer();
         setNavigationDisplay();

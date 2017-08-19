@@ -2,12 +2,19 @@ package br.com.moryta.myfirstapp.pets;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import br.com.moryta.myfirstapp.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,8 +24,15 @@ import br.com.moryta.myfirstapp.R;
  * Use the {@link PetsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PetsFragment extends Fragment {
+public class PetsFragment extends Fragment implements PetsContract.View {
     private OnFragmentInteractionListener mListener;
+
+    private PetsAdapter mPetsAdapter;
+
+    private PetsContract.Presenter mPetsPresenter;
+
+    @BindView(R.id.rvPets)
+    RecyclerView rvPets;
 
     public PetsFragment() {
         // Required empty public constructor
@@ -45,15 +59,25 @@ public class PetsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pets, container, false);
+        View view = inflater.inflate(R.layout.fragment_pets, container, false);
+        ButterKnife.bind(PetsFragment.this, view);
+
+        this.mPetsAdapter = new PetsAdapter(this.mPetsPresenter.fetchAllPets());
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        rvPets.setLayoutManager(layoutManager);
+        rvPets.setHasFixedSize(true);
+        rvPets.setAdapter(mPetsAdapter);
+
+        return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-            mListener.onPetsFragmentAttach();
+            this.mListener = (OnFragmentInteractionListener) context;
+            this.mListener.onPetsFragmentAttach();
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -64,6 +88,11 @@ public class PetsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void setPresenter(@NonNull PetsContract.Presenter presenter) {
+        this.mPetsPresenter = checkNotNull(presenter);
     }
 
     /**

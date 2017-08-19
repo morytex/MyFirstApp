@@ -1,11 +1,15 @@
 package br.com.moryta.myfirstapp.model;
 
+import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.Date;
+
+import br.com.moryta.myfirstapp.enums.PetTypeEnum;
+import br.com.moryta.myfirstapp.model.converters.PetTypeConverter;
 
 /**
  * Created by moryta on 17/08/2017.
@@ -16,15 +20,20 @@ public class Pet {
     private Long id;
 
     @NotNull
+    @Convert(converter = PetTypeConverter.class, columnType = Integer.class)
+    private PetTypeEnum type;
+
+    @NotNull
     private String name;
 
     private String breed;
 
     private Date birthDate;
 
-    @Generated(hash = 4085478)
-    public Pet(Long id, @NotNull String name, String breed, Date birthDate) {
+    @Generated(hash = 1202112675)
+    public Pet(Long id, @NotNull PetTypeEnum type, @NotNull String name, String breed, Date birthDate) {
         this.id = id;
+        this.type = type;
         this.name = name;
         this.breed = breed;
         this.birthDate = birthDate;
@@ -64,5 +73,13 @@ public class Pet {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public PetTypeEnum getType() {
+        return this.type;
+    }
+
+    public void setType(PetTypeEnum type) {
+        this.type = type;
     }
 }

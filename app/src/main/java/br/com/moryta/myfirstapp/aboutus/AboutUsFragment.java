@@ -3,6 +3,7 @@ package br.com.moryta.myfirstapp.aboutus;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +15,12 @@ import br.com.moryta.myfirstapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class AboutUsFragment extends Fragment implements AboutUsContract.View {
     private static final String TAG = "AboutUsFragment";
 
     private OnFragmentInteractionListener mListener;
-    private Context mContext;
 
     private AboutUsContract.Presenter mAboutUsPresenter;
 
@@ -54,9 +56,9 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
 
         String version = null;
         try {
-            version = this.mContext
+            version = this.getContext()
                     .getPackageManager()
-                    .getPackageInfo(this.mContext.getPackageName(), 0)
+                    .getPackageInfo(this.getContext().getPackageName(), 0)
                     .versionName;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "AboutUsFragment.onCreateView: Null pointer, see stack trace", e);
@@ -75,7 +77,6 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-            mContext = context;
             mListener.onAboutUsFragmentAttach();
         } else {
             throw new RuntimeException(context.toString()
@@ -89,8 +90,8 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
     }
 
     @Override
-    public void setPresenter(AboutUsContract.Presenter presenter) {
-        this.mAboutUsPresenter = presenter;
+    public void setPresenter(@NonNull AboutUsContract.Presenter presenter) {
+        this.mAboutUsPresenter = checkNotNull(presenter);
     }
 
     /**

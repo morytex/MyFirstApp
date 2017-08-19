@@ -4,11 +4,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import br.com.moryta.myfirstapp.model.Pet;
+
 /**
  * Created by moryta on 17/08/2017.
  */
 
 public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetViewHolder> {
+
+    private List<Pet> petList;
+
+    public PetsAdapter(List<Pet> petList) {
+        this.petList = petList;
+    }
 
     @Override
     public PetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
