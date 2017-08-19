@@ -37,10 +37,22 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetViewHolder>
     @Override
     public void onBindViewHolder(PetViewHolder holder, int position) {
         Pet pet = this.petList.get(position);
-        holder.ivPetPhoto.setImageResource(R.mipmap.ic_launcher_round);
         holder.tvPetName.setText(pet.getName());
         holder.tvPetBreed.setText(pet.getBreed());
+        // TODO: Calculate age by birth date
         holder.tvPetAge.setText("12");
+
+        // Set image by pet type
+        switch (pet.getType()) {
+            case DOG:
+                holder.ivPetPhoto.setImageResource(R.drawable.default_dog_photo);
+                break;
+            case CAT:
+                holder.ivPetPhoto.setImageResource(R.drawable.default_cat_photo);
+                break;
+            default:
+                holder.ivPetPhoto.setImageResource(R.mipmap.ic_launcher_round);
+        }
     }
 
     @Override
