@@ -3,6 +3,8 @@ package br.com.moryta.myfirstapp.pets;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +33,9 @@ public class PetsFragment extends Fragment implements PetsContract.View {
     private PetsAdapter mPetsAdapter;
 
     private PetsContract.Presenter mPetsPresenter;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @BindView(R.id.rvPets)
     RecyclerView rvPets;
@@ -62,6 +67,14 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pets, container, false);
         ButterKnife.bind(PetsFragment.this, view);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         this.mPetsAdapter = new PetsAdapter(this.mPetsPresenter.fetchAllPets());
 
