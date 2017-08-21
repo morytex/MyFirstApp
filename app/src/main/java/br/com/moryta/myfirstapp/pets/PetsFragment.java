@@ -1,10 +1,10 @@
 package br.com.moryta.myfirstapp.pets;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import br.com.moryta.myfirstapp.R;
+import br.com.moryta.myfirstapp.pets.register.PetRegisterActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,10 +30,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * create an instance of this fragment.
  */
 public class PetsFragment extends Fragment implements PetsContract.View {
+    private static final int RC_REGISTER_PET = 1001;
+
     private OnFragmentInteractionListener mListener;
 
     private PetsAdapter mPetsAdapter;
-
     private PetsContract.Presenter mPetsPresenter;
 
     @BindView(R.id.fab)
@@ -71,8 +74,11 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), PetRegisterActivity.class);
+                startActivityForResult(intent, RC_REGISTER_PET);
             }
         });
 
@@ -110,6 +116,23 @@ public class PetsFragment extends Fragment implements PetsContract.View {
     @Override
     public void setPresenter(@NonNull PetsContract.Presenter presenter) {
         this.mPetsPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RC_REGISTER_PET:
+                if (resultCode != RC_REGISTER_PET) {
+                    Toast.makeText(getActivity(), "Failed to register pet"
+                            , Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mPetsAdapter.update(mPetsPresenter.fetchAllPets());
+                break;
+            default:
+        }
     }
 
     /**

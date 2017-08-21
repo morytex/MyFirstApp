@@ -31,7 +31,9 @@
         <activity
             android:name=".signup.SignUpActivity"
             android:label="@string/title_activity_sign_up" />
-        <activity android:name=".pets.register.PetRegisterActivity"></activity>
+        <activity
+            android:name=".pets.register.PetRegisterActivity"
+            android:label="@string/title_activity_register_pet"/>
     </application>
 
 </manifest>

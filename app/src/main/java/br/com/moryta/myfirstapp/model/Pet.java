@@ -6,8 +6,6 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 
-import java.util.Date;
-
 import br.com.moryta.myfirstapp.enums.PetTypeEnum;
 import br.com.moryta.myfirstapp.model.converters.PetTypeConverter;
 
@@ -28,10 +26,10 @@ public class Pet {
 
     private String breed;
 
-    private Date birthDate;
+    private String birthDate;
 
-    @Generated(hash = 1202112675)
-    public Pet(Long id, @NotNull PetTypeEnum type, @NotNull String name, String breed, Date birthDate) {
+    @Generated(hash = 4535995)
+    public Pet(Long id, @NotNull PetTypeEnum type, @NotNull String name, String breed, String birthDate) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -67,11 +65,11 @@ public class Pet {
         this.breed = breed;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return this.birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
