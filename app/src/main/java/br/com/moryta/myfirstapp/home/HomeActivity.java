@@ -124,12 +124,15 @@ public class HomeActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_home:
+                setTitle(R.string.nav_home);
                 this.replaceContentWith(this.mHomeFragment);
                 break;
             case R.id.nav_pets:
+                setTitle(R.string.nav_pets);
                 this.replaceContentWith(this.mPetsFragment);
                 break;
             case R.id.nav_about_us:
+                setTitle(R.string.nav_about_us);
                 this.replaceContentWith(this.mAboutUsFragment);
                 break;
             case R.id.nav_sign_out:
@@ -148,17 +151,17 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onHomeFragmentAttach() {
-        setTitle(R.string.nav_home);
+        // Do something
     }
 
     @Override
     public void onPetsFragmentAttach() {
-        setTitle(R.string.nav_pets);
+        // Do something
     }
 
     @Override
     public void onAboutUsFragmentAttach() {
-        setTitle(R.string.nav_about_us);
+        // Do something
     }
 
     private void configureNavigationDrawer() {
