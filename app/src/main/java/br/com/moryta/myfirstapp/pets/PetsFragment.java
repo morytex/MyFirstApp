@@ -18,6 +18,7 @@ import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.pets.register.PetRegisterActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -42,6 +43,8 @@ public class PetsFragment extends Fragment implements PetsContract.View {
 
     @BindView(R.id.rvPets)
     RecyclerView rvPets;
+
+    private Unbinder unbinder;
 
     public PetsFragment() {
         // Required empty public constructor
@@ -69,7 +72,7 @@ public class PetsFragment extends Fragment implements PetsContract.View {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pets, container, false);
-        ButterKnife.bind(PetsFragment.this, view);
+        unbinder = ButterKnife.bind(PetsFragment.this, view);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +114,12 @@ public class PetsFragment extends Fragment implements PetsContract.View {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override

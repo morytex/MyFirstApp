@@ -2,10 +2,13 @@ package br.com.moryta.myfirstapp.pets.register;
 
 import android.support.annotation.NonNull;
 
+import com.google.common.base.Strings;
+
 import br.com.moryta.myfirstapp.enums.PetTypeEnum;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Pet;
 import br.com.moryta.myfirstapp.model.PetDao;
+import br.com.moryta.myfirstapp.utils.DateUtil;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -34,5 +37,13 @@ public class PetRegisterPresenter implements PetRegisterContract.Presenter {
         PetDao petDao = this.daoSession.getPetDao();
         // TODO: Validate if pet already exists (verify tuple name + breed)
         petDao.insert(pet);
+    }
+
+    @Override
+    public boolean isPetDataFilled(String name, String breed, String birthDate) {
+        return !Strings.isNullOrEmpty(name)
+                && !Strings.isNullOrEmpty(breed)
+                && !Strings.isNullOrEmpty(birthDate)
+                && DateUtil.isValidFormat(birthDate);
     }
 }
