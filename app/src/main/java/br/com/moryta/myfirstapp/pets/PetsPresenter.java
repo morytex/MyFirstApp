@@ -35,6 +35,6 @@ public class PetsPresenter implements PetsContract.Presenter {
 
     @Override
     public void delete(Pet pet) {
-        daoSession.delete(pet);
+        daoSession.getPetDao().delete(pet);
     }
 }

@@ -99,8 +99,8 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         rvPets.setAdapter(mPetsAdapter);
 
         // Setting ItemTouchHelper on recycler view
-        ItemTouchHelper itemTouchHelper =
-                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.SimpleCallback callback =
+                new ItemTouchHelper.SimpleCallback(
                         0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                     @Override
                     public boolean onMove(RecyclerView recyclerView
@@ -113,9 +113,11 @@ public class PetsFragment extends Fragment implements PetsContract.View {
 
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                        mPetsPresenter.delete(mPetsAdapter.onItemSwiped(viewHolder.getAdapterPosition()));
+                        mPetsPresenter.delete(
+                                mPetsAdapter.onItemSwiped(viewHolder.getAdapterPosition()));
                     }
-                });
+                };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvPets);
 
         return view;

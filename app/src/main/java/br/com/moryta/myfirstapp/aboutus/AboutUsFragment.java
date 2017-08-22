@@ -14,6 +14,7 @@ import android.widget.TextView;
 import br.com.moryta.myfirstapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,6 +27,8 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
 
     @BindView(R.id.tvVersion)
     TextView tvVersion;
+
+    Unbinder unbinder;
 
     public AboutUsFragment() {
         // Required empty public constructor
@@ -52,7 +55,7 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about_us, container, false);
-        ButterKnife.bind(AboutUsFragment.this, view);
+        unbinder = ButterKnife.bind(AboutUsFragment.this, view);
 
         String version = null;
         try {
@@ -87,6 +90,12 @@ public class AboutUsFragment extends Fragment implements AboutUsContract.View {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override

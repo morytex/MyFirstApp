@@ -68,6 +68,25 @@ public class PetRegisterActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Adding watcher on fields to disable/enable register button
+        btnRegisterPet.setEnabled(false);
+        etPetName.addTextChangedListener(this);
+        etPetBreed.addTextChangedListener(this);
+        tvPetBirthDate.addTextChangedListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        etPetName.removeTextChangedListener(this);
+        etPetBreed.removeTextChangedListener(this);
+        tvPetBirthDate.removeTextChangedListener(this);
+        super.onStop();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivPetBirthDate:
