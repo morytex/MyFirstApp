@@ -28,7 +28,7 @@ public class PetRegisterPresenter implements PetRegisterContract.Presenter {
 
     @Override
     public void start() {
-
+        // Do nothing
     }
 
     @Override
