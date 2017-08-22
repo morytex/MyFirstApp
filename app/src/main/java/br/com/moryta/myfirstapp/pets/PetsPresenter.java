@@ -32,4 +32,9 @@ public class PetsPresenter implements PetsContract.Presenter {
     public List<Pet> fetchAllPets() {
         return daoSession.getPetDao().loadAll();
     }
+
+    @Override
+    public void delete(Pet pet) {
+        daoSession.delete(pet);
+    }
 }

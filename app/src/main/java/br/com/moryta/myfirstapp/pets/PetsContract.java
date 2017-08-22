@@ -17,5 +17,7 @@ public interface PetsContract {
 
     interface Presenter extends BasePresenter {
         List<Pet> fetchAllPets();
+
+        void delete(Pet pet);
     }
 }

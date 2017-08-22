@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.moryta.myfirstapp.R;
+import br.com.moryta.myfirstapp.SimpleItemTouchHelperAdapter;
 import br.com.moryta.myfirstapp.model.Pet;
 import br.com.moryta.myfirstapp.utils.DateUtil;
 import butterknife.BindView;
@@ -19,7 +20,8 @@ import butterknife.ButterKnife;
  * Created by moryta on 17/08/2017.
  */
 
-public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetViewHolder> {
+public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetViewHolder>
+        implements SimpleItemTouchHelperAdapter {
 
     private List<Pet> petList;
 
@@ -70,6 +72,18 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetViewHolder>
     public void update(List<Pet> petList) {
         this.petList = petList;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onItemMoved(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    @Override
+    public Pet onItemSwiped(int position) {
+        Pet removedPet = this.petList.remove(position);
+        notifyDataSetChanged();
+        return removedPet;
     }
 
     public class PetViewHolder extends RecyclerView.ViewHolder {
