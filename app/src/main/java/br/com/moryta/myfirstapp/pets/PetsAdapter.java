@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.model.Pet;
+import br.com.moryta.myfirstapp.utils.DateUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,10 +38,16 @@ public class PetsAdapter extends RecyclerView.Adapter<PetsAdapter.PetViewHolder>
     @Override
     public void onBindViewHolder(PetViewHolder holder, int position) {
         Pet pet = this.petList.get(position);
+        String age;
+        try {
+            age = String.valueOf(DateUtil.getAge(pet.getBirthDate()));
+        } catch (Exception e) {
+            age = "?";
+        }
+
         holder.tvPetName.setText(pet.getName());
         holder.tvPetBreed.setText(pet.getBreed());
-        // TODO: Calculate age by birth date
-        holder.tvPetAge.setText("12");
+        holder.tvPetAge.setText(age);
 
         // Set image by pet type
         switch (pet.getType()) {
