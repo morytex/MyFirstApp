@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         View view = inflater.inflate(R.layout.fragment_pets, container, false);
         unbinder = ButterKnife.bind(PetsFragment.this, view);
 
+        // Setting floating action button (register pet button)
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +87,7 @@ public class PetsFragment extends Fragment implements PetsContract.View {
             }
         });
 
+        // Setting recycler view
         this.mPetsAdapter = new PetsAdapter(this.mPetsPresenter.fetchAllPets());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -94,6 +97,26 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         rvPets.setLayoutManager(layoutManager);
         rvPets.setHasFixedSize(true);
         rvPets.setAdapter(mPetsAdapter);
+
+        // Setting ItemTouchHelper on recycler view
+        ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                        0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView
+                            , RecyclerView.ViewHolder viewHolder
+                            , RecyclerView.ViewHolder target) {
+
+                        return mPetsAdapter.onItemMoved(viewHolder.getAdapterPosition()
+                                , target.getAdapterPosition());
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        mPetsPresenter.delete(mPetsAdapter.onItemSwiped(viewHolder.getAdapterPosition()));
+                    }
+                });
+        itemTouchHelper.attachToRecyclerView(rvPets);
 
         return view;
     }
