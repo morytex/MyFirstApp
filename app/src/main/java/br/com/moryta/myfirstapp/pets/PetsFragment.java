@@ -101,12 +101,16 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         // Setting ItemTouchHelper on recycler view
         ItemTouchHelper.SimpleCallback callback =
                 new ItemTouchHelper.SimpleCallback(
-                        0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                        ItemTouchHelper.ACTION_STATE_IDLE
+                        , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
                     @Override
                     public boolean onMove(RecyclerView recyclerView
                             , RecyclerView.ViewHolder viewHolder
                             , RecyclerView.ViewHolder target) {
 
+                        Toast.makeText(getActivity(), "On move"
+                                , Toast.LENGTH_SHORT).show();
                         return mPetsAdapter.onItemMoved(viewHolder.getAdapterPosition()
                                 , target.getAdapterPosition());
                     }
@@ -159,7 +163,9 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         switch (requestCode) {
             case RC_REGISTER_PET:
                 if (resultCode != RC_REGISTER_PET) {
-                    Toast.makeText(getActivity(), "Failed to register pet"
+                    Toast.makeText(
+                            getActivity()
+                            , getString(R.string.pet_registration_canceled)
                             , Toast.LENGTH_SHORT).show();
                     return;
                 }

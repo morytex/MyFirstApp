@@ -51,4 +51,6 @@
         <item>@string/other</item>
     </string-array>
 
+    <string name="pet_registration_canceled">Pet registration canceled</string>
+
 </resources>

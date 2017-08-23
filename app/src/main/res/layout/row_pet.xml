@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true">
 
-    <ImageView
-        android:id="@+id/ivPetPhoto"
-        android:layout_width="150px"
-        android:layout_height="150px"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="@dimen/margin_half"
-        android:layout_centerVertical="true"
-        tools:src="@mipmap/ic_launcher_round"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_half"
-        android:layout_toRightOf="@+id/ivPetPhoto"
-        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/ivPetPhoto"
+            android:layout_width="150px"
+            android:layout_height="150px"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_half" />
 
-        <TextView
-            android:id="@+id/tvPetName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_pet_margin"
-            tools:text="Pet Name" />
+            android:layout_margin="@dimen/margin_half"
+            android:layout_toRightOf="@+id/ivPetPhoto"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvPetBreed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_pet_margin"
-            tools:text="Pet Breed" />
+            <TextView
+                android:id="@+id/tvPetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_pet_margin"
+                tools:text="Pet Name" />
 
-        <TextView
-            android:id="@+id/tvPetAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_pet_margin"
-            tools:text="Pet Age"/>
-    </LinearLayout>
-</RelativeLayout>
+            <TextView
+                android:id="@+id/tvPetBreed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_pet_margin"
+                tools:text="Pet Breed" />
+
+            <TextView
+                android:id="@+id/tvPetAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_pet_margin"
+                tools:text="Pet Age" />
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
