@@ -247,7 +247,7 @@ public class SignInActivity extends AppCompatActivity
                 // ...
             }
         } else if (requestCode == RC_EMAIL_PASSWORD_SIGN_UP) {
-            // TODO: Verificar se precisa fazer alguma coisa
+            // TODO: Verify if result code needs treatment
         }
     }
 

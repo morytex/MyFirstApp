@@ -57,7 +57,6 @@ public class PetsFragment extends Fragment implements PetsContract.View {
      *
      * @return A new instance of fragment PetsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static PetsFragment newInstance() {
         PetsFragment fragment = new PetsFragment();
         return fragment;

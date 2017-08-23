@@ -53,7 +53,6 @@ public class EventsFragment extends Fragment implements EventsContract.View {
      *
      * @return A new instance of fragment EventsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static EventsFragment newInstance() {
         EventsFragment fragment = new EventsFragment();
         return fragment;
