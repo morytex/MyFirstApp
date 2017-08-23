@@ -26,6 +26,7 @@
     <string name="nav_about_us">About us</string>
     <string name="nav_sign_out">Sign out</string>
     <string name="nav_pets">My pets</string>
+    <string name="nav_events">Events</string>
     <string name="my_pet">My pet</string>
 
     <!-- About us -->
@@ -52,5 +53,7 @@
     </string-array>
 
     <string name="pet_registration_canceled">Pet registration canceled</string>
+
+    <!-- Events -->
 
 </resources>
