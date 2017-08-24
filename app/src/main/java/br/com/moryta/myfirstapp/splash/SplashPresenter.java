@@ -66,22 +66,6 @@ public class SplashPresenter implements SplashContract.Presenter {
 
                         LoginDao loginDao = daoSession.getLoginDao();
                         loginDao.insertOrReplace(login);
-
-//                        Pet laika = new Pet();
-//                        laika.setType(PetTypeEnum.DOG);
-//                        laika.setName("Laika");
-//                        laika.setBreed("Cocker Spaniel");
-//                        laika.setBirthDate(new Date());
-//
-//                        Pet june = new Pet();
-//                        june.setType(PetTypeEnum.DOG);
-//                        june.setName("June");
-//                        june.setBreed("Dachshund");
-//                        june.setBirthDate(new Date());
-//
-//                        PetDao petDao = daoSession.getPetDao();
-//                        petDao.insertOrReplace(laika);
-//                        petDao.insertOrReplace(june);
                     }
                 });
     }

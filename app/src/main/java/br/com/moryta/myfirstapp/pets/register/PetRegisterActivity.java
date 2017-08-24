@@ -49,6 +49,9 @@ public class PetRegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_register);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         ButterKnife.bind(this);
 
         // Setting click listener
@@ -77,6 +80,12 @@ public class PetRegisterActivity extends AppCompatActivity
         etPetBreed.removeTextChangedListener(this);
         tvPetBirthDate.removeTextChangedListener(this);
         super.onStop();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     @Override

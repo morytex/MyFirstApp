@@ -43,6 +43,9 @@ public class SignUpActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         ButterKnife.bind(SignUpActivity.this);
 
         this.btnSignUp.setOnClickListener(this);
@@ -61,6 +64,12 @@ public class SignUpActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         this.mAuth.removeAuthStateListener(this);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     private void signUpWithEmailAndPassword(String email, String password) {

@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
  * Created by moryta on 24/08/2017.
  */
 
-public class TimeUtilsTest {
+public class TimeUtilTest {
     @Test
     public void format_isCorrect_singleDigits() {
         int hourOfDay = 1;

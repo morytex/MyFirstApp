@@ -52,6 +52,10 @@ public class EventRegisterActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_register);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         ButterKnife.bind(this);
 
         this.petId = savedInstanceState.getLong(Extras.PET_ID);
@@ -79,6 +83,12 @@ public class EventRegisterActivity extends AppCompatActivity
         this.tvEventDate.removeTextChangedListener(this);
         this.tvEventTime.removeTextChangedListener(this);
         super.onStop();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     @Override
