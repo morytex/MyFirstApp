@@ -40,6 +40,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         Event event = this.eventList.get(position);
 
         holder.tvEventTitle.setText(event.getTitle());
+        holder.tvEventPetName.setText(event.getPet().getName());
     }
 
     @Override
@@ -67,6 +68,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
     public class EventViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvEventTitle)
         TextView tvEventTitle;
+
+        @BindView(R.id.tvEventPetName)
+        TextView tvEventPetName;
 
         public EventViewHolder(View itemView) {
             super(itemView);

@@ -74,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SignUpActivity.this, R.string.auth_failed,
+                            Toast.makeText(SignUpActivity.this, R.string.error_message_auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -94,7 +94,6 @@ public class SignUpActivity extends AppCompatActivity
                 }
 
                 this.signUpWithEmailAndPassword(email, password);
-
                 break;
         }
     }

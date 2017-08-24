@@ -2,25 +2,33 @@ package br.com.moryta.myfirstapp.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import org.greenrobot.greendao.annotation.NotNull;
 
 /**
  * Created by moryta on 23/08/2017.
  */
 @Entity
 public class Event {
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
 
-    private long petId;
+    @NotNull
+    private Long petId;
 
     @ToOne(joinProperty = "petId")
     private Pet pet;
 
+    @NotNull
     private String title;
+
+    @NotNull
+    private String date;
+
+    @NotNull
+    private String time;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -30,30 +38,33 @@ public class Event {
     @Generated(hash = 1542254534)
     private transient EventDao myDao;
 
-    @Generated(hash = 335434901)
-    public Event(long id, long petId, String title) {
+    @Generated(hash = 1153085007)
+    public Event(Long id, @NotNull Long petId, @NotNull String title,
+            @NotNull String date, @NotNull String time) {
         this.id = id;
         this.petId = petId;
         this.title = title;
+        this.date = date;
+        this.time = time;
     }
 
     @Generated(hash = 344677835)
     public Event() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getPetId() {
+    public Long getPetId() {
         return this.petId;
     }
 
-    public void setPetId(long petId) {
+    public void setPetId(Long petId) {
         this.petId = petId;
     }
 
@@ -65,13 +76,29 @@ public class Event {
         this.title = title;
     }
 
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Generated(hash = 1364068960)
     private transient Long pet__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 814780245)
+    @Generated(hash = 1129644455)
     public Pet getPet() {
-        long __key = this.petId;
+        Long __key = this.petId;
         if (pet__resolvedKey == null || !pet__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {

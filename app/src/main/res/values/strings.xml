@@ -2,6 +2,8 @@
     <string name="app_name">My First App</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="button_add">Add</string>
+
     <!-- Sign in/Sign up -->
     <string name="title_activity_sign_in">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>
@@ -15,7 +17,6 @@
     <string name="button_sign_in">Sign in</string>
     <string name="button_sign_up">Register</string>
     <string name="create_an_account">Create an account</string>
-    <string name="error_message_invalid_sign_in">Invalid email or password</string>
 
     <!-- Home -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -32,8 +33,6 @@
     <!-- About us -->
     <string name="about_us_version_template">Version: %s</string>
     <string name="about_us_author">Drafted by Alessandro Moryta</string>
-    <string name="error_message_email_password_required">Email and password cannot be empty</string>
-    <string name="auth_failed">Authentication failed</string>
 
     <!-- My pet -->
     <string name="title_activity_register_pet">Register pet</string>
@@ -41,8 +40,8 @@
     <string name="hint_name">Name</string>
     <string name="hint_breed">Breed</string>
     <string name="hint_birth_date">Birth date</string>
-    <string name="button_add_pet">Add</string>
 
+    <!-- Pet types -->
     <string name="dog">Dog</string>
     <string name="cat">Cat</string>
     <string name="other">Other</string>
@@ -52,8 +51,19 @@
         <item>@string/other</item>
     </string-array>
 
-    <string name="pet_registration_canceled">Pet registration canceled</string>
-
     <!-- Events -->
+    <string name="title_activity_register_event">Register event</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_pet">Pet</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_time">Time</string>
+
+
+    <!-- Error messages -->
+    <string name="pet_registration_canceled">Pet registration canceled</string>
+    <string name="error_message_email_password_required">Email and password cannot be empty</string>
+    <string name="error_message_invalid_sign_in">Invalid email or password</string>
+    <string name="error_message_auth_failed">Authentication failed</string>
+    <string name="date_format">DD/MM/YYYY</string>
 
 </resources>

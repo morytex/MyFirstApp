@@ -176,7 +176,7 @@ public class SignInActivity extends AppCompatActivity
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(SignInActivity.this, R.string.auth_failed,
+                            Toast.makeText(SignInActivity.this, R.string.error_message_auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -205,7 +205,7 @@ public class SignInActivity extends AppCompatActivity
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(SignInActivity.this, R.string.auth_failed,
+                            Toast.makeText(SignInActivity.this, R.string.error_message_auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
                         // ...

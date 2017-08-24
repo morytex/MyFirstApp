@@ -52,12 +52,6 @@ public class PetRegisterActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        // Adding watcher on fields to disable/enable register button
-        btnRegisterPet.setEnabled(false);
-        etPetName.addTextChangedListener(this);
-        etPetBreed.addTextChangedListener(this);
-        tvPetBirthDate.addTextChangedListener(this);
-
         // Setting click listener
         ivPetBirthDate.setOnClickListener(this);
         btnRegisterPet.setOnClickListener(this);
@@ -87,10 +81,16 @@ public class PetRegisterActivity extends AppCompatActivity
     }
 
     @Override
+    public void setPresenter(PetRegisterContract.Presenter presenter) {
+        // Not necessary, because we instantiate presenter in this activity
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivPetBirthDate:
-                DialogFragment dialogFragment = DatePickerFragment.newInstance(this);
+                DialogFragment dialogFragment = DatePickerFragment.newInstance(this
+                        , DatePickerFragment.PAST_OR_PRESENT_DATES);
                 dialogFragment.show(getSupportFragmentManager(), "petBirhDate");
                 break;
             case R.id.btnRegisterPet:
@@ -116,11 +116,6 @@ public class PetRegisterActivity extends AppCompatActivity
     }
 
     @Override
-    public void setPresenter(PetRegisterContract.Presenter presenter) {
-        // Not necessary, because we instantiate presenter in this activity
-    }
-
-    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         // Do nothing
     }
@@ -132,11 +127,11 @@ public class PetRegisterActivity extends AppCompatActivity
 
     @Override
     public void afterTextChanged(Editable s) {
-        String name = etPetName.getText().toString();
-        String breed = etPetBreed.getText().toString();
-        String birthDate = tvPetBirthDate.getText().toString();
+        String name = this.etPetName.getText().toString();
+        String breed = this.etPetBreed.getText().toString();
+        String birthDate = this.tvPetBirthDate.getText().toString();
 
         btnRegisterPet.setEnabled(
-                mPresenter.isPetDataFilled(name, breed, birthDate));
+                this.mPresenter.isPetDataFilled(name, breed, birthDate));
     }
 }

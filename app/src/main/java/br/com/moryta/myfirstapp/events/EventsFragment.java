@@ -3,8 +3,6 @@ package br.com.moryta.myfirstapp.events;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,9 +32,6 @@ public class EventsFragment extends Fragment implements EventsContract.View {
 
     private EventsAdapter mEventsAdapter;
     private EventsContract.Presenter mEventsPresenter;
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
 
     @BindView(R.id.rvEvents)
     RecyclerView rvEvents;
@@ -69,18 +64,6 @@ public class EventsFragment extends Fragment implements EventsContract.View {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         unbinder = ButterKnife.bind(EventsFragment.this, view);
-
-        // Setting floating action button (register pet button)
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-//                Intent intent = new Intent();
-//                intent.setClass(getActivity(), EventRegisterActivity.class);
-//                startActivityForResult(intent, RC_REGISTER_EVENT);
-            }
-        });
 
         // Setting recycler view
         this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents());

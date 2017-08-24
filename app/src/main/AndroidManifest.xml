@@ -33,7 +33,10 @@
             android:label="@string/title_activity_sign_up" />
         <activity
             android:name=".pets.register.PetRegisterActivity"
-            android:label="@string/title_activity_register_pet"/>
+            android:label="@string/title_activity_register_pet" />
+        <activity
+            android:name=".events.register.EventRegisterActivity"
+            android:label="@string/title_activity_register_event" />
     </application>
 
 </manifest>

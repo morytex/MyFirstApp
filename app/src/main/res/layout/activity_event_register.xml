@@ -6,64 +6,79 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/default_padding"
-    tools:context="br.com.moryta.myfirstapp.pets.register.PetRegisterActivity">
+    tools:context="br.com.moryta.myfirstapp.events.register.EventRegisterActivity">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/etPetName"
+            android:id="@+id/etEventTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_name" />
+            android:hint="@string/hint_title" />
 
     </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/etPetBreed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_breed" />
-
-    </android.support.design.widget.TextInputLayout>
-
 
     <TextView
         style="@style/InputLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hint_birth_date" />
+        android:text="@string/hint_date" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tvPetBirthDate"
+            android:id="@+id/tvEventDate"
             style="@style/EditTextImitation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="DD/MM/YYYY" />
+            android:hint="@string/date_format" />
 
         <ImageView
-            android:id="@+id/ivPetBirthDate"
+            android:id="@+id/ivEventDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="@dimen/default_padding"
-            android:src="@drawable/ic_today_primary_dark_24px" />
+            android:src="@drawable/ic_today_black_24px" />
+
+    </RelativeLayout>
+
+    <TextView
+        style="@style/InputLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hint_time" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvEventTime"
+            style="@style/EditTextImitation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/ivEventTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/default_padding"
+            android:src="@drawable/ic_access_time_primary_dark_24dp" />
 
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btnRegisterPet"
+        android:id="@+id/btnRegisterEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"

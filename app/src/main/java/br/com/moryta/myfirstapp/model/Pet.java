@@ -14,7 +14,7 @@ import br.com.moryta.myfirstapp.model.converters.PetTypeConverter;
  */
 @Entity
 public class Pet {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
 
     @NotNull

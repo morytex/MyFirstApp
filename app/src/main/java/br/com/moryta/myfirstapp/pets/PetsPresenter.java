@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import br.com.moryta.myfirstapp.model.DaoSession;
+import br.com.moryta.myfirstapp.model.EventDao;
 import br.com.moryta.myfirstapp.model.Pet;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -35,6 +36,11 @@ public class PetsPresenter implements PetsContract.Presenter {
 
     @Override
     public void delete(Pet pet) {
+        daoSession.getEventDao().queryBuilder()
+                .where(EventDao.Properties.PetId.eq(pet.getId()))
+                .orderAsc(EventDao.Properties.Id)
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
         daoSession.getPetDao().delete(pet);
     }
 }

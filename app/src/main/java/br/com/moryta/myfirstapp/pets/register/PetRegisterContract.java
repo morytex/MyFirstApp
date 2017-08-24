@@ -14,6 +14,7 @@ public interface PetRegisterContract {
 
     interface Presenter extends BasePresenter {
         void addPet(String name, String breed, String birthDate);
+
         boolean isPetDataFilled(String name, String breed, String birthDate);
     }
 }
