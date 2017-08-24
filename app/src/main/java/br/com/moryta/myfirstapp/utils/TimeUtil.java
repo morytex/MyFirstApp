@@ -22,6 +22,7 @@ public class TimeUtil {
 
     /**
      * Format tuple (int hourOfDay, int minute) to String in hh:mm format
+     *
      * @param hourOfDay
      * @param minute
      * @return
@@ -34,7 +35,8 @@ public class TimeUtil {
 
     /**
      * Parse string value of time and returns an int from selected portion of time (HOUR_OF_DAY | MINUTE)
-     * @param time String value of time (i.e: "13:30")
+     *
+     * @param time        String value of time (i.e: "13:30")
      * @param timePortion 2 = get minutes portion from time string.
      *                    Any other value returns hour portion from time string
      * @return
@@ -55,6 +57,7 @@ public class TimeUtil {
 
     /**
      * Validate string time format
+     *
      * @param time
      * @return
      */

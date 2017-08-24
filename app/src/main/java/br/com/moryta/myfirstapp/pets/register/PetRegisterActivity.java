@@ -17,7 +17,6 @@ import java.util.Date;
 import br.com.moryta.myfirstapp.DatePickerFragment;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
-import br.com.moryta.myfirstapp.utils.DateUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -112,7 +111,7 @@ public class PetRegisterActivity extends AppCompatActivity
             return;
         }
 
-        this.tvPetBirthDate.setText(DateUtil.format(date));
+        this.tvPetBirthDate.setText(this.mPresenter.formatDate(date));
     }
 
     @Override

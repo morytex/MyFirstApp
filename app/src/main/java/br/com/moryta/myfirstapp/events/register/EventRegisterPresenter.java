@@ -9,6 +9,7 @@ import java.util.Date;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Event;
 import br.com.moryta.myfirstapp.utils.DateUtil;
+import br.com.moryta.myfirstapp.utils.TimeUtil;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -20,7 +21,7 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
     private EventRegisterContract.View view;
     private DaoSession daoSession;
 
-    public EventRegisterPresenter(@NonNull EventRegisterContract.View view,@NonNull  DaoSession daoSession) {
+    public EventRegisterPresenter(@NonNull EventRegisterContract.View view, @NonNull DaoSession daoSession) {
         this.view = checkNotNull(view, "view cannot be null!");
         this.daoSession = checkNotNull(daoSession, "daoSession cannot be null!");
     }
@@ -37,11 +38,11 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
 
     @Override
     public boolean isEventDataFilled(String title, String date, String time) {
-        // TODO: Apply validation on time
         return !Strings.isNullOrEmpty(title)
                 && !Strings.isNullOrEmpty(date)
                 && DateUtil.isValidFormat(date)
-                && !Strings.isNullOrEmpty(time);
+                && !Strings.isNullOrEmpty(time)
+                && TimeUtil.isValidFormat(time);
     }
 
     @Override
@@ -51,8 +52,6 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
 
     @Override
     public String formatTime(int hourOfDay, int minute) {
-        return String.format("%s:%s"
-                , Strings.padStart(String.valueOf(hourOfDay), 2, '0')
-                , Strings.padStart(String.valueOf(minute), 2, '0'));
+        return TimeUtil.format(hourOfDay, minute);
     }
 }

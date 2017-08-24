@@ -35,6 +35,7 @@ public class DateUtil {
 
     /**
      * Format Date to String in dd/MM/yyyy format
+     *
      * @param date
      * @return string of date in dd/MM/yyyy format
      * @throws NullPointerException
@@ -47,6 +48,7 @@ public class DateUtil {
 
     /**
      * Parse String in dd/MM/yyyy format to Date
+     *
      * @param date
      * @return
      * @throws NullPointerException
@@ -67,6 +69,7 @@ public class DateUtil {
 
     /**
      * Validate string date format
+     *
      * @param date
      * @return
      */
@@ -79,6 +82,7 @@ public class DateUtil {
 
     /**
      * Validate if date is a past or present date
+     *
      * @param date
      * @return true if is past or present date else return false
      * @throws NullPointerException
@@ -92,6 +96,7 @@ public class DateUtil {
 
     /**
      * Validate if date is a past or present date
+     *
      * @param date
      * @return true if is past or present date else return false
      * @throws NullPointerException
@@ -105,6 +110,7 @@ public class DateUtil {
 
     /**
      * Calculate age from birth date
+     *
      * @param birthDate
      * @return
      * @throws NullPointerException
@@ -120,6 +126,7 @@ public class DateUtil {
 
     /**
      * Calculate age from birth date
+     *
      * @param birthDate
      * @return
      * @throws NullPointerException
@@ -147,7 +154,7 @@ public class DateUtil {
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
 
         // If today is before dob's date, did not complete a year yet
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
             age--;
         }
 
