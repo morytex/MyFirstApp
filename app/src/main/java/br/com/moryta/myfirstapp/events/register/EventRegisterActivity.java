@@ -15,6 +15,7 @@ import java.util.Date;
 
 import br.com.moryta.myfirstapp.DatePickerFragment;
 import br.com.moryta.myfirstapp.Extras;
+import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.TimePickerFragment;
 import br.com.moryta.myfirstapp.events.EventsContract;
@@ -55,6 +56,10 @@ public class EventRegisterActivity extends AppCompatActivity
 
         this.petId = savedInstanceState.getLong(Extras.PET_ID);
         this.petName = savedInstanceState.getString(Extras.PET_NAME);
+
+        // Instance of presenter
+        this.mPresenter = new EventRegisterPresenter(EventRegisterActivity.this
+                , ((MyApplication) getApplication()).getDaoSession());
     }
 
     @Override
