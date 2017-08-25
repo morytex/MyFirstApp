@@ -48,7 +48,7 @@ public class PetRegisterPresenter implements PetRegisterContract.Presenter {
         Address address = new Address(null, "SP", "São Paulo", "Av. Paulista", "1100", -23.564149, -46.652484);
         AddressDao addressDao = this.daoSession.getAddressDao();
         Long addressId = addressDao.insert(address);
-        Event event = new Event(null, petId, "Default Event", pet.getBirthDate(), "16:20", addressId);
+        Event event = new Event(null, petId, "Default Event", "Default Description", pet.getBirthDate(), "16:20", addressId);
         event.setAddress(address);
         EventDao eventDao = this.daoSession.getEventDao();
         eventDao.insert(event);

@@ -27,6 +27,8 @@ public class Event implements Parcelable {
     @NotNull
     private String title;
 
+    private String description;
+
     @NotNull
     private String date;
 
@@ -50,6 +52,7 @@ public class Event implements Parcelable {
         this.id = source.readLong();
         this.petId = source.readLong();
         this.title = source.readString();
+        this.description = source.readString();
         this.date = source.readString();
         this.time = source.readString();
         this.addressId = source.readLong();
@@ -67,12 +70,13 @@ public class Event implements Parcelable {
         this.time = time;
     }
 
-    @Generated(hash = 999592410)
-    public Event(Long id, @NotNull Long petId, @NotNull String title, @NotNull String date,
-            @NotNull String time, Long addressId) {
+    @Generated(hash = 615598940)
+    public Event(Long id, @NotNull Long petId, @NotNull String title, String description,
+            @NotNull String date, @NotNull String time, Long addressId) {
         this.id = id;
         this.petId = petId;
         this.title = title;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.addressId = addressId;
@@ -252,9 +256,18 @@ public class Event implements Parcelable {
         dest.writeLong(this.id);
         dest.writeLong(this.petId);
         dest.writeString(this.title);
+        dest.writeString(this.description);
         dest.writeString(this.date);
         dest.writeString(this.time);
         dest.writeLong(this.addressId);
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /** called by internal mechanisms, do not call yourself. */

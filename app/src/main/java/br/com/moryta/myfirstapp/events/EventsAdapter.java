@@ -43,7 +43,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         Event event = this.eventList.get(position);
 
         holder.tvEventTitle.setText(event.getTitle());
+        holder.tvEventDescription.setText(event.getDescription());
         holder.tvEventPetName.setText(event.getPet().getName());
+        holder.tvEventDate.setText(event.getDate());
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -85,8 +87,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         @BindView(R.id.tvEventTitle)
         TextView tvEventTitle;
 
+        @BindView(R.id.tvEventDescription)
+        TextView tvEventDescription;
+
         @BindView(R.id.tvEventPetName)
         TextView tvEventPetName;
+
+        @BindView(R.id.tvEventDate)
+        TextView tvEventDate;
 
         public EventViewHolder(View itemView) {
             super(itemView);
