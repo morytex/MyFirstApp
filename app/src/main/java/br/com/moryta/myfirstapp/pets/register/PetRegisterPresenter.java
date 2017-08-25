@@ -7,6 +7,8 @@ import com.google.common.base.Strings;
 import java.util.Date;
 
 import br.com.moryta.myfirstapp.enums.PetTypeEnum;
+import br.com.moryta.myfirstapp.model.Address;
+import br.com.moryta.myfirstapp.model.AddressDao;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Event;
 import br.com.moryta.myfirstapp.model.EventDao;
@@ -43,7 +45,11 @@ public class PetRegisterPresenter implements PetRegisterContract.Presenter {
         long petId = petDao.insert(pet);
 
         // TODO: Remove when registration of event is completed
-        Event event = new Event(null, petId, "Default Event", pet.getBirthDate(), "16:20");
+        Address address = new Address(null, "SP", "São Paulo", "Av. Paulista", "1100", -23.564149, -46.652484);
+        AddressDao addressDao = this.daoSession.getAddressDao();
+        Long addressId = addressDao.insert(address);
+        Event event = new Event(null, petId, "Default Event", pet.getBirthDate(), "16:20", addressId);
+        event.setAddress(address);
         EventDao eventDao = this.daoSession.getEventDao();
         eventDao.insert(event);
     }

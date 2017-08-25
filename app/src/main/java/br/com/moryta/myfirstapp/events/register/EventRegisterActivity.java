@@ -112,6 +112,7 @@ public class EventRegisterActivity extends AppCompatActivity
                 String title = this.etEventTitle.getText().toString();
                 String date = this.tvEventDate.getText().toString();
                 String time = this.tvEventTime.getText().toString();
+
                 this.mPresenter.addEvent(title, this.petId, date, time);
                 break;
             default:

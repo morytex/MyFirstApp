@@ -38,6 +38,10 @@
             android:name=".events.register.EventRegisterActivity"
             android:label="@string/title_activity_register_event" />
         <activity android:name=".events.detail.EventDetailActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

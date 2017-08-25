@@ -3,12 +3,12 @@ package br.com.moryta.myfirstapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by moryta on 23/08/2017.
@@ -33,6 +33,11 @@ public class Event implements Parcelable {
     @NotNull
     private String time;
 
+    private Long addressId;
+
+    @ToOne(joinProperty = "addressId")
+    private Address address;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -41,9 +46,20 @@ public class Event implements Parcelable {
     @Generated(hash = 1542254534)
     private transient EventDao myDao;
 
-    @Generated(hash = 1153085007)
-    public Event(Long id, @NotNull Long petId, @NotNull String title,
-            @NotNull String date, @NotNull String time) {
+    public Event(Parcel source) {
+        this.id = source.readLong();
+        this.petId = source.readLong();
+        this.title = source.readString();
+        this.date = source.readString();
+        this.time = source.readString();
+        this.addressId = source.readLong();
+    }
+
+    public Event() {
+    }
+
+    public Event(Long id, @NotNull Long petId, @NotNull String title, @NotNull String date
+            , @NotNull String time) {
         this.id = id;
         this.petId = petId;
         this.title = title;
@@ -51,16 +67,15 @@ public class Event implements Parcelable {
         this.time = time;
     }
 
-    @Generated(hash = 344677835)
-    public Event() {
-    }
-
-    public Event(Parcel source) {
-        this.id = source.readLong();
-        this.petId = source.readLong();
-        this.title = source.readString();
-        this.date = source.readString();
-        this.time = source.readString();
+    @Generated(hash = 999592410)
+    public Event(Long id, @NotNull Long petId, @NotNull String title, @NotNull String date,
+            @NotNull String time, Long addressId) {
+        this.id = id;
+        this.petId = petId;
+        this.title = title;
+        this.date = date;
+        this.time = time;
+        this.addressId = addressId;
     }
 
     public Long getId() {
@@ -101,6 +116,14 @@ public class Event implements Parcelable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Long getAddressId() {
+        return this.addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     @Generated(hash = 1364068960)
@@ -175,25 +198,33 @@ public class Event implements Parcelable {
         myDao.update(this);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeLong(this.petId);
-        dest.writeString(this.title);
-        dest.writeString(this.date);
-        dest.writeString(this.time);
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 489389972)
+    public Address getAddress() {
+        Long __key = this.addressId;
+        if (address__resolvedKey == null || !address__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            AddressDao targetDao = daoSession.getAddressDao();
+            Address addressNew = targetDao.load(__key);
+            synchronized (this) {
+                address = addressNew;
+                address__resolvedKey = __key;
+            }
+        }
+        return address;
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1459865304)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getEventDao() : null;
+    @Generated(hash = 607080948)
+    public void setAddress(Address address) {
+        synchronized (this) {
+            this.address = address;
+            addressId = address == null ? null : address.getId();
+            address__resolvedKey = addressId;
+        }
     }
 
     public static final Parcelable.Creator CREATOR = new Creator<Event>() {
@@ -207,4 +238,29 @@ public class Event implements Parcelable {
             return new Event[size];
         }
     };
+
+    @Generated(hash = 1156467801)
+    private transient Long address__resolvedKey;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeLong(this.petId);
+        dest.writeString(this.title);
+        dest.writeString(this.date);
+        dest.writeString(this.time);
+        dest.writeLong(this.addressId);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1459865304)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getEventDao() : null;
+    }
 }

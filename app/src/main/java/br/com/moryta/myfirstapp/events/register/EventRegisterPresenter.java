@@ -32,6 +32,7 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
 
     @Override
     public void addEvent(String title, Long petId, String date, String time) {
+        // TODO: Receive address parameters (state, city, stree, number, latitude, longitude)
         Event event = new Event(null, petId, title, date, time);
         this.daoSession.getEventDao().insert(event);
     }
