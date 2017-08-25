@@ -71,8 +71,7 @@ public class EventsFragment extends Fragment implements EventsContract.View {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         unbinder = ButterKnife.bind(EventsFragment.this, view);
 
-        // Setting recycler view
-        this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), new OnItemClickListener() {
+        OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
             public void onItemClick(Object item, View view) {
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
@@ -85,7 +84,10 @@ public class EventsFragment extends Fragment implements EventsContract.View {
                                 , transitionName);
                 ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
             }
-        });
+        };
+
+        // Setting recycler view
+        this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), onItemClickListener);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration decoration = new DividerItemDecoration(getActivity()

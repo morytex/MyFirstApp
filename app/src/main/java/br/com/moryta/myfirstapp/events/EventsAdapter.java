@@ -45,14 +45,16 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         holder.tvEventTitle.setText(event.getTitle());
         holder.tvEventPetName.setText(event.getPet().getName());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (itemClickListener != null) {
                     itemClickListener.onItemClick(eventList.get(position), v);
                 }
             }
-        });
+        };
+
+        holder.itemView.setOnClickListener(onClickListener);
     }
 
     @Override

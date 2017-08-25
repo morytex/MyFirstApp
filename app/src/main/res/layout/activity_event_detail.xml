@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:transitionName="@string/transition_event_detail"
-    android:background="@color/accent"
+    android:background="@color/primary_light"
     tools:context="br.com.moryta.myfirstapp.events.detail.EventDetailActivity">
 
 </LinearLayout>
