@@ -1,8 +1,11 @@
 package br.com.moryta.myfirstapp.events;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import br.com.moryta.myfirstapp.OnItemClickListener;
 import br.com.moryta.myfirstapp.R;
+import br.com.moryta.myfirstapp.events.detail.EventDetailActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -66,7 +71,18 @@ public class EventsFragment extends Fragment implements EventsContract.View {
         unbinder = ButterKnife.bind(EventsFragment.this, view);
 
         // Setting recycler view
-        this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents());
+        this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), new OnItemClickListener() {
+            @Override
+            public <Event> void onItemClick(Event event, View view) {
+                Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                String transitionName = getString(R.string.transition_event_detail);
+                ActivityOptionsCompat options =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
+                                , view
+                                , transitionName);
+                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+            }
+        });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration decoration = new DividerItemDecoration(getActivity()

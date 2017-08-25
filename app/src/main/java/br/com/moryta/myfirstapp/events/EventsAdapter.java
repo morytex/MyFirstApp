@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.moryta.myfirstapp.OnItemClickListener;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.SimpleItemTouchHelperAdapter;
 import br.com.moryta.myfirstapp.model.Event;
@@ -21,10 +22,12 @@ import butterknife.ButterKnife;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewHolder>
     implements SimpleItemTouchHelperAdapter {
 
-    List<Event> eventList;
+    private List<Event> eventList;
+    private OnItemClickListener itemClickListener;
 
-    public EventsAdapter(List<Event> eventList) {
+    public EventsAdapter(List<Event> eventList, OnItemClickListener itemClickListener) {
         this.eventList = eventList;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -36,11 +39,20 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
     }
 
     @Override
-    public void onBindViewHolder(EventViewHolder holder, int position) {
+    public void onBindViewHolder(EventViewHolder holder, final int position) {
         Event event = this.eventList.get(position);
 
         holder.tvEventTitle.setText(event.getTitle());
         holder.tvEventPetName.setText(event.getPet().getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(eventList.get(position), v);
+                }
+            }
+        });
     }
 
     @Override
@@ -52,6 +64,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         this.eventList = eventList;
         notifyDataSetChanged();
     }
+
+
 
     @Override
     public boolean onItemMoved(int fromPosition, int toPosition) {

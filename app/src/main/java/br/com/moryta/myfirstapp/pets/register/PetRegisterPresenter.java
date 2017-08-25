@@ -8,6 +8,8 @@ import java.util.Date;
 
 import br.com.moryta.myfirstapp.enums.PetTypeEnum;
 import br.com.moryta.myfirstapp.model.DaoSession;
+import br.com.moryta.myfirstapp.model.Event;
+import br.com.moryta.myfirstapp.model.EventDao;
 import br.com.moryta.myfirstapp.model.Pet;
 import br.com.moryta.myfirstapp.model.PetDao;
 import br.com.moryta.myfirstapp.utils.DateUtil;
@@ -38,7 +40,12 @@ public class PetRegisterPresenter implements PetRegisterContract.Presenter {
         Pet pet = new Pet(null, PetTypeEnum.DOG, name, breed, birthDate);
         PetDao petDao = this.daoSession.getPetDao();
         // TODO: Validate if pet already exists (verify tuple name + breed)
-        petDao.insert(pet);
+        long petId = petDao.insert(pet);
+
+        // TODO: Remove when registration of event is completed
+        Event event = new Event(null, petId, "Default Event", pet.getBirthDate(), "16:20");
+        EventDao eventDao = this.daoSession.getEventDao();
+        eventDao.insert(event);
     }
 
     @Override

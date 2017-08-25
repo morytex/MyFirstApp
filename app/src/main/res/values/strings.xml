@@ -66,4 +66,7 @@
     <string name="error_message_auth_failed">Authentication failed</string>
     <string name="date_format">DD/MM/YYYY</string>
 
+
+    <!-- Transitions -->
+    <string name="transition_event_detail">TRANSITION_EVENT_DETAIL</string>
 </resources>
