@@ -4,9 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_light"
     android:orientation="vertical"
     android:transitionName="@string/transition_event_detail"
-    android:background="@color/primary_light"
     tools:context="br.com.moryta.myfirstapp.events.detail.EventDetailActivity">
+
+    <TextView
+        android:id="@+id/tvEventTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:transitionName="@string/transition_event_detail_title" />
 
 </LinearLayout>

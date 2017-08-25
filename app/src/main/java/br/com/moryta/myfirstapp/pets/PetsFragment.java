@@ -101,7 +101,7 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         ItemTouchHelper.SimpleCallback callback =
                 new ItemTouchHelper.SimpleCallback(
                         ItemTouchHelper.ACTION_STATE_IDLE
-                        , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                        , ItemTouchHelper.LEFT) {
 
                     @Override
                     public boolean onMove(RecyclerView recyclerView

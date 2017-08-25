@@ -1,13 +1,17 @@
 package br.com.moryta.myfirstapp.events.detail;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.model.Event;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class EventDetailActivity extends AppCompatActivity {
+    @BindView(R.id.tvEventTitle)
+    TextView tvEventTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +21,10 @@ public class EventDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        ButterKnife.bind(this);
+
         Event event = getIntent().getExtras().getParcelable(Event.class.getName());
-        Toast.makeText(this, event.getTitle(), Toast.LENGTH_SHORT).show();
+        this.tvEventTitle.setText(event.getTitle());
     }
 
     @Override

@@ -69,4 +69,5 @@
 
     <!-- Transitions -->
     <string name="transition_event_detail">TRANSITION_EVENT_DETAIL</string>
+    <string name="transition_event_detail_title">TRANSITION_EVENT_DETAIL_TITLE</string>
 </resources>

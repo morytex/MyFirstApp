@@ -7,12 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import br.com.moryta.myfirstapp.OnItemClickListener;
 import br.com.moryta.myfirstapp.R;
@@ -77,11 +79,15 @@ public class EventsFragment extends Fragment implements EventsContract.View {
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                 intent.putExtra(Event.class.getName(), ((Event) item));
 
-                String transitionName = getString(R.string.transition_event_detail);
+                TextView titleView = (TextView) view.findViewById(R.id.tvEventTitle);
+                Pair<View, String> sharedRootView =
+                        new Pair<>(view, getString(R.string.transition_event_detail));
+                Pair<View, String> sharedTitleView =
+                        new Pair<>((View) titleView, getString(R.string.transition_event_detail_title));
+                Pair<View, String>[] sharedViews = new Pair[]{sharedRootView, sharedTitleView};
                 ActivityOptionsCompat options =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
-                                , view
-                                , transitionName);
+                                , sharedViews);
                 ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
             }
         };
