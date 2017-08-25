@@ -2,9 +2,12 @@ package br.com.moryta.myfirstapp.pets;
 
 import android.support.annotation.NonNull;
 
+import org.greenrobot.greendao.query.CloseableListIterator;
+
 import java.util.List;
 
 import br.com.moryta.myfirstapp.model.DaoSession;
+import br.com.moryta.myfirstapp.model.Event;
 import br.com.moryta.myfirstapp.model.EventDao;
 import br.com.moryta.myfirstapp.model.Pet;
 
@@ -36,11 +39,18 @@ public class PetsPresenter implements PetsContract.Presenter {
 
     @Override
     public void delete(Pet pet) {
-        daoSession.getEventDao().queryBuilder()
+        CloseableListIterator<Event> eventIterator = daoSession.getEventDao().queryBuilder()
                 .where(EventDao.Properties.PetId.eq(pet.getId()))
                 .orderAsc(EventDao.Properties.Id)
-                .buildDelete()
-                .executeDeleteWithoutDetachingEntities();
+                .listIterator();
+        Event event;
+        while (eventIterator.hasNext()) {
+            event = eventIterator.next();
+            daoSession.getAddressDao().delete(event.getAddress());
+            daoSession.getEventDao().delete(event);
+        }
+
         daoSession.getPetDao().delete(pet);
+        daoSession.clear();
     }
 }
