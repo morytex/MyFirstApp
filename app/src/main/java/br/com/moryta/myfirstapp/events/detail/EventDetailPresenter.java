@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import br.com.moryta.myfirstapp.model.Address;
 import br.com.moryta.myfirstapp.model.DaoSession;
+import br.com.moryta.myfirstapp.model.Event;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -25,7 +26,7 @@ public class EventDetailPresenter implements EventDetailContract.Presenter {
     }
 
     @Override
-    public Address getAddress(Long id) {
-        return daoSession.getAddressDao().load(id);
+    public Event getEvent(Long id) {
+        return daoSession.getEventDao().load(id);
     }
 }

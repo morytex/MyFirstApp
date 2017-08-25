@@ -46,9 +46,9 @@ public class EventDetailActivity extends AppCompatActivity
         this.mPresenter = new EventDetailPresenter(EventDetailActivity.this
                 , ((MyApplication) getApplication()).getDaoSession());
 
-        this.mEvent = getIntent().getExtras().getParcelable(Event.class.getName());
+        Long eventId = getIntent().getLongExtra(Event.class.getName(), 0);
+        this.mEvent = this.mPresenter.getEvent(eventId);
         // Setting Address again because I couldn't pass through Intent (greenDao issues)
-        this.mEvent.setAddress(this.mPresenter.getAddress(this.mEvent.getId()));
         this.mEventPosition = new LatLng(this.mEvent.getAddress().getLatitude()
                 , this.mEvent.getAddress().getLongitude());
 

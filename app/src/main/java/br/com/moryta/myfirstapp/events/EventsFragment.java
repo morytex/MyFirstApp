@@ -77,7 +77,7 @@ public class EventsFragment extends Fragment implements EventsContract.View {
             @Override
             public void onItemClick(Object item, View view) {
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
-                intent.putExtra(Event.class.getName(), ((Event) item));
+                intent.putExtra(Event.class.getName(), ((Event) item).getId());
 
                 TextView titleView = (TextView) view.findViewById(R.id.tvEventTitle);
                 Pair<View, String> sharedRootView =
