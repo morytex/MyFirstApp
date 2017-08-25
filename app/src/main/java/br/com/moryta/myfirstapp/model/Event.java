@@ -1,5 +1,8 @@
 package br.com.moryta.myfirstapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
@@ -11,7 +14,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by moryta on 23/08/2017.
  */
 @Entity
-public class Event {
+public class Event implements Parcelable {
     @Id(autoincrement = true)
     private Long id;
 
@@ -50,6 +53,14 @@ public class Event {
 
     @Generated(hash = 344677835)
     public Event() {
+    }
+
+    public Event(Parcel source) {
+        this.id = source.readLong();
+        this.petId = source.readLong();
+        this.title = source.readString();
+        this.date = source.readString();
+        this.time = source.readString();
     }
 
     public Long getId() {
@@ -164,10 +175,36 @@ public class Event {
         myDao.update(this);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeLong(this.petId);
+        dest.writeString(this.title);
+        dest.writeString(this.date);
+        dest.writeString(this.time);
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1459865304)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getEventDao() : null;
     }
+
+    public static final Parcelable.Creator CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }

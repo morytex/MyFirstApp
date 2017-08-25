@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import br.com.moryta.myfirstapp.OnItemClickListener;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.events.detail.EventDetailActivity;
+import br.com.moryta.myfirstapp.model.Event;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -73,8 +74,10 @@ public class EventsFragment extends Fragment implements EventsContract.View {
         // Setting recycler view
         this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), new OnItemClickListener() {
             @Override
-            public <Event> void onItemClick(Event event, View view) {
+            public void onItemClick(Object item, View view) {
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                intent.putExtra(Event.class.getName(), ((Event) item));
+
                 String transitionName = getString(R.string.transition_event_detail);
                 ActivityOptionsCompat options =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()

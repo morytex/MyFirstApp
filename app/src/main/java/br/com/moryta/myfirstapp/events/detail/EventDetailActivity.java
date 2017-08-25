@@ -2,8 +2,10 @@ package br.com.moryta.myfirstapp.events.detail;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import br.com.moryta.myfirstapp.R;
+import br.com.moryta.myfirstapp.model.Event;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -14,6 +16,9 @@ public class EventDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Event event = getIntent().getExtras().getParcelable(Event.class.getName());
+        Toast.makeText(this, event.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
