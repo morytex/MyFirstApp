@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import br.com.moryta.myfirstapp.OnItemClickListener;
 import br.com.moryta.myfirstapp.R;
@@ -79,12 +78,30 @@ public class EventsFragment extends Fragment implements EventsContract.View {
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                 intent.putExtra(Event.class.getName(), ((Event) item).getId());
 
-                TextView titleView = (TextView) view.findViewById(R.id.tvEventTitle);
                 Pair<View, String> sharedRootView =
                         new Pair<>(view, getString(R.string.transition_event_detail));
+
+                View titleView = view.findViewById(R.id.tvEventTitle);
                 Pair<View, String> sharedTitleView =
-                        new Pair<>((View) titleView, getString(R.string.transition_event_detail_title));
-                Pair<View, String>[] sharedViews = new Pair[]{sharedRootView, sharedTitleView};
+                        new Pair<>(titleView
+                                , getString(R.string.transition_event_detail_title));
+
+                View descriptionView = view.findViewById(R.id.tvEventDescription);
+                Pair<View, String> sharedDescriptionView =
+                        new Pair<>((View) descriptionView
+                                , getString(R.string.transition_event_detail_description));
+
+                View dateSectionView = view.findViewById(R.id.date_section);
+                Pair<View, String> sharedDateView =
+                        new Pair<>(dateSectionView
+                                , getString(R.string.transition_event_detail_date));
+
+                Pair<View, String>[] sharedViews = new Pair[]{
+                        sharedRootView
+                        , sharedTitleView
+                        , sharedDescriptionView
+                        , sharedDateView};
+
                 ActivityOptionsCompat options =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
                                 , sharedViews);

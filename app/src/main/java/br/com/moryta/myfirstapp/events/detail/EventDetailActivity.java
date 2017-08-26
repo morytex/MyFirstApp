@@ -30,6 +30,18 @@ public class EventDetailActivity extends AppCompatActivity
     @BindView(R.id.tvEventTitle)
     TextView tvEventTitle;
 
+    @BindView(R.id.tvEventDescription)
+    TextView tvEventDescription;
+
+    @BindView(R.id.tvEventDate)
+    TextView tvEventDate;
+
+    @BindView(R.id.tvEventTime)
+    TextView tvEventTime;
+
+    @BindView(R.id.tvEventAddress)
+    TextView tvEventAddress;
+
     private EventDetailContract.Presenter mPresenter;
 
     @Override
@@ -48,11 +60,14 @@ public class EventDetailActivity extends AppCompatActivity
 
         Long eventId = getIntent().getLongExtra(Event.class.getName(), 0);
         this.mEvent = this.mPresenter.getEvent(eventId);
-        // Setting Address again because I couldn't pass through Intent (greenDao issues)
         this.mEventPosition = new LatLng(this.mEvent.getAddress().getLatitude()
                 , this.mEvent.getAddress().getLongitude());
 
-        this.tvEventTitle.setText(mEvent.getTitle());
+        this.tvEventTitle.setText(this.mEvent.getTitle());
+        this.tvEventDescription.setText(this.mEvent.getDescription());
+        this.tvEventDate.setText(this.mEvent.getDate());
+        this.tvEventTime.setText(this.mEvent.getTime());
+        this.tvEventAddress.setText(this.mPresenter.buildAddressInfo(this.mEvent.getAddress()));
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

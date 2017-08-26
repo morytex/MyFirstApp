@@ -64,10 +64,15 @@
     <string name="error_message_email_password_required">Email and password cannot be empty</string>
     <string name="error_message_invalid_sign_in">Invalid email or password</string>
     <string name="error_message_auth_failed">Authentication failed</string>
+    <string name="error_message_loading_data">Error loadind data</string>
+
+
     <string name="date_format">DD/MM/YYYY</string>
 
 
     <!-- Transitions -->
     <string name="transition_event_detail">TRANSITION_EVENT_DETAIL</string>
     <string name="transition_event_detail_title">TRANSITION_EVENT_DETAIL_TITLE</string>
+    <string name="transition_event_detail_description">TRANSITION_EVENT_DETAIL_DESCRIPTION</string>
+    <string name="transition_event_detail_date">TRANSITION_EVENT_DETAIL_DATE</string>
 </resources>

@@ -52,7 +52,6 @@ public class HomeActivity extends AppCompatActivity
     NavigationView navigationView;
 
     TextView tvEmail;
-    TextView tvPetName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,6 @@ public class HomeActivity extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         this.tvEmail = ButterKnife.findById(headerView, R.id.tvEmail);
-        this.tvPetName = ButterKnife.findById(headerView, R.id.tvPetName);
 
         // HomeFragment
         this.mHomeFragment = HomeFragment.newInstance();
@@ -202,7 +200,6 @@ public class HomeActivity extends AppCompatActivity
                 .getString(getString(R.string.login_preference_email_key), null);
 
         this.tvEmail.setText(email);
-        this.tvPetName.setText(R.string.my_pet);
     }
 
     private void replaceContentWith(Fragment fragment) {

@@ -37,7 +37,8 @@
         <activity
             android:name=".events.register.EventRegisterActivity"
             android:label="@string/title_activity_register_event" />
-        <activity android:name=".events.detail.EventDetailActivity"></activity>
+        <activity android:name=".events.detail.EventDetailActivity"
+            android:label="@string/nav_events"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

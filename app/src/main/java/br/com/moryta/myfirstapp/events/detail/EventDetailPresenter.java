@@ -29,4 +29,13 @@ public class EventDetailPresenter implements EventDetailContract.Presenter {
     public Event getEvent(Long id) {
         return daoSession.getEventDao().load(id);
     }
+
+    @Override
+    public String buildAddressInfo(Address address) {
+        return String.format("%s, %s\n%s - %s"
+                , address.getStreet()
+                , address.getNumber()
+                , address.getCity()
+                , address.getState());
+    }
 }

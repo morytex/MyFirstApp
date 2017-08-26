@@ -2,6 +2,7 @@ package br.com.moryta.myfirstapp.events.detail;
 
 import br.com.moryta.myfirstapp.BasePresenter;
 import br.com.moryta.myfirstapp.BaseView;
+import br.com.moryta.myfirstapp.model.Address;
 import br.com.moryta.myfirstapp.model.Event;
 
 /**
@@ -15,5 +16,6 @@ public class EventDetailContract {
 
     interface Presenter extends BasePresenter {
         Event getEvent(Long id);
+        String buildAddressInfo(Address address);
     }
 }
