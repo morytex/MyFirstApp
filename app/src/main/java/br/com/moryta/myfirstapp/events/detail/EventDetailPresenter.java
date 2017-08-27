@@ -31,10 +31,15 @@ public class EventDetailPresenter implements EventDetailContract.Presenter {
     }
 
     @Override
-    public String buildAddressInfo(Address address) {
-        return String.format("%s, %s\n%s - %s"
+    public String buildEventStreetInfo(Address address) {
+        return String.format("%s, %s"
                 , address.getStreet()
-                , address.getNumber()
+                , address.getNumber());
+    }
+
+    @Override
+    public String buildEventCityInfo(Address address) {
+        return String.format("%s - %s"
                 , address.getCity()
                 , address.getState());
     }

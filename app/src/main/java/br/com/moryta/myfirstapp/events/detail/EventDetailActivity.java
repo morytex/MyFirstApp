@@ -39,8 +39,11 @@ public class EventDetailActivity extends AppCompatActivity
     @BindView(R.id.tvEventTime)
     TextView tvEventTime;
 
-    @BindView(R.id.tvEventAddress)
-    TextView tvEventAddress;
+    @BindView(R.id.tvEventStreet)
+    TextView tvEventStreet;
+
+    @BindView(R.id.tvEventCity)
+    TextView tvEventCity;
 
     private EventDetailContract.Presenter mPresenter;
 
@@ -60,19 +63,20 @@ public class EventDetailActivity extends AppCompatActivity
 
         Long eventId = getIntent().getLongExtra(Event.class.getName(), 0);
         this.mEvent = this.mPresenter.getEvent(eventId);
-        this.mEventPosition = new LatLng(this.mEvent.getAddress().getLatitude()
-                , this.mEvent.getAddress().getLongitude());
 
+        // Setting views
         this.tvEventTitle.setText(this.mEvent.getTitle());
         this.tvEventDescription.setText(this.mEvent.getDescription());
         this.tvEventDate.setText(this.mEvent.getDate());
         this.tvEventTime.setText(this.mEvent.getTime());
-        this.tvEventAddress.setText(this.mPresenter.buildAddressInfo(this.mEvent.getAddress()));
+        this.tvEventStreet.setText(this.mPresenter.buildEventStreetInfo(this.mEvent.getAddress()));
+        this.tvEventCity.setText(this.mPresenter.buildEventCityInfo(this.mEvent.getAddress()));
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Setting map
+        this.mEventPosition = new LatLng(this.mEvent.getAddress().getLatitude()
+                , this.mEvent.getAddress().getLongitude());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-
         mapFragment.getMapAsync(this);
     }
 

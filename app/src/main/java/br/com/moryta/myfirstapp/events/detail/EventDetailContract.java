@@ -16,6 +16,7 @@ public class EventDetailContract {
 
     interface Presenter extends BasePresenter {
         Event getEvent(Long id);
-        String buildAddressInfo(Address address);
+        String buildEventStreetInfo(Address address);
+        String buildEventCityInfo(Address address);
     }
 }

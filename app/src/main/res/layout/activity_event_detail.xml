@@ -7,100 +7,130 @@
     android:orientation="vertical"
     tools:context="br.com.moryta.myfirstapp.events.detail.EventDetailActivity">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/info_section"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_weight="0.4"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:transitionName="@string/transition_event_detail">
 
-        <TextView
-            android:id="@+id/tvEventTitle"
-            android:layout_width="match_parent"
-            android:layout_height="50px"
-            android:textStyle="bold"
-            android:transitionName="@string/transition_event_detail_title"
-            tools:text="Event title" />
-
-        <TextView
-            android:id="@+id/tvEventDescription"
-            android:layout_width="match_parent"
-            android:layout_height="100px"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:transitionName="@string/transition_event_detail_description"
-            tools:text="Event description" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:transitionName="@string/transition_event_detail_date"
-            android:layout_marginTop="@dimen/margin_half">
-
-            <ImageView
-                android:id="@+id/ivEventDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_today_black_24px" />
+            android:layout_margin="@dimen/default_margin"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvEventDate"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvEventTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ivEventDate"
-                android:layout_alignTop="@+id/ivEventDate"
-                android:layout_marginLeft="@dimen/margin_half"
-                android:layout_toRightOf="@+id/ivEventDate"
-                android:gravity="center"
-                tools:text="DD/MM/YYYY" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_half"
-            android:layout_marginBottom="@dimen/margin_half">
-
-            <ImageView
-                android:id="@+id/ivEventTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_access_time_black_24dp" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:transitionName="@string/transition_event_detail_title"
+                tools:text="Event title" />
 
             <TextView
-                android:id="@+id/tvEventTime"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvEventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:transitionName="@string/transition_event_detail_description"
+                tools:text="Event description" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ivEventTime"
-                android:layout_alignTop="@+id/ivEventTime"
-                android:layout_marginLeft="@dimen/margin_half"
-                android:layout_toRightOf="@+id/ivEventTime"
-                android:gravity="center"
-                tools:text="hh:mm" />
+                android:layout_marginTop="@dimen/margin_half"
+                android:transitionName="@string/transition_event_detail_date">
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/ivEventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_today_black_24px" />
 
-        <TextView
-            android:id="@+id/tvEventAddress"
-            android:layout_width="match_parent"
-            android:layout_height="100px"
-            android:layout_marginTop="@dimen/margin_half"
-            android:layout_marginBottom="@dimen/margin_half"
-            android:layout_gravity="bottom"
-            tools:text="Address"/>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tvEventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ivEventDate"
+                    android:layout_alignTop="@+id/ivEventDate"
+                    android:layout_marginLeft="@dimen/margin_half"
+                    android:layout_toRightOf="@+id/ivEventDate"
+                    android:gravity="center"
+                    tools:text="DD/MM/YYYY" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_half">
+
+                <ImageView
+                    android:id="@+id/ivEventTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_access_time_black_24dp" />
+
+                <TextView
+                    android:id="@+id/tvEventTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ivEventTime"
+                    android:layout_alignTop="@+id/ivEventTime"
+                    android:layout_marginLeft="@dimen/margin_half"
+                    android:layout_toRightOf="@+id/ivEventTime"
+                    android:gravity="center"
+                    tools:text="hh:mm" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_half"
+                android:layout_marginTop="@dimen/margin_half">
+
+                <ImageView
+                    android:id="@+id/ivEventAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_place_black_24dp" />
+
+                <TextView
+                    android:id="@+id/tvEventStreet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ivEventAddress"
+                    android:layout_alignTop="@+id/ivEventAddress"
+                    android:layout_marginLeft="@dimen/margin_half"
+                    android:layout_toRightOf="@+id/ivEventAddress"
+                    android:gravity="center"
+                    tools:text="Street, number" />
+
+                <TextView
+                    android:id="@+id/tvEventCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvEventStreet"
+                    android:layout_marginLeft="@dimen/margin_half"
+                    android:layout_toRightOf="@+id/ivEventAddress"
+                    tools:text="City, ST" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
     <android.support.v7.widget.CardView
         android:id="@+id/map_section"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6">
+        android:layout_weight="1">
 
         <fragment
             android:id="@+id/map"

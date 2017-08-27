@@ -88,7 +88,7 @@ public class EventsFragment extends Fragment implements EventsContract.View {
 
                 View descriptionView = view.findViewById(R.id.tvEventDescription);
                 Pair<View, String> sharedDescriptionView =
-                        new Pair<>((View) descriptionView
+                        new Pair<>(descriptionView
                                 , getString(R.string.transition_event_detail_description));
 
                 View dateSectionView = view.findViewById(R.id.date_section);
