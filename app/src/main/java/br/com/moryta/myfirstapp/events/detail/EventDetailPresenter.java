@@ -27,7 +27,7 @@ public class EventDetailPresenter implements EventDetailContract.Presenter {
 
     @Override
     public Event getEvent(Long id) {
-        return daoSession.getEventDao().load(id);
+        return daoSession.getEventDao().loadDeep(id);
     }
 
     @Override

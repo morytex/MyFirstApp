@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 import com.google.common.base.Strings;
 
 import java.util.Date;
+import java.util.List;
 
+import br.com.moryta.myfirstapp.model.Address;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Event;
+import br.com.moryta.myfirstapp.model.Pet;
 import br.com.moryta.myfirstapp.utils.DateUtil;
 import br.com.moryta.myfirstapp.utils.TimeUtil;
 
@@ -18,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 
 public class EventRegisterPresenter implements EventRegisterContract.Presenter {
+    private static final String TAG = "EventRegisterPresenter";
+
     private EventRegisterContract.View view;
     private DaoSession daoSession;
 
@@ -31,10 +36,26 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
     }
 
     @Override
-    public void addEvent(String title, Long petId, String date, String time) {
-        // TODO: Receive address parameters (state, city, stree, number, latitude, longitude)
-        Event event = new Event(null, petId, title, date, time);
-        this.daoSession.getEventDao().insert(event);
+    public List<Pet> fetchAllPets() {
+        return this.daoSession.getPetDao().loadAll();
+    }
+
+    @Override
+    public Event getOrCreateEvent(Long eventId) {
+        Event event = this.daoSession.getEventDao().loadDeep(eventId);
+        if (event == null) {
+            event = new Event();
+            event.setAddress(new Address());
+        }
+
+        return event;
+    }
+
+    @Override
+    public Long insertOrUpdateEvent(Event event) {
+        Long eventId = this.daoSession.getEventDao().insertOrReplace(event);
+        this.daoSession.clear();
+        return eventId;
     }
 
     @Override

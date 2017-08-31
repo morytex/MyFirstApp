@@ -118,4 +118,9 @@ public class Pet implements Parcelable{
             return new Pet[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

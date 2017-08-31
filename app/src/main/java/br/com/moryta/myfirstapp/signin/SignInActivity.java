@@ -39,6 +39,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.SharedPreferences.Editor;
+import static br.com.moryta.myfirstapp.signin.SignInContract.RC_EMAIL_PASSWORD_SIGN_UP;
+import static br.com.moryta.myfirstapp.signin.SignInContract.RC_GOOGLE_SIGN_IN;
 
 public class SignInActivity extends AppCompatActivity
         implements SignInContract.View
@@ -48,8 +50,6 @@ public class SignInActivity extends AppCompatActivity
         , GoogleApiClient.ConnectionCallbacks {
 
     private static final String TAG = "SignInActivity";
-    private static final int RC_GOOGLE_SIGN_IN = 9001;
-    private static final int RC_EMAIL_PASSWORD_SIGN_UP = 10001;
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
@@ -229,7 +229,6 @@ public class SignInActivity extends AppCompatActivity
         Intent signUpIntent = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivityForResult(signUpIntent, RC_EMAIL_PASSWORD_SIGN_UP);
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

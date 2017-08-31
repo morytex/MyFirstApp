@@ -26,7 +26,6 @@ public class PetRegisterActivity extends AppCompatActivity
         , View.OnClickListener
         , TextWatcher {
     private static final String TAG = "PetRegisterActivity";
-    private static final int RC_REGISTER_PET = 1001;
 
     @BindView(R.id.etPetName)
     EditText etPetName;
@@ -106,7 +105,7 @@ public class PetRegisterActivity extends AppCompatActivity
                 String breed = etPetBreed.getText().toString();
                 String birthDate = tvPetBirthDate.getText().toString();
                 mPresenter.addPet(name, breed, birthDate);
-                setResult(RC_REGISTER_PET);
+                setResult(RESULT_OK);
                 finish();
                 break;
             default:

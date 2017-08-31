@@ -4,6 +4,10 @@
 
     <string name="button_add">Add</string>
 
+    <!-- Menu actions-->
+    <string name="action_settings">Settings</string>
+    <string name="action_edit">Edit</string>
+
     <!-- Sign in/Sign up -->
     <string name="title_activity_sign_in">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>
@@ -21,7 +25,6 @@
     <!-- Home -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
     <string name="nav_home">Home</string>
     <string name="nav_add_pet">+ Pet</string>
     <string name="nav_about_us">About us</string>
@@ -54,21 +57,24 @@
     <!-- Events -->
     <string name="title_activity_register_event">Register event</string>
     <string name="hint_title">Title</string>
+    <string name="hint_description">Description (Optional)</string>
     <string name="hint_pet">Pet</string>
     <string name="hint_date">Date</string>
     <string name="hint_time">Time</string>
 
-
     <!-- Error messages -->
-    <string name="pet_registration_canceled">Pet registration canceled</string>
     <string name="error_message_email_password_required">Email and password cannot be empty</string>
+    <string name="error_message_date_required">Date cannot be empty</string>
     <string name="error_message_invalid_sign_in">Invalid email or password</string>
     <string name="error_message_auth_failed">Authentication failed</string>
     <string name="error_message_loading_data">Error loadind data</string>
 
+    <!-- Warning messages -->
+    <string name="warning_message_operation_canceled">Operation canceled</string>
 
+    <!-- Placeholders -->
     <string name="date_format">DD/MM/YYYY</string>
-
+    <string name="time_format">hh:mm</string>
 
     <!-- Transitions -->
     <string name="transition_event_detail">TRANSITION_EVENT_DETAIL</string>

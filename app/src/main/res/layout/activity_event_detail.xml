@@ -19,13 +19,29 @@
             android:layout_margin="@dimen/default_margin"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvEventTitle"
+
+            <ViewSwitcher
+                android:id="@+id/vsEventTitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:transitionName="@string/transition_event_detail_title"
-                tools:text="Event title" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvEventTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:transitionName="@string/transition_event_detail_title"
+                    tools:text="Event title" />
+
+                <EditText
+                    android:id="@+id/etEventTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+            </ViewSwitcher>
 
             <TextView
                 android:id="@+id/tvEventDescription"

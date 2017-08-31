@@ -15,7 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import br.com.moryta.myfirstapp.OnItemClickListener;
+import java.util.List;
+
+import br.com.moryta.myfirstapp.CustomOnItemClickListener;
+import br.com.moryta.myfirstapp.Extras;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.events.detail.EventDetailActivity;
 import br.com.moryta.myfirstapp.model.Event;
@@ -33,8 +36,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use the {@link EventsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EventsFragment extends Fragment implements EventsContract.View {
-    private static final int RC_REGISTER_EVENT = 1001;
+public class EventsFragment extends Fragment
+        implements EventsContract.View
+        , CustomOnItemClickListener {
+
     private OnFragmentInteractionListener mListener;
 
     private EventsAdapter mEventsAdapter;
@@ -44,10 +49,12 @@ public class EventsFragment extends Fragment implements EventsContract.View {
     RecyclerView rvEvents;
 
     private Unbinder unbinder;
+    private boolean isResuming;
 
     public EventsFragment() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -72,45 +79,9 @@ public class EventsFragment extends Fragment implements EventsContract.View {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         unbinder = ButterKnife.bind(EventsFragment.this, view);
 
-        OnItemClickListener onItemClickListener = new OnItemClickListener() {
-            @Override
-            public void onItemClick(Object item, View view) {
-                Intent intent = new Intent(getActivity(), EventDetailActivity.class);
-                intent.putExtra(Event.class.getName(), ((Event) item).getId());
-
-                Pair<View, String> sharedRootView =
-                        new Pair<>(view, getString(R.string.transition_event_detail));
-
-                View titleView = view.findViewById(R.id.tvEventTitle);
-                Pair<View, String> sharedTitleView =
-                        new Pair<>(titleView
-                                , getString(R.string.transition_event_detail_title));
-
-                View descriptionView = view.findViewById(R.id.tvEventDescription);
-                Pair<View, String> sharedDescriptionView =
-                        new Pair<>(descriptionView
-                                , getString(R.string.transition_event_detail_description));
-
-                View dateSectionView = view.findViewById(R.id.date_section);
-                Pair<View, String> sharedDateView =
-                        new Pair<>(dateSectionView
-                                , getString(R.string.transition_event_detail_date));
-
-                Pair<View, String>[] sharedViews = new Pair[]{
-                        sharedRootView
-                        , sharedTitleView
-                        , sharedDescriptionView
-                        , sharedDateView};
-
-                ActivityOptionsCompat options =
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
-                                , sharedViews);
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
-            }
-        };
-
         // Setting recycler view
-        this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), onItemClickListener);
+        this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), this);
+        this.isResuming = false;
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration decoration = new DividerItemDecoration(getActivity()
@@ -148,8 +119,60 @@ public class EventsFragment extends Fragment implements EventsContract.View {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        if (this.isResuming) {
+            this.update(this.mEventsPresenter.fetchAllEvents());
+        }
+
+        this.isResuming = true;
+    }
+
+    @Override
     public void setPresenter(@NonNull EventsContract.Presenter presenter) {
         this.mEventsPresenter = checkNotNull(presenter, "presenter cannot be null!");
+    }
+
+    @Override
+    public void onItemClick(Object item, View view) {
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        // TODO: After greendao is removed, pass object through Intent
+        intent.putExtra(Extras.EVENT_ID, ((Event) item).getId());
+
+        Pair<View, String> sharedRootView =
+                new Pair<>(view, getString(R.string.transition_event_detail));
+
+        View titleView = view.findViewById(R.id.tvEventTitle);
+        Pair<View, String> sharedTitleView =
+                new Pair<>(titleView
+                        , getString(R.string.transition_event_detail_title));
+
+        View descriptionView = view.findViewById(R.id.tvEventDescription);
+        Pair<View, String> sharedDescriptionView =
+                new Pair<>(descriptionView
+                        , getString(R.string.transition_event_detail_description));
+
+        View dateSectionView = view.findViewById(R.id.date_section);
+        Pair<View, String> sharedDateView =
+                new Pair<>(dateSectionView
+                        , getString(R.string.transition_event_detail_date));
+
+        Pair<View, String>[] sharedViews = new Pair[]{
+                sharedRootView
+                , sharedTitleView
+                , sharedDescriptionView
+                , sharedDateView};
+
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
+                        , sharedViews);
+        ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+    }
+
+    @Override
+    public void update(List<Event> eventList) {
+        this.mEventsAdapter.update(eventList);
     }
 
     /**

@@ -76,6 +76,8 @@ public class HomeActivity extends AppCompatActivity
         this.mEventsFragment = EventsFragment.newInstance();
         this.mEventsPresenter = new EventsPresenter(this.mEventsFragment
                 , ((MyApplication) getApplication()).getDaoSession());
+        this.mEventsPresenter.start();
+
 
         // AboutUsFragment
         this.mAboutUsFragment = AboutUsFragment.newInstance();
@@ -89,6 +91,11 @@ public class HomeActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_home, this.mHomeFragment)
                 .commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override

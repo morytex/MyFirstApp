@@ -7,4 +7,6 @@ package br.com.moryta.myfirstapp;
 public interface Extras {
     String PET_ID = "PET_ID";
     String PET_NAME = "PE_NAME";
+
+    String EVENT_ID = "EVENT_ID";
 }

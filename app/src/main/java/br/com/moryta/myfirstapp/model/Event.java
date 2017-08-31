@@ -59,13 +59,15 @@ public class Event implements Parcelable {
     }
 
     public Event() {
+        this.address = new Address();
     }
 
-    public Event(Long id, @NotNull Long petId, @NotNull String title, @NotNull String date
+    public Event(Long id, @NotNull Long petId, @NotNull String title, String description, @NotNull String date
             , @NotNull String time) {
         this.id = id;
         this.petId = petId;
         this.title = title;
+        this.description = description;
         this.date = date;
         this.time = time;
     }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.moryta.myfirstapp.OnItemClickListener;
+import br.com.moryta.myfirstapp.CustomOnItemClickListener;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.SimpleItemTouchHelperAdapter;
 import br.com.moryta.myfirstapp.model.Event;
@@ -23,9 +23,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
     implements SimpleItemTouchHelperAdapter {
 
     private List<Event> eventList;
-    private OnItemClickListener itemClickListener;
+    private CustomOnItemClickListener itemClickListener;
 
-    public EventsAdapter(List<Event> eventList, OnItemClickListener itemClickListener) {
+    public EventsAdapter(List<Event> eventList, CustomOnItemClickListener itemClickListener) {
         this.eventList = eventList;
         this.itemClickListener = itemClickListener;
     }

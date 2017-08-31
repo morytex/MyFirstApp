@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import br.com.moryta.myfirstapp.R;
+import br.com.moryta.myfirstapp.signin.SignInContract;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -25,7 +26,6 @@ public class SignUpActivity extends AppCompatActivity
         , FirebaseAuth.AuthStateListener {
 
     private static final String TAG = "SignUpActivity";
-    private static final int RC_EMAIL_PASSWORD_SIGN_UP = 10001;
 
     @BindView(R.id.etEmail)
     EditText etEmail;
@@ -113,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity
         if (user != null) {
             // User is signed in
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-            setResult(RC_EMAIL_PASSWORD_SIGN_UP);
+            setResult(SignInContract.RC_EMAIL_PASSWORD_SIGN_UP);
             finish();
         } else {
             // User is signed out

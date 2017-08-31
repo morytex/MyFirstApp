@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_half"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:transitionName="@string/transition_event_detail_title"
                 tools:text="Event title" />
 
