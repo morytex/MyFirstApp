@@ -1,5 +1,7 @@
 package br.com.moryta.myfirstapp.pets.register;
 
+import java.util.Date;
+
 import br.com.moryta.myfirstapp.BasePresenter;
 import br.com.moryta.myfirstapp.BaseView;
 
@@ -14,6 +16,9 @@ public interface PetRegisterContract {
 
     interface Presenter extends BasePresenter {
         void addPet(String name, String breed, String birthDate);
+
         boolean isPetDataFilled(String name, String breed, String birthDate);
+
+        String formatDate(Date date);
     }
 }

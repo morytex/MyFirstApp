@@ -17,7 +17,6 @@ import java.util.Date;
 import br.com.moryta.myfirstapp.DatePickerFragment;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
-import br.com.moryta.myfirstapp.utils.DateUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,7 +26,6 @@ public class PetRegisterActivity extends AppCompatActivity
         , View.OnClickListener
         , TextWatcher {
     private static final String TAG = "PetRegisterActivity";
-    private static final int RC_REGISTER_PET = 1001;
 
     @BindView(R.id.etPetName)
     EditText etPetName;
@@ -50,13 +48,10 @@ public class PetRegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_register);
 
-        ButterKnife.bind(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Adding watcher on fields to disable/enable register button
-        btnRegisterPet.setEnabled(false);
-        etPetName.addTextChangedListener(this);
-        etPetBreed.addTextChangedListener(this);
-        tvPetBirthDate.addTextChangedListener(this);
+        ButterKnife.bind(this);
 
         // Setting click listener
         ivPetBirthDate.setOnClickListener(this);
@@ -87,10 +82,22 @@ public class PetRegisterActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void setPresenter(PetRegisterContract.Presenter presenter) {
+        // Not necessary, because we instantiate presenter in this activity
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivPetBirthDate:
-                DialogFragment dialogFragment = DatePickerFragment.newInstance(this);
+                DialogFragment dialogFragment = DatePickerFragment.newInstance(this
+                        , DatePickerFragment.PAST_OR_PRESENT_DATES);
                 dialogFragment.show(getSupportFragmentManager(), "petBirhDate");
                 break;
             case R.id.btnRegisterPet:
@@ -98,7 +105,7 @@ public class PetRegisterActivity extends AppCompatActivity
                 String breed = etPetBreed.getText().toString();
                 String birthDate = tvPetBirthDate.getText().toString();
                 mPresenter.addPet(name, breed, birthDate);
-                setResult(RC_REGISTER_PET);
+                setResult(RESULT_OK);
                 finish();
                 break;
             default:
@@ -112,12 +119,7 @@ public class PetRegisterActivity extends AppCompatActivity
             return;
         }
 
-        this.tvPetBirthDate.setText(DateUtil.format(date));
-    }
-
-    @Override
-    public void setPresenter(PetRegisterContract.Presenter presenter) {
-        // Not necessary, because we instantiate presenter in this activity
+        this.tvPetBirthDate.setText(this.mPresenter.formatDate(date));
     }
 
     @Override
@@ -132,11 +134,11 @@ public class PetRegisterActivity extends AppCompatActivity
 
     @Override
     public void afterTextChanged(Editable s) {
-        String name = etPetName.getText().toString();
-        String breed = etPetBreed.getText().toString();
-        String birthDate = tvPetBirthDate.getText().toString();
+        String name = this.etPetName.getText().toString();
+        String breed = this.etPetBreed.getText().toString();
+        String birthDate = this.tvPetBirthDate.getText().toString();
 
         btnRegisterPet.setEnabled(
-                mPresenter.isPetDataFilled(name, breed, birthDate));
+                this.mPresenter.isPetDataFilled(name, breed, birthDate));
     }
 }

@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.google.common.base.Strings;
 
+import java.util.Date;
+
 import br.com.moryta.myfirstapp.enums.PetTypeEnum;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Pet;
@@ -36,7 +38,7 @@ public class PetRegisterPresenter implements PetRegisterContract.Presenter {
         Pet pet = new Pet(null, PetTypeEnum.DOG, name, breed, birthDate);
         PetDao petDao = this.daoSession.getPetDao();
         // TODO: Validate if pet already exists (verify tuple name + breed)
-        petDao.insert(pet);
+        long petId = petDao.insert(pet);
     }
 
     @Override
@@ -45,5 +47,10 @@ public class PetRegisterPresenter implements PetRegisterContract.Presenter {
                 && !Strings.isNullOrEmpty(breed)
                 && !Strings.isNullOrEmpty(birthDate)
                 && DateUtil.isValidFormat(birthDate);
+    }
+
+    @Override
+    public String formatDate(Date date) {
+        return DateUtil.format(date);
     }
 }

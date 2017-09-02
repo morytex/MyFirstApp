@@ -70,7 +70,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
     @Override
     public void onFetchDefaultUserError() {
-        Toast.makeText(this, "Error loadind data", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.error_message_loading_data), Toast.LENGTH_LONG).show();
     }
 
     @Override

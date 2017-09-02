@@ -37,7 +37,6 @@
         style="@style/InputLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="0dp"
         android:text="@string/hint_birth_date" />
 
     <RelativeLayout
@@ -46,20 +45,20 @@
 
         <TextView
             android:id="@+id/tvPetBirthDate"
+            style="@style/EditTextImitation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/EditTextImitation"
             android:hint="DD/MM/YYYY" />
 
         <ImageView
             android:id="@+id/ivPetBirthDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="@dimen/default_padding"
-            android:src="@drawable/ic_today_black_24px"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/default_padding"
+            android:src="@drawable/ic_today_primary_dark_24px" />
 
     </RelativeLayout>
 
@@ -67,7 +66,8 @@
         android:id="@+id/btnRegisterPet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_add_pet"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/button_add"
         android:textAllCaps="false" />
 
 </LinearLayout>

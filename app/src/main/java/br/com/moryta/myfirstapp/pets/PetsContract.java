@@ -11,8 +11,9 @@ import br.com.moryta.myfirstapp.model.Pet;
  */
 
 public interface PetsContract {
-    interface View extends BaseView<PetsContract.Presenter> {
+    int RC_REGISTER_PET = 1001;
 
+    interface View extends BaseView<PetsContract.Presenter> {
     }
 
     interface Presenter extends BasePresenter {

@@ -21,6 +21,8 @@ import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.aboutus.AboutUsFragment;
 import br.com.moryta.myfirstapp.aboutus.AboutUsPresenter;
+import br.com.moryta.myfirstapp.events.EventsFragment;
+import br.com.moryta.myfirstapp.events.EventsPresenter;
 import br.com.moryta.myfirstapp.pets.PetsFragment;
 import br.com.moryta.myfirstapp.pets.PetsPresenter;
 import br.com.moryta.myfirstapp.signin.SignInActivity;
@@ -31,6 +33,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
         , HomeFragment.OnFragmentInteractionListener
         , PetsFragment.OnFragmentInteractionListener
+        , EventsFragment.OnFragmentInteractionListener
         , AboutUsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "HomeActivity";
@@ -38,6 +41,8 @@ public class HomeActivity extends AppCompatActivity
     private HomeFragment mHomeFragment;
     private PetsFragment mPetsFragment;
     private PetsPresenter mPetsPresenter;
+    private EventsFragment mEventsFragment;
+    private EventsPresenter mEventsPresenter;
     private AboutUsFragment mAboutUsFragment;
     private AboutUsPresenter mAboutUsPresenter;
 
@@ -47,7 +52,6 @@ public class HomeActivity extends AppCompatActivity
     NavigationView navigationView;
 
     TextView tvEmail;
-    TextView tvPetName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,6 @@ public class HomeActivity extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         this.tvEmail = ButterKnife.findById(headerView, R.id.tvEmail);
-        this.tvPetName = ButterKnife.findById(headerView, R.id.tvPetName);
 
         // HomeFragment
         this.mHomeFragment = HomeFragment.newInstance();
@@ -68,6 +71,13 @@ public class HomeActivity extends AppCompatActivity
         this.mPetsPresenter = new PetsPresenter(this.mPetsFragment
                 , ((MyApplication) getApplication()).getDaoSession());
         this.mPetsPresenter.start();
+
+        // EventsFragment
+        this.mEventsFragment = EventsFragment.newInstance();
+        this.mEventsPresenter = new EventsPresenter(this.mEventsFragment
+                , ((MyApplication) getApplication()).getDaoSession());
+        this.mEventsPresenter.start();
+
 
         // AboutUsFragment
         this.mAboutUsFragment = AboutUsFragment.newInstance();
@@ -81,6 +91,11 @@ public class HomeActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_home, this.mHomeFragment)
                 .commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -131,6 +146,10 @@ public class HomeActivity extends AppCompatActivity
                 setTitle(R.string.nav_pets);
                 this.replaceContentWith(this.mPetsFragment);
                 break;
+            case R.id.nav_events:
+                setTitle(R.string.nav_events);
+                this.replaceContentWith(this.mEventsFragment);
+                break;
             case R.id.nav_about_us:
                 setTitle(R.string.nav_about_us);
                 this.replaceContentWith(this.mAboutUsFragment);
@@ -164,6 +183,11 @@ public class HomeActivity extends AppCompatActivity
         // Do something
     }
 
+    @Override
+    public void onEventsFragmentInteraction() {
+        // DO something
+    }
+
     private void configureNavigationDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -183,7 +207,6 @@ public class HomeActivity extends AppCompatActivity
                 .getString(getString(R.string.login_preference_email_key), null);
 
         this.tvEmail.setText(email);
-        this.tvPetName.setText(R.string.my_pet);
     }
 
     private void replaceContentWith(Fragment fragment) {
@@ -194,5 +217,4 @@ public class HomeActivity extends AppCompatActivity
                 .addToBackStack(TAG)
                 .commit();
     }
-
 }

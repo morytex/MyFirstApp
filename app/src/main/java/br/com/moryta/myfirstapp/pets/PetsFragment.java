@@ -21,6 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static android.app.Activity.RESULT_OK;
+import static br.com.moryta.myfirstapp.pets.PetsContract.RC_REGISTER_PET;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -32,8 +34,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * create an instance of this fragment.
  */
 public class PetsFragment extends Fragment implements PetsContract.View {
-    private static final int RC_REGISTER_PET = 1001;
-
     private OnFragmentInteractionListener mListener;
 
     private PetsAdapter mPetsAdapter;
@@ -57,7 +57,6 @@ public class PetsFragment extends Fragment implements PetsContract.View {
      *
      * @return A new instance of fragment PetsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static PetsFragment newInstance() {
         PetsFragment fragment = new PetsFragment();
         return fragment;
@@ -101,12 +100,16 @@ public class PetsFragment extends Fragment implements PetsContract.View {
         // Setting ItemTouchHelper on recycler view
         ItemTouchHelper.SimpleCallback callback =
                 new ItemTouchHelper.SimpleCallback(
-                        0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                        ItemTouchHelper.ACTION_STATE_IDLE
+                        , ItemTouchHelper.LEFT) {
+
                     @Override
                     public boolean onMove(RecyclerView recyclerView
                             , RecyclerView.ViewHolder viewHolder
                             , RecyclerView.ViewHolder target) {
 
+                        Toast.makeText(getActivity(), "On move"
+                                , Toast.LENGTH_SHORT).show();
                         return mPetsAdapter.onItemMoved(viewHolder.getAdapterPosition()
                                 , target.getAdapterPosition());
                     }
@@ -158,8 +161,10 @@ public class PetsFragment extends Fragment implements PetsContract.View {
 
         switch (requestCode) {
             case RC_REGISTER_PET:
-                if (resultCode != RC_REGISTER_PET) {
-                    Toast.makeText(getActivity(), "Failed to register pet"
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(
+                            getActivity()
+                            , getString(R.string.warning_message_operation_canceled)
                             , Toast.LENGTH_SHORT).show();
                     return;
                 }
