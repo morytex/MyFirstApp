@@ -2,7 +2,6 @@ package br.com.moryta.myfirstapp.events.detail;
 
 import android.support.annotation.NonNull;
 
-import br.com.moryta.myfirstapp.model.Address;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Event;
 
@@ -26,21 +25,26 @@ public class EventDetailPresenter implements EventDetailContract.Presenter {
     }
 
     @Override
-    public Event getEvent(Long id) {
-        return daoSession.getEventDao().loadDeep(id);
+    public void loadEvent(Long id) {
+        Event event = daoSession.getEventDao().loadDeep(id);
+        this.view.onEventLoaded(event.getTitle(), event.getDescription()
+                , event.getDate(), event.getTime()
+                , event.getAddress().getStreet(), event.getAddress().getNumber()
+                , event.getAddress().getCity(), event.getAddress().getState()
+                , event.getAddress().getLatitude(), event.getAddress().getLongitude());
     }
 
     @Override
-    public String buildEventStreetInfo(Address address) {
+    public String buildEventStreetInfo(String street, String addressNumber) {
         return String.format("%s, %s"
-                , address.getStreet()
-                , address.getNumber());
+                , street
+                , addressNumber);
     }
 
     @Override
-    public String buildEventCityInfo(Address address) {
+    public String buildEventCityInfo(String city, String state) {
         return String.format("%s - %s"
-                , address.getCity()
-                , address.getState());
+                , city
+                , state);
     }
 }

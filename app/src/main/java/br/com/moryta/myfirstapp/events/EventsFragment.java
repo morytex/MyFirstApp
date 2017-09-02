@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,11 +23,14 @@ import br.com.moryta.myfirstapp.CustomOnItemClickListener;
 import br.com.moryta.myfirstapp.Extras;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.events.detail.EventDetailActivity;
+import br.com.moryta.myfirstapp.events.register.EventRegisterActivity;
 import br.com.moryta.myfirstapp.model.Event;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static android.app.Activity.RESULT_OK;
+import static br.com.moryta.myfirstapp.events.EventsContract.RC_REGISTER_EVENT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -48,8 +53,10 @@ public class EventsFragment extends Fragment
     @BindView(R.id.rvEvents)
     RecyclerView rvEvents;
 
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
     private Unbinder unbinder;
-    private boolean isResuming;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -79,9 +86,20 @@ public class EventsFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         unbinder = ButterKnife.bind(EventsFragment.this, view);
 
+        // Setting floating action button (register pet button)
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), EventRegisterActivity.class);
+                startActivityForResult(intent, RC_REGISTER_EVENT);
+            }
+        });
+
         // Setting recycler view
         this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), this);
-        this.isResuming = false;
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration decoration = new DividerItemDecoration(getActivity()
@@ -121,12 +139,7 @@ public class EventsFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-
-        if (this.isResuming) {
-            this.update(this.mEventsPresenter.fetchAllEvents());
-        }
-
-        this.isResuming = true;
+        this.update(this.mEventsPresenter.fetchAllEvents());
     }
 
     @Override
@@ -168,6 +181,25 @@ public class EventsFragment extends Fragment
                 ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
                         , sharedViews);
         ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RC_REGISTER_EVENT:
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(
+                            getActivity()
+                            , getString(R.string.warning_message_operation_canceled)
+                            , Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mEventsAdapter.update(mEventsPresenter.fetchAllEvents());
+                break;
+            default:
+        }
     }
 
     @Override

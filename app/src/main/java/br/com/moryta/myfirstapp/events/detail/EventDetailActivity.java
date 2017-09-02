@@ -19,7 +19,6 @@ import br.com.moryta.myfirstapp.Extras;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.events.register.EventRegisterActivity;
-import br.com.moryta.myfirstapp.model.Event;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,7 +33,7 @@ public class EventDetailActivity extends AppCompatActivity
 
     private GoogleMap mMap;
     private LatLng mEventPosition;
-    private Event mEvent;
+    private Long eventId;
 
     @BindView(R.id.tvEventTitle)
     TextView tvEventTitle;
@@ -70,27 +69,8 @@ public class EventDetailActivity extends AppCompatActivity
         this.mPresenter = new EventDetailPresenter(EventDetailActivity.this
                 , ((MyApplication) getApplication()).getDaoSession());
 
-        Long eventId = getIntent().getLongExtra(Extras.EVENT_ID, NO_EVENT_ID);
-        this.mEvent = this.mPresenter.getEvent(eventId);
-
-        // Setting views
-        this.setViews();
-    }
-
-    private void setViews() {
-        this.tvEventTitle.setText(this.mEvent.getTitle());
-        this.tvEventDescription.setText(this.mEvent.getDescription());
-        this.tvEventDate.setText(this.mEvent.getDate());
-        this.tvEventTime.setText(this.mEvent.getTime());
-        this.tvEventStreet.setText(this.mPresenter.buildEventStreetInfo(this.mEvent.getAddress()));
-        this.tvEventCity.setText(this.mPresenter.buildEventCityInfo(this.mEvent.getAddress()));
-
-        // Setting map
-        this.mEventPosition = new LatLng(this.mEvent.getAddress().getLatitude()
-                , this.mEvent.getAddress().getLongitude());
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        this.eventId = getIntent().getLongExtra(Extras.EVENT_ID, NO_EVENT_ID);
+        this.mPresenter.loadEvent(eventId);
     }
 
     @Override
@@ -112,7 +92,7 @@ public class EventDetailActivity extends AppCompatActivity
                 // Start register event activity passing event id
                 // TODO: After greendao is removed, pass object through Intent
                 Intent intent = new Intent(EventDetailActivity.this, EventRegisterActivity.class);
-                intent.putExtra(Extras.EVENT_ID, this.mEvent.getId());
+                intent.putExtra(Extras.EVENT_ID, this.eventId);
                 startActivityForResult(intent, RC_UPDATE_EVENT);
                 break;
             default:
@@ -125,6 +105,25 @@ public class EventDetailActivity extends AppCompatActivity
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onEventLoaded(String title, String description
+            , String date, String time, String street
+            , String addressNumber, String city, String state
+            , double latitude, double longitude) {
+        this.tvEventTitle.setText(title);
+        this.tvEventDescription.setText(description);
+        this.tvEventDate.setText(date);
+        this.tvEventTime.setText(time);
+        this.tvEventStreet.setText(this.mPresenter.buildEventStreetInfo(street, addressNumber));
+        this.tvEventCity.setText(this.mPresenter.buildEventCityInfo(city, state));
+
+        // Setting map
+        this.mEventPosition = new LatLng(latitude, longitude);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -152,9 +151,7 @@ public class EventDetailActivity extends AppCompatActivity
                     return;
                 }
                 Long eventId = data.getLongExtra(Extras.EVENT_ID, 0);
-                this.mEvent = this.mPresenter.getEvent(eventId);
-
-                this.setViews();
+                this.mPresenter.loadEvent(eventId);
                 break;
         }
 

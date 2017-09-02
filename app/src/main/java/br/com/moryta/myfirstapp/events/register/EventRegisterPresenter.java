@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.google.common.base.Strings;
 
+import org.greenrobot.greendao.database.Database;
+
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
 
     private EventRegisterContract.View view;
     private DaoSession daoSession;
+    private Event mEvent;
 
     public EventRegisterPresenter(@NonNull EventRegisterContract.View view, @NonNull DaoSession daoSession) {
         this.view = checkNotNull(view, "view cannot be null!");
@@ -41,21 +44,53 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
     }
 
     @Override
-    public Event getOrCreateEvent(Long eventId) {
-        Event event = this.daoSession.getEventDao().loadDeep(eventId);
-        if (event == null) {
-            event = new Event();
-            event.setAddress(new Address());
+    public void loadEvent(Long eventId) {
+        this.mEvent = this.daoSession.getEventDao().loadDeep(eventId);
+        if (this.mEvent == null) {
+            this.mEvent = new Event();
+            this.mEvent.setAddress(new Address());
         }
 
-        return event;
+        this.view.onEventLoaded(this.mEvent.getPetId()
+                , this.mEvent.getTitle(), this.mEvent.getDescription()
+                , this.mEvent.getDate(), this.mEvent.getTime());
     }
 
     @Override
-    public Long insertOrUpdateEvent(Event event) {
-        Long eventId = this.daoSession.getEventDao().insertOrReplace(event);
+    public Long insertOrUpdateEvent(Long petId, String title, String description
+            , String date, String time, String state, String city, String street
+            , String addressNumber, double latitude, double longitude) {
+        
+        this.mEvent.setPetId(petId);
+        this.mEvent.setTitle(title);
+        this.mEvent.setDescription(description);
+        this.mEvent.setDate(date);
+        this.mEvent.setTime(time);
+
+        Address address = new Address();
+        address.setState(state);
+        address.setCity(city);
+        address.setStreet(street);
+        address.setNumber(addressNumber);
+        address.setLatitude(latitude);
+        address.setLongitude(longitude);
+
+        Database db = daoSession.getDatabase();
+        db.beginTransaction();
+        try {
+            Long addressId = daoSession.getAddressDao().insertOrReplace(address);
+            address.setId(addressId);
+            this.mEvent.setAddress(address);
+            this.daoSession.getEventDao().insertOrReplace(this.mEvent);
+
+            db.setTransactionSuccessful();
+        } catch (Exception ex) {
+        } finally {
+            db.endTransaction();
+        }
+
         this.daoSession.clear();
-        return eventId;
+        return this.mEvent.getId();
     }
 
     @Override

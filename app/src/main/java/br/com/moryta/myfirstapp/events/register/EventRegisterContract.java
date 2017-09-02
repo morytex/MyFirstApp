@@ -6,7 +6,6 @@ import java.util.List;
 import br.com.moryta.myfirstapp.BasePresenter;
 import br.com.moryta.myfirstapp.BaseView;
 import br.com.moryta.myfirstapp.events.EventsContract;
-import br.com.moryta.myfirstapp.model.Event;
 import br.com.moryta.myfirstapp.model.Pet;
 
 /**
@@ -17,15 +16,17 @@ public interface EventRegisterContract {
     Long NO_EVENT_ID = 0L;
 
     interface View extends BaseView<EventsContract.Presenter> {
-
+        void onEventLoaded(Long petId, String title, String description, String date, String time);
     }
 
     interface Presenter extends BasePresenter {
         List<Pet> fetchAllPets();
 
-        Event getOrCreateEvent(Long eventId);
+        void loadEvent(Long eventId);
 
-        Long insertOrUpdateEvent(Event event);
+        Long insertOrUpdateEvent(Long petId, String title, String description
+                , String date, String time, String state, String city, String street
+                , String addressNumber, double latitude, double longitude);
 
         boolean isEventDataFilled(String title, String date, String time);
 

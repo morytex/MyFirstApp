@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,6 @@ import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.TimePickerFragment;
 import br.com.moryta.myfirstapp.events.EventsContract;
-import br.com.moryta.myfirstapp.model.Event;
 import br.com.moryta.myfirstapp.model.Pet;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +42,6 @@ public class EventRegisterActivity extends AppCompatActivity
     private static final String TAG = "EventRegisterActivity";
 
     private Long petId;
-    private Event mEvent;
     private Boolean hasSelectedPet;
 
     @BindView(R.id.sPets)
@@ -57,8 +56,14 @@ public class EventRegisterActivity extends AppCompatActivity
     @BindView(R.id.tvEventDate)
     TextView tvEventDate;
 
+    @BindView(R.id.ivEventDate)
+    ImageView ivEventDate;
+
     @BindView(R.id.tvEventTime)
     TextView tvEventTime;
+
+    @BindView(R.id.ivEventTime)
+    ImageView ivEventTime;
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
@@ -74,38 +79,16 @@ public class EventRegisterActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        // Setting click listener
+        this.ivEventDate.setOnClickListener(this);
+        this.ivEventTime.setOnClickListener(this);
+
         // Instance of presenter
         this.mPresenter = new EventRegisterPresenter(EventRegisterActivity.this
                 , ((MyApplication) getApplication()).getDaoSession());
 
         Long eventId = getIntent().getLongExtra(Extras.EVENT_ID, NO_EVENT_ID);
-        this.mEvent = this.mPresenter.getOrCreateEvent(eventId);
-
-        // Setting views
-        this.setViews();
-        this.petId = this.mEvent.getPetId();
-    }
-
-    private void setViews() {
-        this.etEventTitle.setText(this.mEvent.getTitle());
-        this.etEventDescription.setText(this.mEvent.getDescription());
-        this.tvEventDate.setText(this.mEvent.getDate());
-        this.tvEventTime.setText(this.mEvent.getTime());
-
-        fab.setEnabled(this.mPresenter.isEventDataFilled(
-                this.mEvent.getTitle()
-                , this.mEvent.getDate()
-                , this.mEvent.getTime()));
-
-        // TODO: Remove spinner after refactoring to exclude insert of more than one pet
-        ArrayList<Pet> petList = new ArrayList<>(this.mPresenter.fetchAllPets());
-        ArrayAdapter<Pet> spinnerArrayAdapter = new ArrayAdapter<>(EventRegisterActivity.this
-                , R.layout.support_simple_spinner_dropdown_item
-                , petList);
-        this.sPets.setAdapter(spinnerArrayAdapter);
-        int position = this.mEvent.getPet() != null ? petList.indexOf(this.mEvent.getPet()) : 0;
-        this.sPets.setSelection(position);
-
+        this.mPresenter.loadEvent(eventId);
     }
 
     @Override
@@ -156,20 +139,15 @@ public class EventRegisterActivity extends AppCompatActivity
                 timePickerFragment.show(getSupportFragmentManager(), "eventTime");
                 break;
             case R.id.fab:
-                this.mEvent.setPetId(this.petId);
-                this.mEvent.setTitle(this.etEventTitle.getText().toString());
-                this.mEvent.setDescription(this.etEventDescription.getText().toString());
-                this.mEvent.setDate(this.tvEventDate.getText().toString());
-                this.mEvent.setTime(this.tvEventTime.getText().toString());
+                Long savedEventId = this.mPresenter.insertOrUpdateEvent(this.petId
+                        , this.etEventTitle.getText().toString()
+                        , this.etEventDescription.getText().toString()
+                        , this.tvEventDate.getText().toString()
+                        , this.tvEventTime.getText().toString()
+                        , "SP", "São Paulo", "Av. Paulista"
+                        , "1100", -23.564149, -46.652484
+                );
 
-                this.mEvent.getAddress().setState("SP");
-                this.mEvent.getAddress().setCity("São Paulo");
-                this.mEvent.getAddress().setStreet("Av. Paulista");
-                this.mEvent.getAddress().setNumber("Av. Paulista");
-                this.mEvent.getAddress().setLatitude(-23.564149);
-                this.mEvent.getAddress().setLongitude(-46.652484);
-
-                Long savedEventId = this.mPresenter.insertOrUpdateEvent(this.mEvent);
                 // TODO: Trigger this on callback after async task in presenter finishes insert/update
                 Intent intent = new Intent();
                 intent.putExtra(Extras.EVENT_ID, savedEventId);
@@ -179,6 +157,25 @@ public class EventRegisterActivity extends AppCompatActivity
                 break;
             default:
         }
+    }
+
+    @Override
+    public void onEventLoaded(Long petId, String title, String description, String date, String time) {
+        this.petId = petId;
+
+        this.etEventTitle.setText(title);
+        this.etEventDescription.setText(description);
+        this.tvEventDate.setText(date);
+        this.tvEventTime.setText(time);
+
+        fab.setEnabled(this.mPresenter.isEventDataFilled(title, date, time));
+
+        // TODO: Remove spinner after refactoring to exclude insert of more than one pet
+        ArrayAdapter<Pet> spinnerArrayAdapter = new ArrayAdapter<>(EventRegisterActivity.this
+                , R.layout.support_simple_spinner_dropdown_item
+                , new ArrayList<>(this.mPresenter.fetchAllPets()));
+        this.sPets.setAdapter(spinnerArrayAdapter);
+        this.sPets.setSelection(0);
     }
 
     @Override
