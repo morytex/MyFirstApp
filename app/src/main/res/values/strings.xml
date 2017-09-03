@@ -7,6 +7,7 @@
     <!-- Menu actions-->
     <string name="action_settings">Settings</string>
     <string name="action_edit">Edit</string>
+    <string name="action_call">Call</string>
 
     <!-- Sign in/Sign up -->
     <string name="title_activity_sign_in">Sign in</string>
@@ -34,7 +35,6 @@
     <string name="my_pet">My pet</string>
 
     <!-- About us -->
-    <string name="about_us_version_template">Version: %s</string>
     <string name="about_us_author">Drafted by Alessandro Moryta</string>
 
     <!-- My pet -->
@@ -68,9 +68,11 @@
     <string name="error_message_invalid_sign_in">Invalid email or password</string>
     <string name="error_message_auth_failed">Authentication failed</string>
     <string name="error_message_loading_data">Error loadind data</string>
+    <string name="error_message_action_call_canceled">Error while trying to make a call to contact: %s</string>
 
     <!-- Warning messages -->
     <string name="warning_message_operation_canceled">Operation canceled</string>
+    <string name="warning_message_action_call_canceled">Please, allow app to make phone calls</string>
 
     <!-- Placeholders -->
     <string name="date_format">DD/MM/YYYY</string>
@@ -81,4 +83,8 @@
     <string name="transition_event_detail_title">TRANSITION_EVENT_DETAIL_TITLE</string>
     <string name="transition_event_detail_description">TRANSITION_EVENT_DETAIL_DESCRIPTION</string>
     <string name="transition_event_detail_date">TRANSITION_EVENT_DETAIL_DATE</string>
+
+    <!-- Templates -->
+    <string name="about_us_version_template">Version: %s</string>
+    <string name="action_call_template">tel:%s</string>
 </resources>

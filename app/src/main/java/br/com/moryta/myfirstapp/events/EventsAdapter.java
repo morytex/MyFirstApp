@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.moryta.myfirstapp.BaseViewHolder;
 import br.com.moryta.myfirstapp.CustomOnItemClickListener;
 import br.com.moryta.myfirstapp.R;
-import br.com.moryta.myfirstapp.SimpleItemTouchHelperAdapter;
 import br.com.moryta.myfirstapp.model.Event;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,8 +19,7 @@ import butterknife.ButterKnife;
  * Created by moryta on 23/08/2017.
  */
 
-public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewHolder>
-    implements SimpleItemTouchHelperAdapter {
+public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewHolder> {
 
     private List<Event> eventList;
     private CustomOnItemClickListener itemClickListener;
@@ -42,21 +41,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
     public void onBindViewHolder(EventViewHolder holder, final int position) {
         Event event = this.eventList.get(position);
 
-        holder.tvEventTitle.setText(event.getTitle());
-        holder.tvEventDescription.setText(event.getDescription());
-        holder.tvEventPetName.setText(event.getPet().getName());
-        holder.tvEventDate.setText(event.getDate());
+        holder.configure(event);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemClickListener != null) {
-                    itemClickListener.onItemClick(eventList.get(position), v);
-                }
-            }
-        };
-
-        holder.itemView.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -69,21 +55,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         notifyDataSetChanged();
     }
 
+    /**
+     * View Holder
+     */
+    public class EventViewHolder extends RecyclerView.ViewHolder
+            implements BaseViewHolder<Event>
+            , View.OnClickListener
+            , View.OnLongClickListener {
 
-
-    @Override
-    public boolean onItemMoved(int fromPosition, int toPosition) {
-        return false;
-    }
-
-    @Override
-    public Event onItemSwiped(int position) {
-        Event removedEvent = this.eventList.remove(position);
-        notifyDataSetChanged();
-        return removedEvent;
-    }
-
-    public class EventViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvEventTitle)
         TextView tvEventTitle;
 
@@ -96,9 +75,35 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         @BindView(R.id.tvEventDate)
         TextView tvEventDate;
 
+        private Event event;
+
         public EventViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void configure(Event model) {
+            this.event = model;
+
+            this.tvEventTitle.setText(this.event.getTitle());
+            this.tvEventDescription.setText(this.event.getDescription());
+            this.tvEventPetName.setText(this.event.getPet().getName());
+            this.tvEventDate.setText(this.event.getDate());
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(this.event.getId(), v);
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
         }
     }
 }

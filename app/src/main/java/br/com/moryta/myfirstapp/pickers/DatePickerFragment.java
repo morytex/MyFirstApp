@@ -1,4 +1,4 @@
-package br.com.moryta.myfirstapp;
+package br.com.moryta.myfirstapp.pickers;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

@@ -19,11 +19,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 
-import br.com.moryta.myfirstapp.DatePickerFragment;
+import br.com.moryta.myfirstapp.pickers.DatePickerFragment;
 import br.com.moryta.myfirstapp.Extras;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
-import br.com.moryta.myfirstapp.TimePickerFragment;
+import br.com.moryta.myfirstapp.pickers.TimePickerFragment;
 import br.com.moryta.myfirstapp.events.EventsContract;
 import br.com.moryta.myfirstapp.model.Pet;
 import butterknife.BindView;
@@ -122,11 +122,6 @@ public class EventRegisterActivity extends AppCompatActivity
     }
 
     @Override
-    public void setPresenter(EventsContract.Presenter presenter) {
-        // Not necessary, because we instantiate presenter in this activity
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivEventDate:
@@ -144,6 +139,7 @@ public class EventRegisterActivity extends AppCompatActivity
                         , this.etEventDescription.getText().toString()
                         , this.tvEventDate.getText().toString()
                         , this.tvEventTime.getText().toString()
+                        , "(11) 99206-3314"
                         , "SP", "São Paulo", "Av. Paulista"
                         , "1100", -23.564149, -46.652484
                 );
@@ -222,5 +218,10 @@ public class EventRegisterActivity extends AppCompatActivity
         String eventTime = this.tvEventTime.getText().toString();
 
         fab.setEnabled(this.mPresenter.isEventDataFilled(title, eventDate, eventTime));
+    }
+
+    @Override
+    public void setPresenter(EventsContract.Presenter presenter) {
+        // Not necessary, because we instantiate presenter in this activity
     }
 }

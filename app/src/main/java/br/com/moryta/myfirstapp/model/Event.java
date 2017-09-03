@@ -40,6 +40,8 @@ public class Event implements Parcelable {
     @ToOne(joinProperty = "addressId")
     private Address address;
 
+    private String contact;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -56,6 +58,7 @@ public class Event implements Parcelable {
         this.date = source.readString();
         this.time = source.readString();
         this.addressId = source.readLong();
+        this.contact = source.readString();
     }
 
     public Event() {
@@ -72,9 +75,9 @@ public class Event implements Parcelable {
         this.time = time;
     }
 
-    @Generated(hash = 615598940)
-    public Event(Long id, @NotNull Long petId, @NotNull String title, String description,
-            @NotNull String date, @NotNull String time, Long addressId) {
+    @Generated(hash = 104117224)
+    public Event(Long id, @NotNull Long petId, @NotNull String title, String description, @NotNull String date,
+            @NotNull String time, Long addressId, String contact) {
         this.id = id;
         this.petId = petId;
         this.title = title;
@@ -82,6 +85,7 @@ public class Event implements Parcelable {
         this.date = date;
         this.time = time;
         this.addressId = addressId;
+        this.contact = contact;
     }
 
     public Long getId() {
@@ -108,6 +112,14 @@ public class Event implements Parcelable {
         this.title = title;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getDate() {
         return this.date;
     }
@@ -130,6 +142,14 @@ public class Event implements Parcelable {
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
+    }
+
+    public String getContact() {
+        return this.contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     @Generated(hash = 1364068960)
@@ -262,14 +282,7 @@ public class Event implements Parcelable {
         dest.writeString(this.date);
         dest.writeString(this.time);
         dest.writeLong(this.addressId);
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        dest.writeString(this.contact);
     }
 
     /** called by internal mechanisms, do not call yourself. */

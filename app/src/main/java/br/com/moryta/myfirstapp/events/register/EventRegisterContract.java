@@ -25,8 +25,8 @@ public interface EventRegisterContract {
         void loadEvent(Long eventId);
 
         Long insertOrUpdateEvent(Long petId, String title, String description
-                , String date, String time, String state, String city, String street
-                , String addressNumber, double latitude, double longitude);
+                , String date, String time, String contact, String state, String city
+                , String street, String addressNumber, double latitude, double longitude);
 
         boolean isEventDataFilled(String title, String date, String time);
 
