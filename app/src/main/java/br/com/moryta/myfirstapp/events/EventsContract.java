@@ -16,7 +16,6 @@ public interface EventsContract {
     int RC_UPDATE_EVENT = 1002;
 
     interface View extends BaseView<Presenter> {
-        void update(List<Event> eventList);
     }
 
     interface Presenter extends BasePresenter {

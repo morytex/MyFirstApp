@@ -17,14 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.List;
-
 import br.com.moryta.myfirstapp.CustomOnItemClickListener;
 import br.com.moryta.myfirstapp.Extras;
 import br.com.moryta.myfirstapp.R;
 import br.com.moryta.myfirstapp.events.detail.EventDetailActivity;
 import br.com.moryta.myfirstapp.events.register.EventRegisterActivity;
-import br.com.moryta.myfirstapp.model.Event;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,6 +40,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class EventsFragment extends Fragment
         implements EventsContract.View
+        , View.OnClickListener
         , CustomOnItemClickListener {
 
     private OnFragmentInteractionListener mListener;
@@ -86,17 +84,8 @@ public class EventsFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         unbinder = ButterKnife.bind(EventsFragment.this, view);
 
-        // Setting floating action button (register pet button)
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), EventRegisterActivity.class);
-                startActivityForResult(intent, RC_REGISTER_EVENT);
-            }
-        });
+        // Setting floating action button (register event button)
+        fab.setOnClickListener(this);
 
         // Setting recycler view
         this.mEventsAdapter = new EventsAdapter(this.mEventsPresenter.fetchAllEvents(), this);
@@ -139,19 +128,26 @@ public class EventsFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-        this.update(this.mEventsPresenter.fetchAllEvents());
+        this.mEventsAdapter.update(this.mEventsPresenter.fetchAllEvents());
     }
 
     @Override
-    public void setPresenter(@NonNull EventsContract.Presenter presenter) {
-        this.mEventsPresenter = checkNotNull(presenter, "presenter cannot be null!");
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), EventRegisterActivity.class);
+                startActivityForResult(intent, RC_REGISTER_EVENT);
+                break;
+            default:
+        }
     }
 
     @Override
-    public void onItemClick(Object item, View view) {
+    public void onItemClick(Long eventId, View view) {
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
         // TODO: After greendao is removed, pass object through Intent
-        intent.putExtra(Extras.EVENT_ID, ((Event) item).getId());
+        intent.putExtra(Extras.EVENT_ID, eventId);
 
         Pair<View, String> sharedRootView =
                 new Pair<>(view, getString(R.string.transition_event_detail));
@@ -202,11 +198,6 @@ public class EventsFragment extends Fragment
         }
     }
 
-    @Override
-    public void update(List<Event> eventList) {
-        this.mEventsAdapter.update(eventList);
-    }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -219,5 +210,10 @@ public class EventsFragment extends Fragment
      */
     public interface OnFragmentInteractionListener {
         void onEventsFragmentInteraction();
+    }
+
+    @Override
+    public void setPresenter(@NonNull EventsContract.Presenter presenter) {
+        this.mEventsPresenter = checkNotNull(presenter, "presenter cannot be null!");
     }
 }
