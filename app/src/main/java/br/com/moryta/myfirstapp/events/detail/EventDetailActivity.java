@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.common.base.Strings;
 
 import br.com.moryta.myfirstapp.Extras;
 import br.com.moryta.myfirstapp.MyApplication;
@@ -65,6 +67,9 @@ public class EventDetailActivity extends AppCompatActivity
 
     @BindView(R.id.tvEventCity)
     TextView tvEventCity;
+
+    @BindView(R.id.ivEventContact)
+    ImageView ivEventContact;
 
     @BindView(R.id.tvEventContact)
     TextView tvEventContact;
@@ -140,6 +145,13 @@ public class EventDetailActivity extends AppCompatActivity
         this.tvEventStreet.setText(this.mPresenter.buildEventStreetInfo(street, addressNumber));
         this.tvEventCity.setText(this.mPresenter.buildEventCityInfo(city, state));
         this.tvEventContact.setText(contact);
+
+        if (Strings.isNullOrEmpty(contact)) {
+            this.ivEventContact.setVisibility(View.INVISIBLE);
+            this.tvEventContact.setVisibility(View.INVISIBLE);
+            this.fab.setEnabled(false);
+            this.fab.setVisibility(View.INVISIBLE);
+        }
 
         // Setting map
         this.mEventPosition = new LatLng(latitude, longitude);
