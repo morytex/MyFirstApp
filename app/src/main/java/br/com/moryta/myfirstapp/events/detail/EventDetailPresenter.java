@@ -28,7 +28,7 @@ public class EventDetailPresenter implements EventDetailContract.Presenter {
     public void loadEvent(Long id) {
         Event event = daoSession.getEventDao().loadDeep(id);
         this.view.onEventLoaded(event.getTitle(), event.getDescription()
-                , event.getDate(), event.getTime()
+                , event.getDate(), event.getTime(), event.getContact()
                 , event.getAddress().getStreet(), event.getAddress().getNumber()
                 , event.getAddress().getCity(), event.getAddress().getState()
                 , event.getAddress().getLatitude(), event.getAddress().getLongitude());

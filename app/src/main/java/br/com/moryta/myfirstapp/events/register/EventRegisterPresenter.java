@@ -58,14 +58,15 @@ public class EventRegisterPresenter implements EventRegisterContract.Presenter {
 
     @Override
     public Long insertOrUpdateEvent(Long petId, String title, String description
-            , String date, String time, String state, String city, String street
-            , String addressNumber, double latitude, double longitude) {
+            , String date, String time, String contact, String state, String city
+            , String street, String addressNumber, double latitude, double longitude) {
         
         this.mEvent.setPetId(petId);
         this.mEvent.setTitle(title);
         this.mEvent.setDescription(description);
         this.mEvent.setDate(date);
         this.mEvent.setTime(time);
+        this.mEvent.setContact(contact);
 
         Address address = new Address();
         address.setState(state);

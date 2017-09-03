@@ -1,4 +1,4 @@
-package br.com.moryta.myfirstapp;
+package br.com.moryta.myfirstapp.pickers;
 
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;

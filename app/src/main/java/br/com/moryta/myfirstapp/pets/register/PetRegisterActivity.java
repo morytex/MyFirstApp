@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 
-import br.com.moryta.myfirstapp.DatePickerFragment;
+import br.com.moryta.myfirstapp.pickers.DatePickerFragment;
 import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
 import butterknife.BindView;

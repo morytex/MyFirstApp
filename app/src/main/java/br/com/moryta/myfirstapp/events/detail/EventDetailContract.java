@@ -8,11 +8,15 @@ import br.com.moryta.myfirstapp.BaseView;
  */
 
 public class EventDetailContract {
+
+
     interface View extends BaseView<Presenter> {
         void onEventLoaded(String title, String description
-                , String date, String time, String street
-                , String addressNumber, String state, String city
-                , double latitude, double longitude);
+                , String date, String time, String contact
+                , String street, String addressNumber, String state
+                , String city, double latitude, double longitude);
+
+        boolean hasPermissions();
     }
 
     interface Presenter extends BasePresenter {

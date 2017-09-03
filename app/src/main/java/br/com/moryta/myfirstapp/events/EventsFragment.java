@@ -162,16 +162,10 @@ public class EventsFragment extends Fragment
                 new Pair<>(descriptionView
                         , getString(R.string.transition_event_detail_description));
 
-        View dateSectionView = view.findViewById(R.id.date_section);
-        Pair<View, String> sharedDateView =
-                new Pair<>(dateSectionView
-                        , getString(R.string.transition_event_detail_date));
-
         Pair<View, String>[] sharedViews = new Pair[]{
                 sharedRootView
                 , sharedTitleView
-                , sharedDescriptionView
-                , sharedDateView};
+                , sharedDescriptionView};
 
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()

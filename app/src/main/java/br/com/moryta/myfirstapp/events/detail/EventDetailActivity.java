@@ -1,10 +1,19 @@
 package br.com.moryta.myfirstapp.events.detail;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,13 +31,17 @@ import br.com.moryta.myfirstapp.events.register.EventRegisterActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static br.com.moryta.myfirstapp.events.EventsContract.RC_ACTION_CALL;
 import static br.com.moryta.myfirstapp.events.EventsContract.RC_UPDATE_EVENT;
 import static br.com.moryta.myfirstapp.events.register.EventRegisterContract.NO_EVENT_ID;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class EventDetailActivity extends AppCompatActivity
         implements EventDetailContract.View
-        , OnMapReadyCallback {
+        , OnMapReadyCallback
+        , View.OnClickListener {
 
+    private static final String TAG = "EventDetailActivity";
     private static final int DEFAULT_ZOOM = 13;
 
     private GoogleMap mMap;
@@ -53,6 +66,12 @@ public class EventDetailActivity extends AppCompatActivity
     @BindView(R.id.tvEventCity)
     TextView tvEventCity;
 
+    @BindView(R.id.tvEventContact)
+    TextView tvEventContact;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
     private EventDetailContract.Presenter mPresenter;
 
     @Override
@@ -64,6 +83,8 @@ public class EventDetailActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ButterKnife.bind(this);
+
+        this.fab.setOnClickListener(this);
 
         // Instance of presenter
         this.mPresenter = new EventDetailPresenter(EventDetailActivity.this
@@ -109,15 +130,16 @@ public class EventDetailActivity extends AppCompatActivity
 
     @Override
     public void onEventLoaded(String title, String description
-            , String date, String time, String street
-            , String addressNumber, String city, String state
-            , double latitude, double longitude) {
+            , String date, String time, String contact
+            , String street, String addressNumber, String city
+            , String state, double latitude, double longitude) {
         this.tvEventTitle.setText(title);
         this.tvEventDescription.setText(description);
         this.tvEventDate.setText(date);
         this.tvEventTime.setText(time);
         this.tvEventStreet.setText(this.mPresenter.buildEventStreetInfo(street, addressNumber));
         this.tvEventCity.setText(this.mPresenter.buildEventCityInfo(city, state));
+        this.tvEventContact.setText(contact);
 
         // Setting map
         this.mEventPosition = new LatLng(latitude, longitude);
@@ -125,6 +147,7 @@ public class EventDetailActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -159,7 +182,72 @@ public class EventDetailActivity extends AppCompatActivity
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                if (this.hasPermissions()) {
+                    makeCall(this.tvEventContact.getText().toString());
+                }
+                break;
+            default:
+        }
+    }
+
+    @Override
     public void setPresenter(EventDetailContract.Presenter presenter) {
         // Not necessary, because we instantiate presenter in this activity
+    }
+
+    @Override
+    public boolean hasPermissions() {
+        if (ContextCompat.checkSelfPermission(this
+                , Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this
+                    , new String[]{Manifest.permission.CALL_PHONE}
+                    , RC_ACTION_CALL);
+
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case RC_ACTION_CALL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    this.makeCall(this.tvEventContact.getText().toString());
+                }
+                return;
+            }
+        }
+    }
+
+    /**
+     * Make a phone call to contact
+     *
+     * @param contact
+     */
+    private void makeCall(@NonNull String contact) {
+        checkNotNull(contact, "contact cannot be null!");
+
+        String uri = String.format(getString(R.string.action_call_template), contact.trim());
+
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse(uri));
+
+        try {
+            startActivity(intent);
+        } catch (SecurityException ex) {
+            Toast.makeText(this
+                    , getString(R.string.warning_message_operation_canceled)
+                    , Toast.LENGTH_SHORT);
+            Log.e(TAG, getString(R.string.error_message_action_call_canceled), ex);
+        }
     }
 }
