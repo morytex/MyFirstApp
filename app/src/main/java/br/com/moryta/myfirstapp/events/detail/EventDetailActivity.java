@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static br.com.moryta.myfirstapp.events.EventsContract.RC_ACTION_CALL;
+import static br.com.moryta.myfirstapp.events.EventsContract.RC_ACTION_SHARE;
 import static br.com.moryta.myfirstapp.events.EventsContract.RC_UPDATE_EVENT;
 import static br.com.moryta.myfirstapp.events.register.EventRegisterContract.NO_EVENT_ID;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -121,6 +122,15 @@ public class EventDetailActivity extends AppCompatActivity
                 intent.putExtra(Extras.EVENT_ID, this.eventId);
                 startActivityForResult(intent, RC_UPDATE_EVENT);
                 break;
+            case R.id.action_share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(
+                        Intent.EXTRA_SUBJECT, this.tvEventTitle.getText().toString());
+                sendIntent.putExtra(
+                        Intent.EXTRA_TEXT, this.tvEventDescription.getText().toString());
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
             default:
         }
 
@@ -188,6 +198,9 @@ public class EventDetailActivity extends AppCompatActivity
                 Long eventId = data.getLongExtra(Extras.EVENT_ID, 0);
                 this.mPresenter.loadEvent(eventId);
                 break;
+            case RC_ACTION_SHARE:
+                break;
+            default:
         }
 
 
