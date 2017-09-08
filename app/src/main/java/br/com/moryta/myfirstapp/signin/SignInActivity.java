@@ -42,14 +42,14 @@ import static android.content.SharedPreferences.Editor;
 import static br.com.moryta.myfirstapp.signin.SignInContract.RC_EMAIL_PASSWORD_SIGN_UP;
 import static br.com.moryta.myfirstapp.signin.SignInContract.RC_GOOGLE_SIGN_IN;
 
+import static android.content.ContentValues.TAG;
+
 public class SignInActivity extends AppCompatActivity
         implements SignInContract.View
         , View.OnClickListener
         , FirebaseAuth.AuthStateListener
         , GoogleApiClient.OnConnectionFailedListener
         , GoogleApiClient.ConnectionCallbacks {
-
-    private static final String TAG = "SignInActivity";
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
@@ -169,7 +169,7 @@ public class SignInActivity extends AppCompatActivity
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                        Log.d(TAG, "signInWithEmail:onComplete: " + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the

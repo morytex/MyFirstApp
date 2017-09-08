@@ -18,8 +18,9 @@ import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import static android.content.ContentValues.TAG;
+
 public class AboutUsFragment extends Fragment implements AboutUsContract.View {
-    private static final String TAG = "AboutUsFragment";
 
     private OnFragmentInteractionListener mListener;
 

@@ -25,7 +25,6 @@ public class PetRegisterActivity extends AppCompatActivity
         , DatePickerFragment.DatePickerFragmentListener
         , View.OnClickListener
         , TextWatcher {
-    private static final String TAG = "PetRegisterActivity";
 
     @BindView(R.id.etPetName)
     EditText etPetName;

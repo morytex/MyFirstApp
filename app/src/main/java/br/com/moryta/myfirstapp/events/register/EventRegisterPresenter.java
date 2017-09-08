@@ -23,7 +23,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 
 public class EventRegisterPresenter implements EventRegisterContract.Presenter {
-    private static final String TAG = "EventRegisterPresenter";
 
     private EventRegisterContract.View view;
     private DaoSession daoSession;

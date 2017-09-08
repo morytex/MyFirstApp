@@ -39,8 +39,6 @@ public class EventRegisterActivity extends AppCompatActivity
         , AdapterView.OnItemSelectedListener
         , TextWatcher {
 
-    private static final String TAG = "EventRegisterActivity";
-
     private Long petId;
     private Boolean hasSelectedPet;
 
