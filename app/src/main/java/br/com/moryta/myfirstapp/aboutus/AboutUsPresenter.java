@@ -10,13 +10,13 @@ import java.util.IllegalFormatException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by moryta on 22/07/2017.
  */
 
 public class AboutUsPresenter implements AboutUsContract.Presenter {
-
-    private static final String TAG = "AboutUsPresenter";
 
     private AboutUsContract.View mAboutUsView;
 

@@ -39,12 +39,13 @@ import static br.com.moryta.myfirstapp.events.EventsContract.RC_UPDATE_EVENT;
 import static br.com.moryta.myfirstapp.events.register.EventRegisterContract.NO_EVENT_ID;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import static android.content.ContentValues.TAG;
+
 public class EventDetailActivity extends AppCompatActivity
         implements EventDetailContract.View
         , OnMapReadyCallback
         , View.OnClickListener {
 
-    private static final String TAG = "EventDetailActivity";
     private static final int DEFAULT_ZOOM = 13;
 
     private GoogleMap mMap;

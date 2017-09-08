@@ -38,12 +38,30 @@
         <activity
             android:name=".events.register.EventRegisterActivity"
             android:label="@string/title_activity_register_event" />
-        <activity android:name=".events.detail.EventDetailActivity"
-            android:label="@string/nav_events"/>
+        <activity
+            android:name=".events.detail.EventDetailActivity"
+            android:label="@string/nav_events" />
+
+        <service android:name=".firebase.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5819a8e9240667b95603a96f0a4b7143d2cda4d1" />
+
     </application>
 
 </manifest>

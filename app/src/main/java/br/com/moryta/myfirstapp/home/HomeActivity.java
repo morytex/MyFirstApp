@@ -29,14 +29,14 @@ import br.com.moryta.myfirstapp.signin.SignInActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.ContentValues.TAG;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
         , HomeFragment.OnFragmentInteractionListener
         , PetsFragment.OnFragmentInteractionListener
         , EventsFragment.OnFragmentInteractionListener
         , AboutUsFragment.OnFragmentInteractionListener {
-
-    private static final String TAG = "HomeActivity";
 
     private HomeFragment mHomeFragment;
     private PetsFragment mPetsFragment;

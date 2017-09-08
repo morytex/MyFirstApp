@@ -21,11 +21,11 @@ import br.com.moryta.myfirstapp.signin.SignInContract;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.ContentValues.TAG;
+
 public class SignUpActivity extends AppCompatActivity
         implements View.OnClickListener
         , FirebaseAuth.AuthStateListener {
-
-    private static final String TAG = "SignUpActivity";
 
     @BindView(R.id.etEmail)
     EditText etEmail;
