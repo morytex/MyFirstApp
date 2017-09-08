@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,21 +18,34 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
+import br.com.moryta.myfirstapp.MyApplication;
 import br.com.moryta.myfirstapp.R;
-import br.com.moryta.myfirstapp.aboutus.AboutUsContract;
 import br.com.moryta.myfirstapp.aboutus.AboutUsFragment;
 import br.com.moryta.myfirstapp.aboutus.AboutUsPresenter;
+import br.com.moryta.myfirstapp.events.EventsFragment;
+import br.com.moryta.myfirstapp.events.EventsPresenter;
+import br.com.moryta.myfirstapp.pets.PetsFragment;
+import br.com.moryta.myfirstapp.pets.PetsPresenter;
 import br.com.moryta.myfirstapp.signin.SignInActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+        , HomeFragment.OnFragmentInteractionListener
+        , PetsFragment.OnFragmentInteractionListener
+        , EventsFragment.OnFragmentInteractionListener
+        , AboutUsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "HomeActivity";
 
-    private AboutUsContract.Presenter mAboutUsPresenter;
+    private HomeFragment mHomeFragment;
+    private PetsFragment mPetsFragment;
+    private PetsPresenter mPetsPresenter;
+    private EventsFragment mEventsFragment;
+    private EventsPresenter mEventsPresenter;
     private AboutUsFragment mAboutUsFragment;
+    private AboutUsPresenter mAboutUsPresenter;
 
     private Boolean isDefaultUser;
 
@@ -40,7 +53,6 @@ public class HomeActivity extends AppCompatActivity
     NavigationView navigationView;
 
     TextView tvEmail;
-    TextView tvPetName;
 
     FirebaseAnalytics mFirebaseAnalytics;
 
@@ -53,9 +65,28 @@ public class HomeActivity extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         this.tvEmail = ButterKnife.findById(headerView, R.id.tvEmail);
-        this.tvPetName = ButterKnife.findById(headerView, R.id.tvPetName);
 
-        configureAboutUs();
+        // HomeFragment
+        this.mHomeFragment = HomeFragment.newInstance();
+
+        // PetsFragment
+        this.mPetsFragment = PetsFragment.newInstance();
+        this.mPetsPresenter = new PetsPresenter(this.mPetsFragment
+                , ((MyApplication) getApplication()).getDaoSession());
+        this.mPetsPresenter.start();
+
+        // EventsFragment
+        this.mEventsFragment = EventsFragment.newInstance();
+        this.mEventsPresenter = new EventsPresenter(this.mEventsFragment
+                , ((MyApplication) getApplication()).getDaoSession());
+        this.mEventsPresenter.start();
+
+
+        // AboutUsFragment
+        this.mAboutUsFragment = AboutUsFragment.newInstance();
+        this.mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
+        this.mAboutUsPresenter.start();
+
         configureNavigationDrawer();
         setNavigationDisplay();
 
@@ -63,6 +94,16 @@ public class HomeActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         bundle.putString("Nome", "Alessandro");
         mFirebaseAnalytics.logEvent("clickMe", bundle);
+        
+        // Always start with home fragment on create activity
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_home, this.mHomeFragment)
+                .commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -92,12 +133,6 @@ public class HomeActivity extends AppCompatActivity
         switch (id) {
             case R.id.action_settings:
                 break;
-            case R.id.action_sign_out:
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
-                startActivity(intent);
-                finish();
-                break;
             default:
         }
 
@@ -112,13 +147,26 @@ public class HomeActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_home:
-                // Handle the home action
+                setTitle(R.string.nav_home);
+                this.replaceContentWith(this.mHomeFragment);
                 break;
             case R.id.nav_pets:
-                // Handle the pet action
+                setTitle(R.string.nav_pets);
+                this.replaceContentWith(this.mPetsFragment);
+                break;
+            case R.id.nav_events:
+                setTitle(R.string.nav_events);
+                this.replaceContentWith(this.mEventsFragment);
                 break;
             case R.id.nav_about_us:
+                setTitle(R.string.nav_about_us);
                 this.replaceContentWith(this.mAboutUsFragment);
+                break;
+            case R.id.nav_sign_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             default:
         }
@@ -128,11 +176,24 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onHomeFragmentAttach() {
+        // Do something
+    }
 
-    private void configureAboutUs() {
-        this.mAboutUsFragment = new AboutUsFragment();
-        mAboutUsPresenter = new AboutUsPresenter(this.mAboutUsFragment);
-        this.mAboutUsFragment.setPresenter(mAboutUsPresenter);
+    @Override
+    public void onPetsFragmentAttach() {
+        // Do something
+    }
+
+    @Override
+    public void onAboutUsFragmentAttach() {
+        // Do something
+    }
+
+    @Override
+    public void onEventsFragmentInteraction() {
+        // DO something
     }
 
     private void configureNavigationDrawer() {
@@ -154,13 +215,14 @@ public class HomeActivity extends AppCompatActivity
                 .getString(getString(R.string.login_preference_email_key), null);
 
         this.tvEmail.setText(email);
-        this.tvPetName.setText(R.string.my_pet);
     }
 
     private void replaceContentWith(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_home, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_home, fragment)
+                .addToBackStack(TAG)
+                .commit();
     }
 }

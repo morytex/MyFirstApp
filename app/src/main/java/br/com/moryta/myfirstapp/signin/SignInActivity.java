@@ -39,6 +39,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.SharedPreferences.Editor;
+import static br.com.moryta.myfirstapp.signin.SignInContract.RC_EMAIL_PASSWORD_SIGN_UP;
+import static br.com.moryta.myfirstapp.signin.SignInContract.RC_GOOGLE_SIGN_IN;
 
 public class SignInActivity extends AppCompatActivity
         implements SignInContract.View
@@ -48,8 +50,6 @@ public class SignInActivity extends AppCompatActivity
         , GoogleApiClient.ConnectionCallbacks {
 
     private static final String TAG = "SignInActivity";
-    private static final int RC_GOOGLE_SIGN_IN = 9001;
-    private static final int RC_EMAIL_PASSWORD_SIGN_UP = 10001;
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
@@ -176,7 +176,7 @@ public class SignInActivity extends AppCompatActivity
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(SignInActivity.this, R.string.auth_failed,
+                            Toast.makeText(SignInActivity.this, R.string.error_message_auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -205,7 +205,7 @@ public class SignInActivity extends AppCompatActivity
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(SignInActivity.this, R.string.auth_failed,
+                            Toast.makeText(SignInActivity.this, R.string.error_message_auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
                         // ...
@@ -230,7 +230,6 @@ public class SignInActivity extends AppCompatActivity
         startActivityForResult(signUpIntent, RC_EMAIL_PASSWORD_SIGN_UP);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -247,7 +246,7 @@ public class SignInActivity extends AppCompatActivity
                 // ...
             }
         } else if (requestCode == RC_EMAIL_PASSWORD_SIGN_UP) {
-            // TODO: Verificar se precisa fazer alguma coisa
+            // TODO: Verify if result code needs treatment
         }
     }
 

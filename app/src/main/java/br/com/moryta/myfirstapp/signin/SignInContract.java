@@ -8,6 +8,9 @@ import br.com.moryta.myfirstapp.BaseView;
  */
 
 public interface SignInContract {
+    int RC_GOOGLE_SIGN_IN = 9001;
+    int RC_EMAIL_PASSWORD_SIGN_UP = 10001;
+
     interface View extends BaseView<Presenter> {
         void showErrorMessage();
     }

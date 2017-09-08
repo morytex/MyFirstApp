@@ -2,12 +2,13 @@ package br.com.moryta.myfirstapp.splash;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import br.com.moryta.myfirstapp.api.MockyAPI;
 import br.com.moryta.myfirstapp.model.DaoSession;
 import br.com.moryta.myfirstapp.model.Login;
 import br.com.moryta.myfirstapp.model.LoginDTO;
 import br.com.moryta.myfirstapp.model.LoginDao;
-import br.com.moryta.myfirstapp.model.mapping.LoginMapper;
+import br.com.moryta.myfirstapp.model.mappers.LoginMapper;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -18,23 +19,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by moryta on 07/07/2017.
  */
 
-public class SplashPresenter implements SplashContract.Presenter{
+public class SplashPresenter implements SplashContract.Presenter {
+
     private final SplashContract.View mSplashView;
     private final MockyAPI mockyAPI;
     private DaoSession daoSession;
 
-    public SplashPresenter(@NonNull SplashContract.View splashView
+    public SplashPresenter(@NonNull SplashContract.View view
             , @NonNull MockyAPI mockyAPI
             , @NonNull DaoSession daoSession) {
 
-        this.mSplashView = checkNotNull(splashView, "splashView cannot be null!");
+        this.mSplashView = checkNotNull(view, "view cannot be null!");
         this.mockyAPI = checkNotNull(mockyAPI, "mockyAPI cannot be null!");
         this.daoSession = checkNotNull(daoSession, "daoSession cannot be null!");
     }
 
     @Override
     public void start() {
-        // Not necessary, we don't start anything on start/resume lifecycle
+        // Do something
     }
 
     @Override
@@ -63,17 +65,7 @@ public class SplashPresenter implements SplashContract.Presenter{
                         }
 
                         LoginDao loginDao = daoSession.getLoginDao();
-                        Login savedLogin = loginDao.queryBuilder()
-                                .where(LoginDao.Properties.Email.eq(login.getEmail()))
-                                .build()
-                                .unique();
-
-                        if (savedLogin == null) {
-                            loginDao.save(login);
-                        } else {
-                            login.setId(savedLogin.getId());
-                            loginDao.update(login);
-                        }
+                        loginDao.insertOrReplace(login);
                     }
                 });
     }

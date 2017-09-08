@@ -3,6 +3,7 @@
     package="br.com.moryta.myfirstapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".MyApplication"
@@ -26,11 +27,23 @@
             android:label="@string/title_activity_sign_in" />
         <activity
             android:name=".home.HomeActivity"
-            android:label="@string/title_activity_home"
+            android:label="@string/nav_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".signup.SignUpActivity"
-            android:label="@string/title_activity_sign_up"></activity>
+            android:label="@string/title_activity_sign_up" />
+        <activity
+            android:name=".pets.register.PetRegisterActivity"
+            android:label="@string/title_activity_register_pet" />
+        <activity
+            android:name=".events.register.EventRegisterActivity"
+            android:label="@string/title_activity_register_event" />
+        <activity android:name=".events.detail.EventDetailActivity"
+            android:label="@string/nav_events"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <service android:name=".firebase.MessagingService">
             <intent-filter>
