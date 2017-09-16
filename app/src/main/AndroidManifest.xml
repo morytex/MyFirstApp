@@ -15,6 +15,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".splash.SplashActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,23 +26,33 @@
         </activity>
         <activity
             android:name=".signin.SignInActivity"
-            android:label="@string/title_activity_sign_in" />
+            android:configChanges="orientation"
+            android:label="@string/title_activity_sign_in"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".home.HomeActivity"
+            android:configChanges="orientation"
             android:label="@string/nav_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".signup.SignUpActivity"
-            android:label="@string/title_activity_sign_up" />
+            android:configChanges="orientation"
+            android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".pets.register.PetRegisterActivity"
             android:label="@string/title_activity_register_pet" />
         <activity
             android:name=".events.register.EventRegisterActivity"
-            android:label="@string/title_activity_register_event" />
+            android:configChanges="orientation"
+            android:label="@string/title_activity_register_event"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".events.detail.EventDetailActivity"
-            android:label="@string/nav_events" />
+            android:configChanges="orientation"
+            android:label="@string/nav_events"
+            android:screenOrientation="portrait" />
 
         <service android:name=".firebase.MyFirebaseInstanceIDService">
             <intent-filter>
